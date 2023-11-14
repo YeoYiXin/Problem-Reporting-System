@@ -4,6 +4,7 @@ import 'package:problem_reporting_system/services/update.dart';
 import 'package:problem_reporting_system/services/updatesCard.dart';
 import 'dart:io';
 import 'ErrorIdentificationPage.dart';
+import 'profilepage.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -58,9 +59,19 @@ class _HomeState extends State<Home> {
             ),
             Row(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                  child: CircleAvatar(radius: 40.0),
+                Column(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap:(){
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Profile()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                        child: CircleAvatar(radius: 40.0),
+                    ),
+                    ),
+                  ],
                 ), //avatar
                 Container(
                   margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
