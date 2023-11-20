@@ -14,15 +14,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   File? imageFile;
 
   //get updates from database
 
   //example
   List<Update> updates = [
-    Update(issue:'lamp post is now fixed',username:'hcysc2'),
-    Update(issue:'air conditioner in F3B08 is now fixed',username:'hcysc2'),
+    Update(issue: 'lamp post is now fixed', username: 'hcysc2'),
+    Update(issue: 'air conditioner in F3B08 is now fixed', username: 'hcysc2'),
   ];
 
   @override
@@ -30,18 +29,14 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 80,
-        title: Image.asset(
-          'assets/nottinghamlogo.jpg',
-          height: 200,
-          width: 200,
-          color: Colors.white,
-          colorBlendMode: BlendMode.darken,
-          fit: BoxFit.fitWidth,
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushNamed(context, '/loginpage');
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
@@ -62,14 +57,14 @@ class _HomeState extends State<Home> {
                 Column(
                   children: <Widget>[
                     GestureDetector(
-                      onTap:(){
+                      onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Profile()));
                       },
                       child: Container(
                         margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                         child: CircleAvatar(radius: 40.0),
-                    ),
+                      ),
                     ),
                   ],
                 ), //avatar
@@ -100,7 +95,9 @@ class _HomeState extends State<Home> {
             //this part
             Expanded(
               child: Column(
-                children: updates.map((update) => UpdateCard(update: update)).toList(),
+                children: updates
+                    .map((update) => UpdateCard(update: update))
+                    .toList(),
               ), //the reports and update cards
             ), //so that the 3 icons stay at the bottom of the page
             Row(
@@ -112,28 +109,28 @@ class _HomeState extends State<Home> {
                     color: Colors.black,
                   ),
                 ),
-                  Container(
-                    child: OutlinedButton(
-                      onPressed: () => getImage(source: ImageSource.camera),
-                      child: Icon(
-                        Icons.camera_alt,
-                        size: 50.0,
+                Container(
+                  child: OutlinedButton(
+                    onPressed: () => getImage(source: ImageSource.camera),
+                    child: Icon(
+                      Icons.camera_alt,
+                      size: 50.0,
+                      color: Colors.black,
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(18),
+                      side: const BorderSide(
                         color: Colors.black,
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(18),
-                        side: const BorderSide(
-                          color: Colors.black,
-                          width: 2.0,
-                        ),
+                        width: 2.0,
                       ),
                     ),
                   ),
+                ),
                 Expanded(
                   child: Divider(
                     height: 1.0,
-                    thickness:2.0,
+                    thickness: 2.0,
                     color: Colors.black,
                   ),
                 ),
@@ -164,7 +161,8 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                        label: Text('',
+                        label: Text(
+                          '',
                           style: TextStyle(
                             color: Colors.black,
                           ),
@@ -189,7 +187,8 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                        label: Text('',
+                        label: Text(
+                          '',
                           style: TextStyle(
                             color: Colors.black,
                           ),
@@ -209,20 +208,17 @@ class _HomeState extends State<Home> {
   void getImage({required ImageSource source}) async {
     final file = await ImagePicker().pickImage(source: source);
 
-    if(file?.path != null){
-      setState((){
+    if (file?.path != null) {
+      setState(() {
         imageFile = File(file!.path);
       });
 
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ErrorIdentification(imageFile: imageFile), //goes to the next page
+          builder: (context) =>
+              ErrorIdentification(imageFile: imageFile), //goes to the next page
         ),
       );
     }
   }
 }
-
-
-
-

@@ -17,7 +17,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
       appBar: AppBar(
         toolbarHeight: 80,
         title: Image.asset(
-          'assets/nottinghamlogo.jpg',
+          'assets/nottylogo1.jpeg',
           height: 200,
           width: 200,
           color: Colors.white,
@@ -29,49 +29,66 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
         automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: widget.imageFile != null //checking if image is null
-          ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                  child: Text(
-                    'Below is the picture you took:',
-                    style: TextStyle(
-                      fontSize: 25.0,
-                      color: Colors.black,
+        child: widget.imageFile != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                    child: Text(
+                      'Below is the picture you took:',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                  width: 300,
-                  height: 300,
-                  child: Image.file(widget.imageFile!)
-                ),
-              Container(
-                margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                child: Text(
-                  'The error identified is:',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.black,
+                  Container(
+                    margin: EdgeInsets.all(16.0),
+                    width: 300,
+                    height: 300,
+                    child: Image.file(widget.imageFile!),
                   ),
-                ),
-              ),
-            ],
-          ) //displays image as the image is not null
-          : Column(
-            children: [
-              Text('Image not available'), //displays a safety message when the image is null
-                ElevatedButton.icon(
-                  onPressed: (){
-                    Navigator.pushNamed(context,'/');
-                  },
-                  label: Text('Return Home'),
-                  icon: Icon(Icons.turn_left),
-              ),
-              ],
+                  Container(
+                    margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                    child: Text(
+                      'The error identified is:',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/submittedpage');
+                        },
+                        child: Text('Yes'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/homepage');
+                        },
+                        child: Text('No'),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            : Column(
+                children: [
+                  Text('Image not available'),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/');
+                    },
+                    label: Text('Return Home'),
+                    icon: Icon(Icons.turn_left),
+                  ),
+                ],
               ),
       ),
     );
