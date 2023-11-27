@@ -17,45 +17,46 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                // Logo
-                SizedBox(
-                  height: 200,
-                  child: Image.asset('assets/nottylogo1.jpeg'),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Welcome to the UNMC Problem Solving App
-                const Text(
-                  'Nott-A-Problem! Your Local Problem Solving App',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+      body: Stack(
+        children: [
+          SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 260,
+                    child: Column(
+                        children: const [
+                        Text(
+                            "Nott-a-problem",
+                            style: TextStyle(
+                            fontSize: 60,
+                            fontFamily: "Poppins",
+                            height: 1.2,
+                            ),
+                          ),
+                        SizedBox(height: 16),
+                        Text(
+                          "Here to solve your problems.",
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-
-                const SizedBox(
-                  height: 30,
-                ),
-
-                // Username TextField
-                MyTextField(
+                  const Spacer(flex: 2),
+                //Username TextField
+                  MyTextField(
                   controller: usernameController,
                   hintText:
                       'Username(OWA)', // Change the hint for the username field
                   obscureText: false,
                 ),
 
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                 // Password TextField
-                MyTextField(
+                  MyTextField(
                   controller:
                       passwordController, // Use the passwordController for the password field
                   hintText:
@@ -63,33 +64,19 @@ class LoginPage extends StatelessWidget {
                   obscureText: true,
                 ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // Forgot password
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
                 // Sign in Button
-                MyButton(
+                  MyButton(
                   onTap: signUserIn,
                 ),
 
-                const SizedBox(height: 20), // Add some spacing here
+                  const SizedBox(height: 20), // Add some spacing here
 
-                // Not a member? Register Now
-                Row(
+                //Not a member? Register Now
+                  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -113,9 +100,11 @@ class LoginPage extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
+            ),
+          ),],
       ),
     );
   }
 }
+
+
