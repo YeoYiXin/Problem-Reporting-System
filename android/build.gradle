@@ -8,6 +8,11 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+        implementation("com.google.firebase:firebase-analytics")
+        id("com.google.gms.google-services") version "4.4.0" apply false
+        id("com.android.application")
+        id("com.google.gms.google-services")
     }
 }
 
@@ -29,3 +34,12 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+//plugins {
+//    id("com.google.gms.google-services") version "4.4.0" apply false
+//
+//    id("com.android.application")
+//
+//    id("com.google.gms.google-services")
+//
+//}
