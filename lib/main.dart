@@ -3,7 +3,7 @@ import 'package:problem_reporting_system/pages/homepage.dart';
 import 'package:problem_reporting_system/pages/login_page.dart';
 import 'package:problem_reporting_system/pages/registration_page.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
-import 'package:problem_reporting_system/pages/profilepage.dart';
+import 'package:problem_reporting_system/pages/settingspage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         '/homepage': (context) => Home(),
         '/loginpage': (context) => LoginPage(),
         '/submittedpage': (context) => Submitted(),
-        '/profilepage': (context) => Profile(),
         '/registrationpage': (context) => RegistrationPage(),
+        '/settings': (context) => Settings(),
       },
     );
   }

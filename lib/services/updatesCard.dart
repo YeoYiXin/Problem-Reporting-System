@@ -11,7 +11,12 @@ class UpdateCard extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width - 32,
         child: Card(
-          elevation:8,
+          color: Colors.blue[50],
+          elevation: 15.0, // Add elevation for a shadow effect
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+                16.0), // Adjust the border radius as needed
+          ),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
