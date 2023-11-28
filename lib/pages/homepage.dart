@@ -198,6 +198,10 @@ class _HomeState extends State<Home> {
           DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue[100],
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20.0),
+                bottomRight: Radius.circular(20.0),
+              ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
