@@ -130,16 +130,16 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Colors.black,
+        color: Colors.blue.shade100,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           child: GNav(
             selectedIndex: _selectedIndex,
             onTabChange: _navigateToPage,
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.black,
+            backgroundColor: Colors.blue.shade100,
+            color: Colors.black,
+            activeColor: Colors.black,
+            tabBackgroundColor: Colors.blue.shade200,
             gap: 8,
             padding: EdgeInsets.all(16),
             tabs: const [
@@ -182,8 +182,9 @@ class _HomeState extends State<Home> {
           break;
         case 2:
         // Camera button tapped
-          MaterialPageRoute(
-            builder: (context) => Settings(),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Settings()),
           );
           break;
       }
@@ -191,114 +192,99 @@ class _HomeState extends State<Home> {
 
 
   Widget buildProfileDrawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue[100],
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20.0),
-                bottomRight: Radius.circular(20.0),
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(20.0),
+        topLeft: Radius.circular(20.0),
+        bottomLeft: Radius.circular(20.0),
+        bottomRight: Radius.circular(20.0),
+      ),
+      child: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
               ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: Colors.black,
-                  radius: 30,
-                  child: Icon(
-                    Icons.person_2_sharp,
-                    color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundColor: Colors.black,
+                    radius: 30,
+                    child: Icon(
+                      Icons.person_2_sharp,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Username',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18.0,
-                    letterSpacing: 2.0,
+                  SizedBox(height: 10.0),
+                  Text(
+                    'Username',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18.0,
+                      letterSpacing: 2.0,
+                    ),
                   ),
-                ),
-                      Center(
-                        child: Text(
-                          'OWA@nottingham.edu.my',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15.0,
-                            letterSpacing: 1.0,
+                        Center(
+                          child: Text(
+                            'OWA@nottingham.edu.my',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              letterSpacing: 1.0,
+                            ),
                           ),
                         ),
-                      ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10.0),
-          Padding(
-            padding: EdgeInsets.fromLTRB(2.0, 0.0, 30.0, 0.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Details:\n',
-                  style: TextStyle(
-                    color: Colors.black,
-                    letterSpacing: 1.0,
-                    fontSize: 25,
-                  ),
-                ),
-                Text(
-                  'Current Level: 25\n\nPoints: 25000\n',
-                  style: TextStyle(
-                    color: Colors.black,
-                    letterSpacing: 1.0,
-                    fontSize: 18,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Progress:\n\n\n',
-                  style: TextStyle(
-                    color: Colors.black,
-                    letterSpacing: 1.0,
-                    fontSize: 18,
-                  ),
-                ),
-                Text(
-                  'Reports made:',
-                  style: TextStyle(
-                    color: Colors.black,
-                    letterSpacing: 1.0,
-                    fontSize: 18,
-                  ),
-                ),
-              SizedBox(
-                child: TextButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[50],
-                  ),
-                  icon: Icon(Icons.logout,
-                  color: Colors.black,
-                    ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/loginpage');
-                    },
-                    label: Text('logout',
-                    style: TextStyle(
-                        color: Colors.black,
-                      fontSize: 20,
-                    ),
-                    ),
-                  ),
+                ],
               ),
-              ],
             ),
-          ),
-        ],
+            SizedBox(height: 10.0),
+            Padding(
+              padding: EdgeInsets.fromLTRB(2.0, 0.0, 30.0, 0.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Details:\n',
+                    style: TextStyle(
+                      color: Colors.black,
+                      letterSpacing: 1.0,
+                      fontSize: 25,
+                    ),
+                  ),
+                  Text(
+                    'Current Level: 25\n\nPoints: 25000\n',
+                    style: TextStyle(
+                      color: Colors.black,
+                      letterSpacing: 1.0,
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Text(
+                    'Progress:\n\n\n',
+                    style: TextStyle(
+                      color: Colors.black,
+                      letterSpacing: 1.0,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    'Reports made:',
+                    style: TextStyle(
+                      color: Colors.black,
+                      letterSpacing: 1.0,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

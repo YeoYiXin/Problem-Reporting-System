@@ -94,7 +94,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.blue[50], // Background color
+                              backgroundColor: Colors.blue[50], // Background color
                             ),
                             onPressed: () {
                               Navigator.pushNamed(context, '/submittedpage');
@@ -103,7 +103,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.blue[50], // Background color
+                              backgroundColor: Colors.blue[50], // Background color
                             ),
                             onPressed: () {
                               _showDescriptionDialog();
