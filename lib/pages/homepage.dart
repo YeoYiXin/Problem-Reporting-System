@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:problem_reporting_system/services/update.dart';
@@ -5,12 +6,16 @@ import 'package:problem_reporting_system/services/updatesCard.dart';
 import 'package:problem_reporting_system/services/Camera.dart';
 import 'settingspage.dart';
 
-
 class Home extends StatefulWidget {
-  const Home({super.key});
+  Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
+
+  final user = FirebaseAuth.instance.currentUser!;
+  static void signUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
 }
 
 class _HomeState extends State<Home> {
@@ -31,6 +36,14 @@ class _HomeState extends State<Home> {
       drawer: buildProfileDrawer(),
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              Home.signUserOut();
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
         toolbarHeight: 80,
         title: Image.asset(
           'assets/nottinghamlogo.jpg',
@@ -44,8 +57,7 @@ class _HomeState extends State<Home> {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      body:
-      SafeArea(
+      body: SafeArea(
         child: Column(
           children: <Widget>[
             Container(
@@ -64,12 +76,14 @@ class _HomeState extends State<Home> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Welcome, hcysc2!',
-                            style: TextStyle(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                          Center(
+                            child: const Text(
+                              "Welcome, hcysc2!",
+                              style: TextStyle(
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                           Row(
@@ -77,7 +91,8 @@ class _HomeState extends State<Home> {
                               Column(
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                                    margin: EdgeInsets.fromLTRB(
+                                        16.0, 16.0, 16.0, 16.0),
                                     child: CircleAvatar(
                                       backgroundColor: Colors.black,
                                       radius: 30,
@@ -90,7 +105,8 @@ class _HomeState extends State<Home> {
                                 ],
                               ), //avatar
                               Container(
-                                margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                                margin:
+                                    EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                                 child: Text(
                                   'Level: \n\nPoints:',
                                   style: TextStyle(
@@ -122,7 +138,8 @@ class _HomeState extends State<Home> {
             //this part
             Expanded(
               child: ListView(
-                children: updates.map((update) => UpdateCard(update: update))
+                children: updates
+                    .map((update) => UpdateCard(update: update))
                     .toList(),
               ),
             ), //so that the 3 icons stay at the bottom of the page
@@ -172,24 +189,23 @@ class _HomeState extends State<Home> {
   }
 
   void _navigateToPage(int index) {
-      switch (index) {
-        case 0:
+    switch (index) {
+      case 0:
         // Profile button tapped
-          break;
-        case 1:
+        break;
+      case 1:
         // Camera button tapped
-          camera.onTapCameraButton(context);
-          break;
-        case 2:
+        camera.onTapCameraButton(context);
+        break;
+      case 2:
         // Camera button tapped
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Settings()),
-          );
-          break;
-      }
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Settings()),
+        );
+        break;
+    }
   }
-
 
   Widget buildProfileDrawer() {
     return ClipRRect(
@@ -228,16 +244,16 @@ class _HomeState extends State<Home> {
                       letterSpacing: 2.0,
                     ),
                   ),
-                        Center(
-                          child: Text(
-                            'OWA@nottingham.edu.my',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.0,
-                              letterSpacing: 1.0,
-                            ),
-                          ),
-                        ),
+                  Center(
+                    child: Text(
+                      'OWA@nottingham.edu.my',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

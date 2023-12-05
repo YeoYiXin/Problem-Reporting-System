@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:problem_reporting_system/firebase_options.dart';
+import 'package:problem_reporting_system/pages/auth_page.dart';
 import 'package:problem_reporting_system/pages/homepage.dart';
 import 'package:problem_reporting_system/pages/login_page.dart';
 import 'package:problem_reporting_system/pages/registration_page.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:problem_reporting_system/pages/settingspage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -21,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: AuthPage(),
       routes: {
         '/homepage': (context) => Home(),
         '/loginpage': (context) => LoginPage(),

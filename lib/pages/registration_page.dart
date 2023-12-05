@@ -1,17 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:problem_reporting_system/services/my_textfield.dart';
 import 'package:problem_reporting_system/services/my_button.dart';
 
 class RegistrationPage extends StatelessWidget {
   RegistrationPage({Key? key}) : super(key: key);
 
-  // Text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // sign user in method
-  void signUserIn() {
-    // Implementation of sign-in logic will be here
+  Future<void> registerUser(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: usernameController.text,
+        password: passwordController.text,
+      );
+
+      if (userCredential != null && userCredential.user != null) {
+        DatabaseReference usersRef =
+            FirebaseDatabase.instance.reference().child('users');
+        usersRef.child(userCredential.user!.uid).set({
+          'email': userCredential.user!.email,
+          'username': usernameController.text,
+        });
+
+        Navigator.pushNamed(context, '/loginpage');
+      } else {
+        print('User or UserCredential is null');
+        // Handle the scenario where user or userCredential is null
+      }
+    } catch (e) {
+      print('Error during registration: $e');
+      // Handle registration errors
+      // Show a dialog/snackbar to the user
+    }
   }
 
   @override
@@ -79,7 +103,7 @@ class RegistrationPage extends StatelessWidget {
 
                 // Sign in Button
                 MyButton(
-                  onTap: signUserIn,
+                  onTap: () => registerUser(context),
                 ),
 
                 const SizedBox(height: 10), // Add some spacing here
