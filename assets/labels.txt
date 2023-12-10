@@ -1,0 +1,6 @@
+cracks
+dangerous_animals
+garbage
+natural_disaster
+no_event
+road_conditions
