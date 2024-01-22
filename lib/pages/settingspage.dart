@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  Settings({super.key});
 
   @override
   State<Settings> createState() => _SettingsState();
+
+  final user = FirebaseAuth.instance.currentUser!;
+  static void signUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
 }
 
 class _SettingsState extends State<Settings> {
@@ -170,19 +176,14 @@ class _SettingsState extends State<Settings> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  // Perform the logout action
-                                  // For example, you can navigate to the login page
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    '/loginpage',
-                                        (route) => false,
-                                  );
+                                  Settings.signUserOut();
+                                  Navigator.pushNamed(context, '/loginpage');
                                 },
                                 child: Text('Yes'),
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/loginpage');
+
                                 },
                                 child: Text('No'),
                               ),
