@@ -12,10 +12,10 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 
-  final user = FirebaseAuth.instance.currentUser!;
-  static void signUserOut() {
-    FirebaseAuth.instance.signOut();
-  }
+  // final user = FirebaseAuth.instance.currentUser!;
+  // static void signUserOut() {
+  //   FirebaseAuth.instance.signOut();
+  // }
 }
 
 class _HomeState extends State<Home> {
@@ -36,14 +36,14 @@ class _HomeState extends State<Home> {
       drawer: buildProfileDrawer(),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              Home.signUserOut();
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       Home.signUserOut();
+        //     },
+        //     icon: const Icon(Icons.logout),
+        //   ),
+        // ],
         toolbarHeight: 80,
         title: Image.asset(
           'assets/nottinghamlogo.jpg',
