@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'submittedpage.dart';
+import 'api.dart';
 
 class ErrorIdentification extends StatefulWidget {
   final File? imageFile;
@@ -94,21 +95,31 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue[50], // Background color
+                              backgroundColor:
+                                  Colors.blue[50], // Background color
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/submittedpage');
+                              // Call the method to classify the image using the API
+                              classifyImage();
                             },
-                            child: Text('Yes',style: TextStyle(color: Colors.black,)),
+                            child: Text('Yes',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                )),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue[50], // Background color
+                              backgroundColor:
+                                  Colors.blue[50], // Background color
                             ),
                             onPressed: () {
+                              // Show the description dialog
                               _showDescriptionDialog();
                             },
-                            child: Text('No', style: TextStyle(color: Colors.black,)),
+                            child: Text('No',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                )),
                           ),
                         ],
                       ),
@@ -134,19 +145,41 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
       ),
     );
   }
+
+  //Method to make API request for classification
+  void classifyImage() async {
+    if (widget.imageFile != null) {
+      var result = await API.getClassification(widget.imageFile!);
+      print(result);
+
+      // Handle the result as needed in your app
+      if (result.containsKey('predicted class')) {
+        String predictedClass = result['predicted class'];
+        // Do something with the predicted class (e.g., update UI)
+        print('Predicted Class: $predictedClass');
+        // You may navigate to the submitted page or perform other actions based on the prediction
+        Navigator.pushNamed(context, '/submittedpage');
+      } else {
+        // Handle the case where the result doesn't contain the predicted class
+        print('Error: Prediction not available');
+      }
+    }
+  }
+
   void _showDescriptionDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Please fill in below what the issue is so we can improve:'),
+          title:
+              Text('Please fill in below what the issue is so we can improve:'),
           content: TextField(
             onChanged: (value) {
               setState(() {
                 description = value;
               });
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Enter description...',
             ),
           ),
@@ -158,13 +191,9 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
               child: Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {
-                // You can use the 'description' variable here
-                print('Description: $description');
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => Submitted(),
-                ),
-                );// Close the dialog
+              onPressed: () async {
+                // Make API request for subclassification based on the description
+                await subclassifyImage();
               },
               child: Text('Submit'),
             ),
@@ -172,5 +201,26 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
         );
       },
     );
+  }
+
+  // Add this method to make API request for subclassification
+  Future<void> subclassifyImage() async {
+    if (widget.imageFile != null) {
+      var result = await API.getSubclassification(widget.imageFile!,
+          'your_class_name'); // Replace with actual class name!!!!!!!!!!!
+      print(result);
+
+      // Handle the result as needed in your app
+      if (result.containsKey('predicted class')) {
+        String predictedClass = result['predicted class'];
+        // Do something with the predicted class (e.g., update UI)
+        print('Predicted Subclass: $predictedClass');
+        // You may navigate to the submitted page or perform other actions based on the prediction
+        Navigator.pushNamed(context, '/submittedpage');
+      } else {
+        // Handle the case where the result doesn't contain the predicted class
+        print('Error: Prediction not available');
+      }
+    }
   }
 }

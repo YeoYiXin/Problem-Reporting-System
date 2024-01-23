@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
                                   Container(
                                     margin: EdgeInsets.fromLTRB(
                                         16.0, 16.0, 16.0, 16.0),
-                                    child: CircleAvatar(
+                                    child: const CircleAvatar(
                                       backgroundColor: Colors.black,
                                       radius: 30,
                                       child: Icon(
