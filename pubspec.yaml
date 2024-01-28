@@ -42,9 +42,13 @@ dependencies:
   google_nav_bar: ^5.0.6
   firebase_auth: ^4.15.0
   firebase_database: 10.3.5
+
   gap: ^3.0.1
   cloud_firestore: ^4.14.0
   form_field_validator: ^1.1.0
+
+  table_calendar: ^3.0.9
+
 #  tflite_flutter: ^0.10.3
 
 dev_dependencies:
@@ -76,8 +80,12 @@ flutter:
      - assets/nottylogo1.jpeg
      - assets/tick.json
      - assets/nottinghamlogoblack.png
+
      - assets/nottsLogo.png
      - assets/login.png
+
+     - assets/space.png
+
 #     - assets/RiveAssets
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -91,10 +99,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-#  fonts:
-#   - family: Intel
-#     fonts:
-#       - asset: assets/Fonts/Inter-Regular.ttf
+  fonts:
+   - family: Lobster
+     fonts:
+       - asset: assets/Lobster-Regular.ttf
 #       - asset: assets/Fonts/Inter-SemiBold.ttf
 #         weight: 600
 #   - family: Poppins

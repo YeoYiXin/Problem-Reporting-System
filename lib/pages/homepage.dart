@@ -5,6 +5,9 @@ import 'package:problem_reporting_system/services/update.dart';
 import 'package:problem_reporting_system/services/updatesCard.dart';
 import 'package:problem_reporting_system/services/Camera.dart';
 import 'settingspage.dart';
+import 'package:problem_reporting_system/services/report.dart';
+import 'package:problem_reporting_system/services/reportsCard.dart';
+import 'CheckReports.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -12,126 +15,125 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 
-  // final user = FirebaseAuth.instance.currentUser!;
-  // static void signUserOut() {
-  //   FirebaseAuth.instance.signOut();
-  // }
 }
 
 class _HomeState extends State<Home> {
+
+  final Gradient activeTabGradient = LinearGradient(
+    colors: [Color(0xFF0072ff), Color(0xFF00c6ff)],  // Replace with your desired colors
+  );
+
+
   int _selectedIndex = 0;
   Camera camera = Camera();
 
-  //get updates from database
-
-  //example
   List<Update> updates = [
     Update(issue: 'lamp post is now fixed', username: 'hcysc2'),
     Update(issue: 'air conditioner in F3B08 is now fixed', username: 'hcysc2'),
   ];
 
+  List<Report> reports = [
+    Report(issue: 'issue1', date: 'date1', progress: 'progress1'),
+    Report(issue: 'issue2', date: 'date2', progress: 'progress2'),
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: buildProfileDrawer(),
-      backgroundColor: Colors.white,
+      endDrawer: buildProfileDrawer(),
+      backgroundColor: Colors.white10,
       appBar: AppBar(
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       Home.signUserOut();
-        //     },
-        //     icon: const Icon(Icons.logout),
-        //   ),
-        // ],
-        toolbarHeight: 80,
-        title: Image.asset(
-          'assets/nottinghamlogo.jpg',
-          height: 200,
-          width: 200,
-          color: Colors.blue[100],
-          colorBlendMode: BlendMode.darken,
-          fit: BoxFit.fitWidth,
-        ),
-        backgroundColor: Colors.blue[100],
-        elevation: 0,
         automaticallyImplyLeading: false,
+        toolbarHeight: 80,
+        title: Container(
+          // margin: EdgeInsets.zero,
+          child: Center(
+            child: Text("Nott-A-Problem",
+              style: TextStyle(
+                // fontWeight: FontWeight.bold,
+                fontFamily: 'Lobster',
+                fontSize: 50,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.white10,
+        elevation: 0,
       ),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-              child: Card(
-                color: Colors.blue[50],
-                elevation: 15.0, // Add elevation for a shadow effect
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      16.0), // Adjust the border radius as needed
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Stack(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Center(
-                            child: const Text(
-                              "Welcome, hcysc2!",
-                              style: TextStyle(
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        16.0, 16.0, 16.0, 16.0),
-                                    child: const CircleAvatar(
-                                      backgroundColor: Colors.black,
-                                      radius: 30,
-                                      child: Icon(
-                                        Icons.person_2_sharp,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ), //avatar
-                              Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                                child: Text(
-                                  'Level: \n\nPoints:',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ), //profile stats
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                  child: const Text(
+                    "Hello USERNAME!",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                    textAlign: TextAlign.left,
                   ),
                 ),
+                Builder(builder: (context) {
+                  return IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).openEndDrawer();
+                    },
+                    icon: const Icon(Icons.person_2_sharp),
+                    color: Colors.black54,
+                  );
+                }),
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: const Text(
+                "Let's make our campus a better place!",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.left,
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 16.0, 16.0, 16.0),
-              child: Text(
-                'Recent',
+              margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+              child: const Text(
+                'Your Recent Reports:',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 15.0,
+                  // fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: reports.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ReportCard(report: reports[index]),
+                  );
+                },
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: const Text(
+                'Recently Reported Problems',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 15.0,
+                  // fontWeight: FontWeight.w700,
                 ),
               ),
             ), //updates for fixtures and reports
@@ -147,21 +149,28 @@ class _HomeState extends State<Home> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Colors.blue.shade100,
+        height:70,
+        margin: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        decoration : BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          border: Border.all(color: Colors.black),
+        ),
+
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
           child: GNav(
             selectedIndex: _selectedIndex,
             onTabChange: _navigateToPage,
-            backgroundColor: Colors.blue.shade100,
-            color: Colors.black,
-            activeColor: Colors.black,
-            tabBackgroundColor: Colors.blue.shade200,
+            backgroundColor: Colors.black,
+            color: Colors.grey.shade700,
+            activeColor: Colors.white,
+            tabBackgroundColor: Colors.grey.shade800,
             gap: 8,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             tabs: const [
               GButton(
-                icon: Icons.house,
+                icon: Icons.house_outlined,
                 text: 'Home',
               ),
               GButton(
@@ -191,14 +200,14 @@ class _HomeState extends State<Home> {
   void _navigateToPage(int index) {
     switch (index) {
       case 0:
-        // Profile button tapped
+      // Profile button tapped
         break;
       case 1:
-        // Camera button tapped
+      // Camera button tapped
         camera.onTapCameraButton(context);
         break;
       case 2:
-        // Camera button tapped
+      // Camera button tapped
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Settings()),
@@ -209,7 +218,7 @@ class _HomeState extends State<Home> {
 
   Widget buildProfileDrawer() {
     return ClipRRect(
-      borderRadius: BorderRadius.only(
+      borderRadius: const BorderRadius.only(
         topRight: Radius.circular(20.0),
         topLeft: Radius.circular(20.0),
         bottomLeft: Radius.circular(20.0),
@@ -221,9 +230,14 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue[100],
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xffe402fd),
+                    Color(0xff3d76ff),
+                  ],
+                ),
               ),
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -239,7 +253,7 @@ class _HomeState extends State<Home> {
                   Text(
                     'Username',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 18.0,
                       letterSpacing: 2.0,
                     ),
@@ -248,7 +262,7 @@ class _HomeState extends State<Home> {
                     child: Text(
                       'OWA@nottingham.edu.my',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 15.0,
                         letterSpacing: 1.0,
                       ),
@@ -257,44 +271,69 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Padding(
-              padding: EdgeInsets.fromLTRB(2.0, 0.0, 30.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(2.0, 0.0, 30.0, 0.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Details:\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 1.0,
-                      fontSize: 25,
-                    ),
+                  ListTile(
+                    leading: const Icon(Icons.info_outline, size: 30),
+                    title: const Text('Level', style: TextStyle(fontSize: 20,),),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Level system'),
+                            content: const Text('Levels are upgraded by earning enough points. Show off your level now to display your contributions to the University of Nottingham campus now!'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
-                  Text(
-                    'Current Level: 25\n\nPoints: 25000\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 1.0,
-                      fontSize: 18,
-                    ),
+                  const SizedBox(height: 10.0),
+                  ListTile(
+                    leading: const Icon(Icons.info_outline, size: 30),
+                    title: const Text('Points', style: TextStyle(fontSize: 20,),),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Points system'),
+                            content: const Text('Points are earned by submitting reports of faulty facilities around campus.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
-                    'Progress:\n\n\n',
-                    style: TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 1.0,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    'Reports made:',
-                    style: TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 1.0,
-                      fontSize: 18,
-                    ),
+                  const SizedBox(height: 10.0),
+                  ListTile(
+                    leading: const Icon(Icons.assignment, size: 30),
+                    title: const Text('My Reports', style: TextStyle(fontSize: 20,),),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CheckReports()),
+                      );
+                    },
                   ),
                 ],
               ),

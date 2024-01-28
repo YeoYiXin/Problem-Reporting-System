@@ -21,7 +21,7 @@ class _SettingsState extends State<Settings> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 80,
-        title: Text('Settings'),
+        title: const Text('Settings'),
         backgroundColor: Colors.blue[100],
         elevation: 0,
       ),
@@ -30,7 +30,7 @@ class _SettingsState extends State<Settings> {
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+              margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
               child: Card(
                 color: Colors.blue[50],
                 elevation: 15.0, // Add elevation for a shadow effect
@@ -50,8 +50,8 @@ class _SettingsState extends State<Settings> {
                               Column(
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                                    child: CircleAvatar(
+                                    margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                                    child: const CircleAvatar(
                                       backgroundColor: Colors.black,
                                       radius: 30,
                                       child: Icon(
@@ -63,8 +63,8 @@ class _SettingsState extends State<Settings> {
                                 ],
                               ), //avatar
                               Container(
-                                margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                                child: Text(
+                                margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                                child: const Text(
                                   'Username: \n\nLevel: \n\nPoints:',
                                   style: TextStyle(
                                     fontSize: 18.0,
@@ -88,21 +88,21 @@ class _SettingsState extends State<Settings> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ListTile(
-                    leading: Icon(Icons.description, size: 30),
-                    title: Text('Terms of Service', style: TextStyle(fontSize: 20,),),
+                    leading: const Icon(Icons.description, size: 30),
+                    title: const Text('Terms of Service', style: TextStyle(fontSize: 20,),),
                     onTap: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Terms of Service'),
-                            content: Text('terms of service'),
+                            title: const Text('Terms of Service'),
+                            content: const Text('terms of service'),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text('OK'),
+                                child: const Text('OK'),
                               ),
                             ],
                           );
@@ -110,10 +110,10 @@ class _SettingsState extends State<Settings> {
                       );
                     },
                   ),
-                  Divider(),
+                  const Divider(),
                   ListTile(
-                    leading: Icon(Icons.question_mark, size: 30),
-                    title: Text('Help', style: TextStyle(fontSize: 20,),),
+                    leading: const Icon(Icons.question_mark, size: 30),
+                    title: const Text('Help', style: TextStyle(fontSize: 20,),),
                     onTap: () {
                       // Implement the logic for the "Help" section
                       // For example, you can navigate to a new page or show a dialog
@@ -121,14 +121,14 @@ class _SettingsState extends State<Settings> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Help'),
-                            content: Text('help'),
+                            title: const Text('Help'),
+                            content: const Text('help'),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text('OK'),
+                                child: const Text('OK'),
                               ),
                             ],
                           );
@@ -136,23 +136,23 @@ class _SettingsState extends State<Settings> {
                       );
                     },
                   ),
-                  Divider(),
+                  const Divider(),
                   ListTile(
-                    leading: Icon(Icons.edit, size: 30),
-                    title: Text('Edit Profile',style: TextStyle(fontSize: 20,),),
+                    leading: const Icon(Icons.edit, size: 30),
+                    title: const Text('Edit Profile',style: TextStyle(fontSize: 20,),),
                     onTap: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Edit Profile'),
-                            content: Text('Your edit profile content goes here.'),
+                            title: const Text('Edit Profile'),
+                            content: const Text('Your edit profile content goes here.'),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text('OK'),
+                                child: const Text('OK'),
                               ),
                             ],
                           );
@@ -160,10 +160,10 @@ class _SettingsState extends State<Settings> {
                       );
                     },
                   ),
-                  Divider(), // A divider to separate sections
+                  const Divider(), // A divider to separate sections
                   ListTile(
-                    leading: Icon(Icons.logout, size: 30),
-                    title: Text('Logout', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700, color: Colors.redAccent,),),
+                    leading: const Icon(Icons.logout, size: 30),
+                    title: const Text('Logout', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700, color: Colors.redAccent,),),
                     onTap: () {
                       // Implement the logic for the "Logout" section
                       // For example, you can show a confirmation dialog
@@ -171,21 +171,21 @@ class _SettingsState extends State<Settings> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Logout',),
-                            content: Text('Are you sure you want to logout?'),
+                            title: const Text('Logout',),
+                            content: const Text('Are you sure you want to logout?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Settings.signUserOut();
                                   Navigator.pushNamed(context, '/loginpage');
                                 },
-                                child: Text('Yes'),
+                                child: const Text('Yes'),
                               ),
                               TextButton(
                                 onPressed: () {
 
                                 },
-                                child: Text('No'),
+                                child: const Text('No'),
                               ),
                             ],
                           );
