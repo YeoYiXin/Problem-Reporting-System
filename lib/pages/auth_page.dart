@@ -1,7 +1,9 @@
+//user log in status
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:problem_reporting_system/pages/homepage.dart';
-import 'package:problem_reporting_system/pages/login_page.dart';
+import 'package:problem_reporting_system/pages/login/informationPage/infoPage.dart';
+import 'package:problem_reporting_system/pages/login/login_view.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -19,7 +21,7 @@ class AuthPage extends StatelessWidget {
 
               //user is not logged in
               else {
-                return LoginPage();
+                return Login();
               }
             }));
   }

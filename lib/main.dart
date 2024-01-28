@@ -8,6 +8,9 @@ import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:problem_reporting_system/pages/settingspage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:problem_reporting_system/pages/login/informationPage/infoPage.dart';
+import 'package:problem_reporting_system/pages/login/registration_view.dart';
+import 'package:problem_reporting_system/pages/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +35,9 @@ class MyApp extends StatelessWidget {
       home: AuthPage(),
       routes: {
         '/homepage': (context) => Home(),
-        '/loginpage': (context) => LoginPage(),
-        '/submittedpage': (context) => Submitted(),
-        '/registrationpage': (context) => RegistrationPage(),
+        '/loginpage': (context) => Login(),
+        '/infoPage': (context) => InfoPage(),
+        '/registrationpage': (context) => Registration(),
         '/settings': (context) => Settings(),
       },
     );
