@@ -19,18 +19,23 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 80,
-        title: Image.asset(
-          'assets/nottinghamlogo.jpg',
-          height: 200,
-          width: 200,
-          color: Colors.blue[50],
-          colorBlendMode: BlendMode.darken,
-          fit: BoxFit.fitWidth,
-        ),
-        backgroundColor: Colors.blue[50],
-        elevation: 0,
         automaticallyImplyLeading: false,
+        toolbarHeight: 80,
+        title: Container(
+          margin: EdgeInsets.zero,
+          child: Center(
+            child: Text("Nott-A-Problem",
+              style: TextStyle(
+                // fontWeight: FontWeight.bold,
+                fontFamily: 'Lobster',
+                fontSize: 50,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Container(
