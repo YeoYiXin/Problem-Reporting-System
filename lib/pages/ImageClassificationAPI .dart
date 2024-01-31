@@ -36,15 +36,19 @@ class ImageClassificationAPI {
       throw Exception('Error processing image: $e');
     }
   }
+
   Future<String> getClass(http.MultipartFile image) async {
     return _postImage('get_class', image);
   }
+
   Future<String> getSecondClass(http.MultipartFile image) async {
     return _postImage('get_class_second', image);
   }
+
   Future<String> getSubclass(String className, http.MultipartFile image) async {
     return _postImage('get_subclass', image);
   }
+
   Future<String> getSecondSubclass(
       String className, http.MultipartFile image) async {
     return _postImage('get_subclass_second', image);

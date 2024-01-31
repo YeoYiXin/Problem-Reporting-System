@@ -3,13 +3,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:problem_reporting_system/pages/resultDisplay.dart';
+import 'package:problem_reporting_system/pages/ErrorIdentificationPage.dart';
 import 'package:problem_reporting_system/pages/ImageClassificationAPI%20.dart';
 import 'package:http_parser/http_parser.dart';
 
 class Camera {
   File? imageFile;
   VoidCallback? onImageSelected;
+  List<String> classificationResult = [];
 
   Future<void> onTapCameraButton(BuildContext context) async {
     await getImage(context: context, source: ImageSource.camera);
@@ -35,18 +36,30 @@ class Camera {
         contentType: new MediaType('image', 'jpeg'),
       );
 
-      // Initialize the image classification API
+      // Initialize the image classification API.
       ImageClassificationAPI api = ImageClassificationAPI(
-        'http://localhost:5000',
+        'http://172.20.10.3:5000',
       );
 
       // Perform the image classification API call
       String result = await api.getClass(image);
 
-      // Navigate to ResultDisplay page with the result
+      // Check if the result is "no_event"
+      if (result == 'no_event') {
+        // Set a default value or message
+        result = 'Unrecognized Event';
+      }
+
+      // Assign the classification result
+      classificationResult = [result];
+
+      // Navigate to ErrorIdentification page with the result
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ResultDisplay(result: result),
+          builder: (context) => ErrorIdentification(
+            imageFile: imageFile,
+            classificationResult: classificationResult,
+          ),
         ),
       );
     } catch (e) {
