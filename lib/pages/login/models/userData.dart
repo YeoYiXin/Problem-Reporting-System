@@ -8,8 +8,12 @@ class userData {
 
   //return user data as map
   Map<String, dynamic> toJSon() => {
+        "uid": uid,
         "email": email,
         "password": password,
-        "uid": uid,
+        "pId": "",
+        "probNum": 0,
+        "profilePicURL": "",
+        "points": 0,
       };
 }
