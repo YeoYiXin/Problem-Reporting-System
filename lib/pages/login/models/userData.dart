@@ -10,6 +10,7 @@ class userData {
   Map<String, dynamic> toJSon() => {
         "uid": uid,
         "email": email,
+        "level": 0,
         "password": password,
         "pId": "",
         "probNum": 0,
