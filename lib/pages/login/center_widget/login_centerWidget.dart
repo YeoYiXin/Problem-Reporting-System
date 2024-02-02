@@ -44,7 +44,7 @@ class CenterWidget extends StatelessWidget {
                   end: Alignment(-1, 0.8),
                   colors: [
                     Colors.blue.shade100.withOpacity(0.5),
-                    Colors.blue.shade300.withOpacity(0.5),
+                    Colors.purple.shade300.withOpacity(0.5),
                   ]),
             )),
           ),

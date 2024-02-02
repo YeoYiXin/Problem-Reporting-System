@@ -68,6 +68,7 @@ class _LoginState extends State<Login> {
                               "Nott-A-Problem",
                               style: TextStyle(
                                 fontSize: 40,
+                                fontFamily: 'Lobster',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                               ),

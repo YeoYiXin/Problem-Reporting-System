@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'dart:io';
 import 'submittedpage.dart';
 
@@ -153,8 +154,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:
-              Text('Please fill in below what the issue is so we can improve:'),
+          title: Text('Please fill in below what the issue is so we can improve:'),
           content: TextField(
             onChanged: (value) {
               setState(() {
@@ -168,7 +168,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Close the dialog
+                Navigator.pop(context);
               },
               child: Text('Cancel'),
             ),

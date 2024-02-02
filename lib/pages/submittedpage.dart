@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:problem_reporting_system/pages/homepage.dart';
+import 'package:problem_reporting_system/pages/dashboard/homepage.dart';
 
 class Submitted extends StatefulWidget {
   const Submitted({Key? key}) : super(key: key);
