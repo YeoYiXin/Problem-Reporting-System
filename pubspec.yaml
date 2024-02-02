@@ -80,7 +80,8 @@ flutter:
      - assets/nottylogo1.jpeg
      - assets/tick.json
      - assets/nottinghamlogoblack.png
-
+     - assets/megaphone.png
+     - assets/hazard.png
      - assets/nottsLogo.png
      - assets/login.png
 

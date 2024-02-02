@@ -42,7 +42,7 @@ class Login_Background extends StatelessWidget {
                 begin: const Alignment(0.6, -1.1),
                 end: const Alignment(0.7, 0.8),
                 colors: [
-                  Colors.blue.shade100.withOpacity(0.5),
+                  Colors.purple.shade100.withOpacity(0.5),
                   Colors.blue.shade300.withOpacity(0.5),
                 ])),
       ),
@@ -60,7 +60,7 @@ class Login_Background extends StatelessWidget {
               begin: const Alignment(-0.5, -1.1),
               end: const Alignment(0.7, 0.8),
               colors: [
-                Colors.blue.shade100.withOpacity(0.5),
+                Colors.purple.shade100.withOpacity(0.5),
                 Colors.blue.shade300.withOpacity(0.5),
               ])),
     );

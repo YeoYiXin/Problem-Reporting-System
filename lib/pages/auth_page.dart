@@ -1,7 +1,7 @@
 //user log in status
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:problem_reporting_system/pages/homepage.dart';
+import 'package:problem_reporting_system/pages/dashboard/homepage.dart';
 import 'package:problem_reporting_system/pages/login/informationPage/infoPage.dart';
 import 'package:problem_reporting_system/pages/login/login_view.dart';
 
