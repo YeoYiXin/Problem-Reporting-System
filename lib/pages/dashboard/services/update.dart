@@ -1,8 +1,8 @@
 class Update{
   String issue = '';
-  String username = '';
+  String status = '';
   //date
   //time
 
-  Update({ required this.issue, required this.username});
+  Update({ required this.issue, required this.status});
 }
