@@ -6,10 +6,12 @@ import 'submittedpage.dart';
 class ErrorIdentification extends StatefulWidget {
   final File? imageFile;
   final List<String> classificationResult;
+  final String locationInfo;
 
   ErrorIdentification({
     required this.imageFile,
     required this.classificationResult,
+    required this.locationInfo,
   });
 
   @override
@@ -85,6 +87,17 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                           ),
                         ),
                       ),
+                      // Display location information
+                      Container(
+                        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                        child: Text(
+                          'The location is ${widget.locationInfo}', // Use widget.locationInfo here
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                       Container(
                         margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                         child: Text(
@@ -154,7 +167,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Please fill in below what the issue is so we can improve:'),
+          title:
+              Text('Please fill in below what the issue is so we can improve:'),
           content: TextField(
             onChanged: (value) {
               setState(() {
