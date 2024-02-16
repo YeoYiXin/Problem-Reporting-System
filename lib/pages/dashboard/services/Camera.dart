@@ -1,18 +1,17 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:problem_reporting_system/pages/ErrorIdentificationPage.dart';
 import 'package:problem_reporting_system/pages/GeolocationService.dart';
-import 'package:problem_reporting_system/pages/ImageClassificationAPI%20.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:problem_reporting_system/pages/ImageClassificationAPI .dart';
+import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
 
 class Camera {
   File? imageFile;
   VoidCallback? onImageSelected;
-  List<String> classificationResult = [];
+  List<String> firstPredictionResult = [];
+  List<String> secondPredictionResult = [];
   GeolocationService geolocationService = GeolocationService();
 
   Future<void> onTapCameraButton(BuildContext context) async {
@@ -86,55 +85,45 @@ class Camera {
           builder: (context) => LoadingScreen(),
         ),
       );
-      // Convert File to MultipartFile
-      http.MultipartFile image = await http.MultipartFile.fromPath(
-        'file',
-        imageFile!.path,
-        contentType: new MediaType('image', 'jpeg'),
-      );
 
       // Initialize the image classification API.
-      ImageClassificationAPI api = ImageClassificationAPI(
-        'http://172.18.130.249:5000',
-      );
+      ImageClassificationAPI api =
+          ImageClassificationAPI('http://172.20.10.3:5000');
 
-      // Perform the image classification API call
-      String result = await api.getClass(image);
+      // Perform the first image classification API call to get both class and subclass
+      List<String> firstResults =
+          await api.getClassAndSubclass(imageFile!.path);
 
-      // Check if the result is "no_event"
-      if (result == 'no_event') {
-        // Set a default value or message
-        result = 'Unrecognized Event';
-      }
+      List<String> secondResults =
+          await api.getClassAndSubclassSecond(imageFile!.path);
 
-      // Assign the classification result
-      classificationResult = [result];
+      // Assigning first prediction results
+      firstPredictionResult = firstResults;
+
+      // Assigning first prediction results
+      secondPredictionResult = secondResults;
 
       // Get user's location coordinates
       Position? userLocation = await geolocationService.getCurrentLocation();
 
-      String locationInfo = '';
-
-      if (userLocation != null) {
-        locationInfo =
-            'Latitude: ${userLocation.latitude}, Longitude: ${userLocation.longitude}';
-      } else {
-        locationInfo = 'Location information not available';
-      }
+      String locationInfo = userLocation != null
+          ? 'Latitude: ${userLocation.latitude}, Longitude: ${userLocation.longitude}'
+          : 'Location information not available';
 
       // Navigate to ErrorIdentification page with the result and location information
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => ErrorIdentification(
             imageFile: imageFile,
-            classificationResult: classificationResult,
+            firstPredictionResult: firstPredictionResult,
+            secondPredictionResult: secondPredictionResult,
             locationInfo: locationInfo,
           ),
         ),
       );
     } catch (e) {
       print('Error processing image: $e');
-      // Handle error (e.g., display an error message)
+      // Handle error
     }
   }
 }
@@ -143,7 +132,7 @@ class Camera {
 class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
       ),

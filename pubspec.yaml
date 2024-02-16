@@ -45,6 +45,7 @@ dependencies:
   form_field_validator: ^1.1.0
   table_calendar: ^3.0.9
   geolocator: ^10.1.0
+  http_parser: ^4.0.2
 
 
 #  tflite_flutter: ^0.10.3
