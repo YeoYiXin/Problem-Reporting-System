@@ -118,21 +118,17 @@ class Camera {
       // Check if the user is in one of the indoor areas
       if (locationInfo.isNotEmpty) {
         // If the user is in an indoor area, prompt them to enter the room number
-        IndoorCheck().checkHouseName(context, locationInfo);
+        IndoorCheck indoorCheck = IndoorCheck(locationService);
+        indoorCheck.checkHouseName(
+            context,
+            '',
+            userLocation!.latitude,
+            userLocation.longitude,
+            imageFile!,
+            firstResults,
+            secondResults,
+            locationInfo);
       }
-
-      // Navigate to ErrorIdentification page with the result and location information
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => ErrorIdentification(
-            imageFile: imageFile,
-            firstPredictionResult: firstPredictionResult,
-            secondPredictionResult: secondPredictionResult,
-            locationInfo: locationInfo,
-            roomNumber: '',
-          ),
-        ),
-      );
     } catch (e) {
       print('Error processing image: $e');
       // Handle error
@@ -142,6 +138,8 @@ class Camera {
 
 // Loading Screen Widget
 class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

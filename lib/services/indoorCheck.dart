@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:problem_reporting_system/pages/ErrorIdentificationPage.dart';
+import 'location.dart';
+import 'dart:io';
 
 class IndoorCheck {
+  final LocationService locationService;
+  IndoorCheck(this.locationService);
+
   final List<String> indoorAreas = [
     "Block A; Trent Building",
     "Block B and B1; Faculty of Science and Engineering",
@@ -41,41 +47,77 @@ class IndoorCheck {
     "Creche; Taska, Childcare Centre"
   ];
 
-  void checkHouseName(BuildContext context, String value) {
-    if (indoorAreas.contains(value)) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          String roomNumber = ''; // Declare roomNumber variable
-          return AlertDialog(
-            title: Text('Enter Room Number'),
-            content: TextField(
-              decoration: InputDecoration(
-                hintText: 'Room Number',
-              ),
-              onChanged: (input) {
-                roomNumber = input; // Update roomNumber with user input
+  void checkHouseName(
+      BuildContext context,
+      String value,
+      double latitude,
+      double longitude,
+      File imageFile,
+      List<String> firstPredictionResult,
+      List<String> secondPredictionResult,
+      String locationInfo) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String roomNumber = ''; // Declare roomNumber variable
+        return AlertDialog(
+          title: Text('Enter Room Number'),
+          content: TextField(
+            decoration: InputDecoration(
+              hintText: 'Room Number',
+            ),
+            onChanged: (input) {
+              roomNumber = input; // Update roomNumber with user input
+            },
+          ),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
-            actions: [
-              TextButton(
-                child: Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  // Perform action when OK is pressed
-                  print('Room Number: $roomNumber'); // Example action
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                // Perform action when OK is pressed
+                print('Room Number: $roomNumber'); // Example action
+                Navigator.of(context).pop();
+                // Pass the room number to the callback function
+                _onRoomNumberEntered(
+                    context,
+                    roomNumber,
+                    imageFile,
+                    firstPredictionResult,
+                    secondPredictionResult,
+                    locationInfo);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Callback function to handle the room number entered by the user
+  void _onRoomNumberEntered(
+      BuildContext context,
+      String roomNumber,
+      File imageFile,
+      List<String> firstPredictionResult,
+      List<String> secondPredictionResult,
+      String locationInfo) {
+    // Navigate to ErrorIdentification page and pass the room number
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => ErrorIdentification(
+          imageFile: imageFile,
+          firstPredictionResult: firstPredictionResult,
+          secondPredictionResult: secondPredictionResult,
+          locationInfo: locationInfo,
+          roomNumber: roomNumber,
+        ),
+      ),
+    );
   }
 }
