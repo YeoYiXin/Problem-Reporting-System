@@ -87,20 +87,22 @@ class SecondPredictionPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Submitted()));
+                    },
+                    child: Text('Yes'),
+                  ),
+                  ElevatedButton(
                     onPressed: () async {
                       // Show the description dialog if th
-                      bool isLegit = await verifyUnseen(imageFile!);
+                      bool isLegit = await verifyUnseen(
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Montes_de_Vitoria_-_Pieza_de_Vitoria_04.jpg/800px-Montes_de_Vitoria_-_Pieza_de_Vitoria_04.jpg');
                       if (isLegit) {
                         _showDescriptionDialog(context);
                       } else {
                         Navigator.pushNamed(context, '/homepage');
                       }
-                    },
-                    child: Text('Yes'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/homepage');
                     },
                     child: Text('No'),
                   ),
@@ -135,10 +137,8 @@ class SecondPredictionPage extends StatelessWidget {
             TextButton(
               child: Text('Submit'),
               onPressed: () {
-                // Handle the description submission here
-                // For example, send the description to a server or save it locally
                 Navigator.of(context)
-                    .pop(); // Close the dialog after submission
+                    .push(MaterialPageRoute(builder: (context) => Submitted()));
               },
             ),
           ],

@@ -8,12 +8,14 @@ class ErrorIdentification extends StatefulWidget {
   final List<String> firstPredictionResult;
   final List<String> secondPredictionResult;
   final String locationInfo;
+  final String roomNumber;
 
   ErrorIdentification({
     required this.imageFile,
     required this.firstPredictionResult,
     required this.secondPredictionResult,
     required this.locationInfo,
+    required this.roomNumber,
   });
 
   @override
@@ -82,6 +84,13 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                         style: TextStyle(fontSize: 20.0),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Room Number: ${widget.roomNumber}',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
                     const Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text(
@@ -95,8 +104,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    Submitted())); // Assuming SubmittedPage is your target page after confirmation
+                                builder: (context) => Submitted()));
                           },
                           child: Text('Yes'),
                         ),

@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 Future<bool> verifyUnseen(String url) async {
   try {
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:5000/verify_unseen'),
+      Uri.parse('http://172.20.10.3:5000/verify_unseen'),
       body: {'url': url},
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return data['verified'] ?? false;
+      return data['verified'] ?? true;
     } else {
       print('Server responded with status code ${response.statusCode}.');
       return false;

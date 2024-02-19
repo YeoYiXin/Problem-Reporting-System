@@ -6,6 +6,8 @@ import 'package:problem_reporting_system/pages/ErrorIdentificationPage.dart';
 import 'package:problem_reporting_system/pages/GeolocationService.dart';
 import 'package:problem_reporting_system/pages/ImageClassificationAPI .dart';
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
+import 'package:problem_reporting_system/services/location.dart';
+import 'package:problem_reporting_system/services/indoorCheck.dart';
 
 class Camera {
   File? imageFile;
@@ -77,6 +79,8 @@ class Camera {
     });
   }
 
+  LocationService locationService = LocationService();
+
   Future<void> _processImage(BuildContext context) async {
     try {
       // Show loading screen while processing
@@ -107,8 +111,15 @@ class Camera {
       Position? userLocation = await geolocationService.getCurrentLocation();
 
       String locationInfo = userLocation != null
-          ? 'Latitude: ${userLocation.latitude}, Longitude: ${userLocation.longitude}'
+          ? locationService.isInsideArea(
+              userLocation.latitude, userLocation.longitude)
           : 'Location information not available';
+
+      // Check if the user is in one of the indoor areas
+      if (locationInfo.isNotEmpty) {
+        // If the user is in an indoor area, prompt them to enter the room number
+        IndoorCheck().checkHouseName(context, locationInfo);
+      }
 
       // Navigate to ErrorIdentification page with the result and location information
       Navigator.of(context).pushReplacement(
@@ -118,6 +129,7 @@ class Camera {
             firstPredictionResult: firstPredictionResult,
             secondPredictionResult: secondPredictionResult,
             locationInfo: locationInfo,
+            roomNumber: '',
           ),
         ),
       );
