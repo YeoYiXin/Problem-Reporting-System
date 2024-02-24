@@ -92,12 +92,12 @@ class Camera {
 
       // Initialize the image classification API.
 
-//       ImageClassificationAPI api = ImageClassificationAPI(
-//         'http://192.168.56.1:5000',
-//       );
+      ImageClassificationAPI api = ImageClassificationAPI(
+        'http://192.168.0.109:5000',
+      );
 
-      ImageClassificationAPI api =
-          ImageClassificationAPI('https://apiold-vd42zjxz4a-as.a.run.app');
+      // ImageClassificationAPI api =
+      //     ImageClassificationAPI('https://apiold-vd42zjxz4a-as.a.run.app');
 
 
       // Perform the first image classification API call to get both class and subclass
