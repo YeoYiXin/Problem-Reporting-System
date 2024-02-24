@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:problem_reporting_system/pages/appBackground.dart';
 
 class changePasswordPage extends StatefulWidget {
   const changePasswordPage({super.key});
@@ -38,10 +39,12 @@ class _changePasswordPageState extends State<changePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple[200],
+        title: Text('Change Password'),
+        backgroundColor: Colors.blue[200],
         elevation: 0,
       ),
-      body: Column(
+      body:
+      Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -73,7 +76,7 @@ class _changePasswordPageState extends State<changePasswordPage> {
           SizedBox(height: 10,),
           MaterialButton(onPressed: () => changePassword(),
             child: Text('Change Password'),
-            color: Colors.deepPurple[200],
+            color: Colors.blue[200],
           ),
         ],
       )
