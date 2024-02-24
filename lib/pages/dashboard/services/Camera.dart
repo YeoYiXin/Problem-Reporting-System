@@ -37,9 +37,14 @@ class Camera {
       );
 
       // Initialize the image classification API.
+<<<<<<< Updated upstream
       ImageClassificationAPI api = ImageClassificationAPI(
         'http://172.20.10.3:5000',
       );
+=======
+      ImageClassificationAPI api =
+          ImageClassificationAPI('http://192.168.0.109:5000');
+>>>>>>> Stashed changes
 
       // Perform the image classification API call
       String result = await api.getClass(image);

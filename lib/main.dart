@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/firebase_options.dart';
 import 'package:problem_reporting_system/pages/auth_page.dart';
 import 'package:problem_reporting_system/pages/dashboard/homepage.dart';
+import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:problem_reporting_system/pages/login/informationPage/infoPage.dart';
@@ -34,6 +35,11 @@ class MyApp extends StatelessWidget {
         '/loginpage': (context) => Login(),
         '/infoPage': (context) => InfoPage(),
         '/registrationpage': (context) => Registration(),
+<<<<<<< Updated upstream
+=======
+        '/submittedpage': (context) => Submitted(),
+        '/thankyoupage': (context) => NoEventThankYou(),
+>>>>>>> Stashed changes
       },
     );
   }

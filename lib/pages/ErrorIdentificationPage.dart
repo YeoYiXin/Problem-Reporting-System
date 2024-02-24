@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'dart:io';
+<<<<<<< Updated upstream
+=======
+import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
+import 'package:problem_reporting_system/pages/noEventDetected.dart';
+import 'package:problem_reporting_system/pages/problem_submission_database.dart';
+>>>>>>> Stashed changes
 import 'submittedpage.dart';
 
 class ErrorIdentification extends StatefulWidget {
@@ -53,6 +59,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                           child: Image.file(widget.imageFile!),
                         ),
                       ),
+<<<<<<< Updated upstream
                       Container(
                         child: const Center(
                           child: Text(
@@ -73,6 +80,87 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
                           ),
+=======
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'We identified it as:\nClass: ${widget.firstPredictionResult[0].replaceAll('_', ' ')}\nSubclass: ${widget.firstPredictionResult[1]}',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'The location is ${widget.locationInfo}',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Room Number: ${widget.roomNumber}',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Is this correct?',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            print(widget.firstPredictionResult[0]
+                                    .replaceAll('_', ' ')
+                                    .toLowerCase().toString());
+                            if (widget.firstPredictionResult[0]
+                                    .replaceAll('_', ' ')
+                                    .toLowerCase() ==
+                                'no event') {
+                              //return no problem is submitted
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => NoEventThankYou()));
+                            } else {
+                              print("Problem_Submission_Database( ).....");
+                              Problem_Submission_Database()
+                                  .recordProblemSubmission(
+                  
+                                pIndoorLocation: widget.roomNumber,
+                                titleClass: widget.firstPredictionResult[0]
+                                    .replaceAll('_', ' '),
+                                subClass: widget.firstPredictionResult[1],
+                                description: description, // dont have descriptiond
+                                location: widget.locationInfo,
+                                imageURL: widget.imageFile!,
+                                userTyped: false,
+                              );
+                              print("Problem_Submission_Database over( ).....");
+
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Submitted()));
+                            }
+                          },
+                          child: Text('Yes'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SecondPredictionPage(
+                                imageFile: widget.imageFile,
+                                secondPredictionResult:
+                                    widget.secondPredictionResult,
+                                locationInfo: widget.locationInfo,
+                                roomNumber: widget.roomNumber,
+                              ),
+                            ));
+                          },
+                          child: Text('No'),
+>>>>>>> Stashed changes
                         ),
                       ),
                       Container(
