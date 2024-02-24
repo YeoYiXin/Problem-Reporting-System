@@ -31,10 +31,16 @@ class UpdateCard extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 children: [
                   Positioned(
-                    // right: 0,
                     child: Container(
-                        width: MediaQuery.of(context).size.width / 4,
-                        child: Image.asset('assets/hazard.png')),
+                      width: MediaQuery.of(context).size.width / 4,
+                      child: ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                          Colors.orangeAccent.withOpacity(0.5), // Adjust the opacity as needed
+                          BlendMode.srcATop,
+                        ),
+                        child: Image.asset('assets/hazard.png'),
+                      ),
+                    ),
                   ),
                   Row(
                     children: [
@@ -64,7 +70,7 @@ class UpdateCard extends StatelessWidget {
                             ),
                             SizedBox(height: 8.0),
                             Text(
-                              update.username,
+                              update.status,
                               style: TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.white,

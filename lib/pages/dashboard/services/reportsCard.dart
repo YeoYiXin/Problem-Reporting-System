@@ -7,7 +7,7 @@ class ReportCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cardSize = 175.0;
+    double cardSize = 150.0;
 
     return Card(
       elevation: 15.0,

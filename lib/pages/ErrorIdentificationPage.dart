@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'dart:io';
-<<<<<<< Updated upstream
-=======
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
->>>>>>> Stashed changes
+import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'submittedpage.dart';
 
 class ErrorIdentification extends StatefulWidget {
   final File? imageFile;
-  final List<String> classificationResult;
+  final List<String> firstPredictionResult;
+  final List<String> secondPredictionResult;
+  final String locationInfo;
+  final String roomNumber;
 
   ErrorIdentification({
     required this.imageFile,
-    required this.classificationResult,
+    required this.firstPredictionResult,
+    required this.secondPredictionResult,
+    required this.locationInfo,
+    required this.roomNumber,
   });
 
   @override
@@ -23,43 +26,39 @@ class ErrorIdentification extends StatefulWidget {
 }
 
 class _ErrorIdentificationState extends State<ErrorIdentification> {
+  bool isSecondPredictionDisplayed = false;
   String description = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        toolbarHeight: 80,
-        title: Image.asset(
-          'assets/nottinghamlogo.jpg',
-          height: 200,
-          width: 200,
-          color: Colors.blue[50],
-          colorBlendMode: BlendMode.darken,
-          fit: BoxFit.fitWidth,
-        ),
-        backgroundColor: Colors.blue[50],
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
       body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: Center(
-            child: widget.imageFile != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Container(
-                          margin: EdgeInsets.all(16.0),
-                          width: 300,
-                          height: 300,
-                          child: Image.file(widget.imageFile!),
+        child: Stack(
+          children:[
+            appBackground(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+              child: widget.imageFile != null
+                  ? Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Center(
+                            child: Text(
+                              "Nott-A-Problem",
+                              style: TextStyle(
+                                fontFamily: 'Lobster',
+                                fontSize: 50,
+                                color: Colors.black,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
                         ),
                       ),
-<<<<<<< Updated upstream
                       Container(
                         child: const Center(
                           child: Text(
@@ -67,20 +66,23 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.grey,
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(16,0,16,16.0),
+                            width: 300,
+                            height: 300,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0), // Adjust the value as needed
+                              child: Image.file(widget.imageFile!),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                        child: Text(
-                          'Category:',
+                        const Text(
+                          'The image taken by you is shown above.',
                           style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 15.0,
                             color: Colors.black,
-                            fontWeight: FontWeight.w700,
                           ),
-=======
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -160,122 +162,98 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                             ));
                           },
                           child: Text('No'),
->>>>>>> Stashed changes
+                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                        child: Text(
-                          'We identified it as: ${widget.classificationResult.join(', ')}',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black,
+                        Card(
+                          margin: EdgeInsets.all(16.0),
+                          elevation: 4, // Add elevation for a shadow effect
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0), // Adjust the value as needed
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: Text(
+                                    'We identified it as\nClass: ${widget.firstPredictionResult[0].replaceAll('_', ' ')}\nSubclass: ${widget.firstPredictionResult[1]}',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    'Location: ${widget.locationInfo}',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    'Room Number: ${widget.roomNumber}',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                        child: Text(
+                        Text(
                           'Is this correct?',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black,
-                          ),
+                          style: TextStyle(fontSize: 20.0),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.blue[50], // Background color
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextButton.icon(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Submitted()));
+                              },
+                              icon: const Icon(Icons.check,color: Colors.green,),
+                              label: Text('Yes' ,style: TextStyle(color: Colors.green)),
                             ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/submittedpage');
-                            },
-                            child: Text('Yes',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                )),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.blue[50], // Background color
+                            TextButton.icon(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SecondPredictionPage(
+                                    imageFile: widget.imageFile,
+                                    secondPredictionResult:
+                                        widget.secondPredictionResult,
+                                    locationInfo: widget.locationInfo,
+                                  ),
+                                ));
+                              },
+                              icon: const Icon(Icons.close, color: Colors.red),
+                              label: Text('No', style: TextStyle(color: Colors.red)),
                             ),
-                            onPressed: () {
-                              _showDescriptionDialog();
-                            },
-                            child: Text('No',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                )),
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Text('Image not available'),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/');
-                        },
-                        label: Text('Return Home'),
-                        icon: Icon(Icons.turn_left),
-                      ),
-                    ],
-                  ),
-          ),
+                          ],
+                        ),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Image not available'),
+                        ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('Return'),
+                        ),
+                      ],
+                    ),
+                        ),
+            ),
+    ],
         ),
       ),
-    );
-  }
-
-  void _showDescriptionDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Please fill in below what the issue is so we can improve:'),
-          content: TextField(
-            onChanged: (value) {
-              setState(() {
-                description = value;
-              });
-            },
-            decoration: InputDecoration(
-              hintText: 'Enter description...',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // You can use the 'description' variable here
-                print('Description: $description');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Submitted(),
-                  ),
-                ); // Close the dialog
-              },
-              child: Text('Submit'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

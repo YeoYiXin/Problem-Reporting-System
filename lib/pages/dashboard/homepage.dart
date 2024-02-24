@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -10,8 +9,8 @@ import 'package:problem_reporting_system/pages/dashboard/services/updatesCard.da
 import 'package:problem_reporting_system/pages/dashboard/services/Camera.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/report.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/reportsCard.dart';
+import 'package:problem_reporting_system/pages/dashboard/changePasswordPage.dart';
 import '../CheckReports.dart';
-import '../appBackground.dart';
 
 import 'package:problem_reporting_system/pages/dashboard/functions/getName.dart';
 
@@ -42,10 +41,8 @@ class _HomeState extends State<Home> {
   }
 
   List<Update> updates = [
-    Update(issue: 'Lamp post near F1 not working', username: 'hcysc2'),
-    Update(
-        issue: 'Air conditioner in F3B08 is now not working',
-        username: 'hcysc2'),
+    Update(issue: 'Lamp post near F1 not working', status: 'Status:'),
+    Update(issue: 'Air conditioner in F3B08 is now not working', status: 'Status:'),
   ];
 
   List<Report> reports = [
@@ -61,120 +58,102 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white10,
       body: Stack(
         children: [
-          // const appBackground(),
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  child: Center(
-                    child: Text(
-                      "Nott-A-Problem",
-                      style: TextStyle(
-                        fontFamily: 'Lobster',
-                        fontSize: 50,
-                        color: Colors.black,
-                      ),
-                      textAlign: TextAlign.left,
+                const Center(
+                  child: Text(
+                    "Nott-A-Problem",
+                    style: TextStyle(
+                      fontFamily: 'Lobster',
+                      fontSize: 50,
+                      color: Colors.black,
                     ),
+                    textAlign: TextAlign.left,
                   ),
                 ),
                 Builder(builder: (context) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0), // Add padding
-                    child: Container(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Scaffold.of(context).openEndDrawer();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.white, // Set background color to white
-                          foregroundColor:
-                              Colors.black, // Set text color to black
-                          elevation:
-                              10, // Add elevation to create a pop-out effect
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(16.0), // Rounded edges
-                            side: BorderSide(
-                                color: Colors.grey.shade200), // Border color
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Scaffold.of(context).openEndDrawer();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.white, // Set background color to white
+                        foregroundColor:
+                            Colors.black, // Set text color to black
+                        elevation:
+                            10, // Add elevation to create a pop-out effect
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(16.0), // Rounded edges
+                          side: BorderSide(
+                              color: Colors.grey.shade200), // Border color
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                                child: const CircleAvatar(
+                                  radius: 20.0, // Adjust the radius as needed
+                                  backgroundColor: Colors.black,
+                                  child: Icon(Icons.person_2_sharp,
+                                      color: Colors.white),
+                                ),
+                              ),
+                              const SizedBox(
+                                  width:
+                                      8.0), // Adjust the spacing between icon and label
+                              // Wrap USERNAME and Level in a common parent widget
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    GetName(uid: currentUser!.uid, section: "MainName"),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.bar_chart,
+                                            color: Colors.green, size: 20),
+                                        const Text(
+                                          'Level:',
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.black),
+                                        ),
+                                        const Gap(5),
+                                        GetLevel(uid: currentUser!.uid),
+                                        const SizedBox(width: 8.0),
+                                        const Icon(Icons.star,
+                                            color: Colors.yellow,
+                                            size: 20), // Add the icon here
+                                        const Gap(10),
+                                        const Text(
+                                          'Points:',
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.black),
+                                        ),
+                                        const Gap(5),
+                                        GetPoints(uid: currentUser!.uid),
+                                        const SizedBox(width: 8.0),
+                                        // Add the icon here
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
-                                  child: CircleAvatar(
-                                    radius: 20.0, // Adjust the radius as needed
-                                    backgroundColor: Colors.black,
-                                    child: Icon(Icons.person_2_sharp,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                SizedBox(
-                                    width:
-                                        8.0), // Adjust the spacing between icon and label
-                                // Wrap USERNAME and Level in a common parent widget
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      GetName(uid: currentUser!.uid, section: "MainName"),
-                                      // Text(
-                                      //   GetName(uid: 'uid').toString(),
-                                      //   style: TextStyle(
-                                      //       fontSize: 20.0,
-                                      //       color: Colors.black),
-                                      // ),
-                                      /////////////NAMEEEEEEE
-                                      Row(
-                                        children: [
-                                          Icon(Icons.bar_chart,
-                                              color: Colors.green, size: 20),
-                                          Text(
-                                            'Level:',
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Colors.black),
-                                          ),
-                                          Gap(5),
-                                          GetLevel(uid: currentUser!.uid),
-                                          const SizedBox(width: 8.0),
-                                          // Icon(Icons.star,
-                                          //     color: Colors.yellow,
-                                          //     size: 20), // Add the icon here
-                                          // const SizedBox(width: 4.0), // Adjust the spacing between icon and text
-                                          // Gap(5),
-                                          // GetLevel(uid: currentUser!.uid),
-                                          Gap(10),
-
-                                          Text(
-                                            'Points:',
-                                            style: TextStyle(
-                                                fontSize: 15.0,
-                                                color: Colors.black),
-                                          ),
-
-                                          Gap(5),
-                                          GetPoints(uid: currentUser!.uid),
-
-                                          const SizedBox(width: 8.0),
-                                          // Add the icon here
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   );
@@ -192,8 +171,8 @@ class _HomeState extends State<Home> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomRight,
                         colors: [
-                          Color(0xFF8C00FF).withOpacity(0.7), // Light blue
-                          Color(0xFFFF9CE6).withOpacity(0.5), // Dark blue
+                          const Color(0xFF8C00FF).withOpacity(0.7), // Light blue
+                          const Color(0xFFFF9CE6).withOpacity(0.5), // Dark blue
                         ],
                       ),
                       borderRadius: BorderRadius.circular(16.0),
@@ -204,8 +183,8 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Container(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 16),
-                            child: Text(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                            child: const Text(
                               'Your Reports:',
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -220,11 +199,11 @@ class _HomeState extends State<Home> {
                             children: [
                               Positioned(
                                 // right: 0,
-                                child: Container(
+                                child: SizedBox(
                                     width: MediaQuery.sizeOf(context).width / 2,
                                     child: Image.asset('assets/megaphone.png')),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 150.0, // Adjust the height as needed
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
@@ -242,7 +221,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                // const Divider(),
                 Container(
                   margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                   child: const Text(
@@ -254,7 +232,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ), //updates for fixtures and reports
-                //this part
                 Expanded(
                   child: ListView(
                     children: updates
@@ -284,7 +261,7 @@ class _HomeState extends State<Home> {
                       gap: 8,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 10),
-                      tabs: [
+                      tabs: const [
                         GButton(
                           icon: Icons.house_outlined,
                           text: 'Home',
@@ -338,8 +315,8 @@ class _HomeState extends State<Home> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomRight,
                         colors: [
-                          Color(0xFF87CDFF).withOpacity(0.7), // Light blue
-                          Color(0xFF003BFF).withOpacity(0.5), // Dark blue
+                          const Color(0xFF87CDFF).withOpacity(0.7), // Light blue
+                          const Color(0xFF003BFF).withOpacity(0.5), // Dark blue
                         ],
                       ),
                     ),
@@ -347,7 +324,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        CircleAvatar(
+                        const CircleAvatar(
                           backgroundColor: Colors.black,
                           radius: 30,
                           child: Icon(
@@ -355,36 +332,18 @@ class _HomeState extends State<Home> {
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(height: 10.0),
-
                         GetName(uid: currentUser!.uid,section: "sidebar"),
                         GetName(uid: currentUser!.uid, section: "email"),
-                        // Text(
-                        //   'Username',
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: 18.0,
-                        //     letterSpacing: 2.0,
-                        //   ),
-                        // ),
-                        // Text(
-                        //   'OWA@nottingham.edu.my',
-                        //   style: TextStyle(
-                        //     color: Colors.white,
-                        //     fontSize: 15.0,
-                        //     letterSpacing: 1.0,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           "History",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -392,8 +351,8 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         ListTile(
-                          leading: Icon(Icons.assignment, size: 30),
-                          title: Text('My Reports',
+                          leading: const Icon(Icons.assignment, size: 30),
+                          title: const Text('My Reports',
                               style: TextStyle(fontSize: 20)),
                           onTap: () {
                             Navigator.push(
@@ -403,8 +362,8 @@ class _HomeState extends State<Home> {
                             );
                           },
                         ),
-                        Divider(),
-                        Text(
+                        const Divider(),
+                        const Text(
                           "Account Settings",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -412,22 +371,22 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         ListTile(
-                          leading: Icon(Icons.edit, size: 30),
-                          title: Text('Edit Profile',
+                          leading: const Icon(Icons.edit, size: 30),
+                          title: const Text('Edit Profile',
                               style: TextStyle(fontSize: 20)),
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Edit Profile Logic'),
-                                  content: Text('.'),
+                                  title: const Text('Edit Profile Logic'),
+                                  content: const Text('.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text('OK'),
+                                      child: const Text('OK'),
                                     ),
                                   ],
                                 );
@@ -435,33 +394,20 @@ class _HomeState extends State<Home> {
                             );
                           },
                         ),
-                        Divider(),
+                        const Divider(),
                         ListTile(
-                          leading: Icon(Icons.edit, size: 30),
-                          title: Text('Change Password',
+                          leading: const Icon(Icons.edit, size: 30),
+                          title: const Text('Change Password',
                               style: TextStyle(fontSize: 20)),
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Change Password Logic'),
-                                  content: Text('.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return changePasswordPage();
+                            }
+                            ));
                           },
                         ),
-                        Divider(),
-                        Text(
+                        const Divider(),
+                        const Text(
                           "More",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -469,22 +415,65 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         ListTile(
-                          leading: Icon(Icons.description, size: 30),
-                          title: Text('Terms of Service',
-                              style: TextStyle(fontSize: 20)),
+                          leading: const Icon(Icons.description, size: 30),
+                          title: const Text('Terms of Service', style: TextStyle(fontSize: 20)),
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Terms of Service'),
-                                  content: Text('Terms of Service'),
+                                  title: const Text('Terms of Service'),
+                                  content: SingleChildScrollView(
+                                    child: Text(
+                                      '''
+Welcome to Nott-A-Problem. These terms and conditions govern your use of the App. By downloading, installing, or using the App, you agree to be bound by these terms. If you do not agree with any part of these terms, please refrain from using the App.
+
+1. Description of Services:
+- The App provides a platform for the University of Nottingham Malaysia community to report faulty facilities by taking a picture and submitting it.
+- The App utilizes artificial intelligence to detect the issue and its location automatically.
+
+2. User Responsibilities:
+- Users are responsible for the accuracy and validity of the information provided through the App.
+- Users must ensure that they have permission to report issues in the locations depicted in the pictures they submit.
+- Users must comply with all applicable laws and University regulations when using the App.
+
+3. Permission Requirements:
+- By using the App, you consent to allow access to your device's camera and location services to enable the reporting functionality.
+
+4. Data Privacy:
+- The App may collect and process personal data as described in the University of Nottingham Malaysia's privacy policy.
+- Users' personal data will be handled in accordance with applicable data protection laws and University policies.
+
+5. Intellectual Property:
+- All intellectual property rights related to the App, including its design, content, and functionality, belong to the University of Nottingham Malaysia.
+- Users may not reproduce, modify, or distribute any part of the App without prior written consent.
+
+6. Limitation of Liability:
+- The University of Nottingham Malaysia shall not be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the App.
+- The University does not guarantee the accuracy, reliability, or completeness of any information provided through the App.
+
+7. Termination:
+- The University reserves the right to terminate or suspend a user's access to the App at any time without prior notice if they violate these terms or misuse the App.
+
+8. Governing Law and Jurisdiction:
+- These terms and conditions shall be governed by and construed in accordance with the laws of Malaysia.
+- Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts of Malaysia.
+
+9. Changes to Terms and Conditions:
+- The University reserves the right to modify or update these terms and conditions at any time. Users will be notified of any changes, and continued use of the App constitutes acceptance of the revised terms.
+
+10. Contact Information:
+- If you have any questions or concerns regarding these terms and conditions, please contact us by clicking the help option in the profile bar.
+              ''',
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text('OK'),
+                                      child: const Text('OK'),
                                     ),
                                   ],
                                 );
@@ -492,23 +481,23 @@ class _HomeState extends State<Home> {
                             );
                           },
                         ),
-                        Divider(),
+                        const Divider(),
                         ListTile(
-                          leading: Icon(Icons.question_mark, size: 30),
-                          title: Text('Help', style: TextStyle(fontSize: 20)),
+                          leading: const Icon(Icons.question_mark, size: 30),
+                          title: const Text('Help', style: TextStyle(fontSize: 20)),
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text('Hyperlink to email admin'),
-                                  content: Text('.'),
+                                  title: const Text('Hyperlink to email admin'),
+                                  content: const Text('.'),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text('OK'),
+                                      child: const Text('OK'),
                                     ),
                                   ],
                                 );
@@ -516,16 +505,16 @@ class _HomeState extends State<Home> {
                             );
                           },
                         ),
-                        Divider(),
+                        const Divider(),
                         ListTile(
-                          leading: Icon(Icons.people_alt_outlined, size: 30),
+                          leading: const Icon(Icons.people_alt_outlined, size: 30),
                           title:
-                              Text('About us', style: TextStyle(fontSize: 20)),
+                              const Text('About us', style: TextStyle(fontSize: 20)),
                           onTap: () {
                             // Your about us logic here
                           },
                         ),
-                        Divider(),
+                        const Divider(),
                       ],
                     ),
                   ),
@@ -533,8 +522,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.logout, size: 30),
-              title: Text(
+              leading: const Icon(Icons.logout, size: 30),
+              title: const Text(
                 'Logout',
                 style: TextStyle(
                     fontSize: 20,
@@ -546,8 +535,8 @@ class _HomeState extends State<Home> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Logout'),
-                      content: Text('Are you sure you want to logout?'),
+                      title: const Text('Logout'),
+                      content: const Text('Are you sure you want to logout?'),
                       actions: [
                         TextButton(
                           onPressed: () {
@@ -556,13 +545,13 @@ class _HomeState extends State<Home> {
                             );
                             // Logout logic here
                           },
-                          child: Text('Yes'),
+                          child: const Text('Yes'),
                         ),
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text('No'),
+                          child: const Text('No'),
                         ),
                       ],
                     );
@@ -570,8 +559,8 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-            Divider(),
-            SizedBox(height: 10.0),
+            const Divider(),
+            const SizedBox(height: 10.0),
           ],
         ),
       ),
