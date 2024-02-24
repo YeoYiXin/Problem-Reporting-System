@@ -1,17 +1,24 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
+import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'submittedpage.dart';
 
 class SecondPredictionPage extends StatelessWidget {
   final File? imageFile;
   final List<String> secondPredictionResult;
   final String locationInfo;
+  final String roomNumber;
+
+  final String description = ''; // dont have
 
   SecondPredictionPage({
     required this.imageFile,
     required this.secondPredictionResult,
     required this.locationInfo,
+    required this.roomNumber,
   });
 
   @override
@@ -88,19 +95,69 @@ class SecondPredictionPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Submitted()));
+                      print(secondPredictionResult[0]
+                          .replaceAll('_', ' ')
+                          .toLowerCase()
+                          .toString());
+                      if (secondPredictionResult[0]
+                              .replaceAll('_', ' ')
+                              .toLowerCase() ==
+                          'no event') {
+                        //return no problem is submitted
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => NoEventThankYou()));
+                      } else {
+                        print("Problem_Submission_Database second( ).....");
+                        Problem_Submission_Database().recordProblemSubmission(
+                          pIndoorLocation: roomNumber,
+                          titleClass:
+                              secondPredictionResult[0].replaceAll('_', ' '),
+                          subClass: secondPredictionResult[1],
+                          description: description, //empty
+                          location: locationInfo,
+                          imageURL: imageFile!,
+                          userTyped: false,
+                        );
+                        print(
+                            "Problem_Submission_Database over second( ).....");
+
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Submitted()));
+                      }
                     },
                     child: Text('Yes'),
                   ),
                   ElevatedButton(
                     onPressed: () async {
+                      String problemId =
+                          await Problem_Submission_Database().getProblemId();
+                      final storageRef = firebase_storage
+                          .FirebaseStorage.instance
+                          .ref()
+                          .child('submitted')
+                          .child('$problemId.jpg');
+                      await storageRef.putFile(imageFile as File);
+                      final String imageURL = await storageRef.getDownloadURL();
+
                       // Show the description dialog if th
-                      bool isLegit = await verifyUnseen(
-                          'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Montes_de_Vitoria_-_Pieza_de_Vitoria_04.jpg/800px-Montes_de_Vitoria_-_Pieza_de_Vitoria_04.jpg');
+                      bool isLegit = await verifyUnseen(imageURL);
+
                       if (isLegit) {
+                        final storageRef = firebase_storage
+                            .FirebaseStorage.instance
+                            .ref()
+                            .child('submitted')
+                            .child('$problemId.jpg');
+                        await storageRef.delete();
+                        Navigator.pushNamed(context, '/homepage');
                         _showDescriptionDialog(context);
                       } else {
+                        final storageRef = firebase_storage
+                            .FirebaseStorage.instance
+                            .ref()
+                            .child('submitted')
+                            .child('$problemId.jpg');
+                        await storageRef.delete();
                         Navigator.pushNamed(context, '/homepage');
                       }
                     },
@@ -116,6 +173,10 @@ class SecondPredictionPage extends StatelessWidget {
   }
 
   void _showDescriptionDialog(BuildContext context) {
+    final TextEditingController _descriptionController =
+        TextEditingController();
+    String description = _descriptionController.text;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -124,6 +185,7 @@ class SecondPredictionPage extends StatelessWidget {
           content: TextField(
             onChanged: (value) {
               // Handle onChanged
+              description = value;
             },
             decoration: InputDecoration(hintText: "Enter description..."),
           ),
@@ -137,8 +199,26 @@ class SecondPredictionPage extends StatelessWidget {
             TextButton(
               child: Text('Submit'),
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Submitted()));
+                print("Problem_Submission_Database second second( ).....");
+                print(
+                    description.replaceAll('_', ' ').toLowerCase().toString());
+                if (description.replaceAll('_', ' ').toLowerCase() ==
+                    'no event') {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => NoEventThankYou()));
+                } else {
+                  Problem_Submission_Database().recordProblemSubmission(
+                    pIndoorLocation: roomNumber,
+                    titleClass: description,
+                    subClass: "",
+                    description: description, //empty
+                    location: locationInfo,
+                    imageURL: imageFile!,
+                    userTyped: true,
+                  );
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Submitted()));
+                }
               },
             ),
           ],
