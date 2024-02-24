@@ -92,7 +92,7 @@ class Camera {
 
       // Initialize the image classification API.
       ImageClassificationAPI api =
-          ImageClassificationAPI('http://10.163.2.5:5000');
+          ImageClassificationAPI('https://apiold-vd42zjxz4a-as.a.run.app');
 
       // Perform the first image classification API call to get both class and subclass
       List<String> firstResults =
