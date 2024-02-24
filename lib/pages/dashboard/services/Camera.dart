@@ -39,7 +39,7 @@ class Camera {
       // Initialize the image classification API.
 <<<<<<< Updated upstream
       ImageClassificationAPI api = ImageClassificationAPI(
-        'http://172.20.10.3:5000',
+        'http://192.168.56.1:5000',
       );
 =======
       ImageClassificationAPI api =

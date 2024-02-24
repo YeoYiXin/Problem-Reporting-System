@@ -1,4 +1,7 @@
+<<<<<<< Updated upstream
 import base64
+=======
+>>>>>>> Stashed changes
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -7,7 +10,10 @@ import tensorflow as tf
 from openai import OpenAI
 import numpy as np
 from PIL import Image
+<<<<<<< Updated upstream
 import requests
+=======
+>>>>>>> Stashed changes
 
 from flask import Flask, request, jsonify
 
@@ -170,19 +176,27 @@ def secondsubclassify():
     return "OK"
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 @app.route("/get_desc", methods=["GET", "POST"]) 
 #if running on localhost use this url: http://127.0.0.1:5000/get_desc
 #receives one string type with key 'img_url'
 def describe():
     if request.method == "POST":
+<<<<<<< Updated upstream
         img_url = request.form.get('url')
         # img_url = "https://upload.wikimedia.org/wikipedia/commons/2/21/Broken_sink.JPG"
         print("img_url: ", img_url)
+=======
+        img_url = request.form.get('img_url')
+>>>>>>> Stashed changes
         if img_url is None:
             return jsonify({"error": "no img received"})
 
         try:
+<<<<<<< Updated upstream
             # Download the image
             image_data = base64.b64decode(img_url)
             # Decode the base64 image
@@ -196,10 +210,13 @@ def describe():
 
 
 
+=======
+>>>>>>> Stashed changes
             # OpenAI API Key 
             open_api_key = "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"
             # Initialize the OpenAI client with the API key
             client = OpenAI(api_key=open_api_key)
+<<<<<<< Updated upstream
             # Getting the base64 string
             # base64_image = encode_image(img_url)
             # print("base64_image: ", base64_image)
@@ -211,6 +228,12 @@ def describe():
                     "Safety gear and cleanup crew recommended for debris removal and to ensure the area is secure for users post-repair."
                     "Adopt the perspective of a maintenance worker tasked with resolving an issue within a university campus."
                     " Please provide a detailed summary within 70 words maximum as shown in the example above, focusing on crucial details such as the severity, and specific aspects of the reported issue."
+=======
+            # Optimized prompt for additional clarity and detail
+            prompt_text = (
+                    "Adopt the perspective of a maintenance worker tasked with resolving an issue within a university campus."
+                    " Please provide a detailed summary within 70 words maximum, focusing on crucial details such as the location, severity, and specific aspects of the reported issue."
+>>>>>>> Stashed changes
                     " Aim for a concise but comprehensive output that helps me, as a maintenance worker, recognize the necessary preparation and tasks needed for effective resolution.")    
             # Create the payload for the completion request
             messages = [
@@ -221,8 +244,12 @@ def describe():
                         {
                             "type": "image_url",
                             "image_url": {
+<<<<<<< Updated upstream
                                 "url": f"data:image/jpeg;base64,{img_url}",
                                 # "url": img_url,
+=======
+                                "url": img_url,
+>>>>>>> Stashed changes
                                 "detail": "low",
                             },
                         }
@@ -232,10 +259,15 @@ def describe():
             # Make the request to the OpenAI API
             response = client.chat.completions.create(
                     model="gpt-4-vision-preview", messages=messages, max_tokens=300, n=1)
+<<<<<<< Updated upstream
             
             # Send only the content of the first choice
             data = {"description": response.choices[0].message.content}
             print(data)
+=======
+            # Send only the content of the first choice
+            data = {"description": response.choices[0].message.content}
+>>>>>>> Stashed changes
             return jsonify(data)
         except Exception as e:
             return jsonify({"error": str(e)})
