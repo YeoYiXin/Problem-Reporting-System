@@ -9,6 +9,7 @@ import 'package:problem_reporting_system/pages/dashboard/services/updatesCard.da
 import 'package:problem_reporting_system/pages/dashboard/services/Camera.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/report.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/reportsCard.dart';
+import 'package:problem_reporting_system/pages/dashboard/changePasswordPage.dart';
 import '../CheckReports.dart';
 
 import 'package:problem_reporting_system/pages/dashboard/functions/getName.dart';
@@ -57,7 +58,6 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white10,
       body: Stack(
         children: [
-          // const appBackground(),
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,13 +119,6 @@ class _HomeState extends State<Home> {
                                       CrossAxisAlignment.start,
                                   children: [
                                     GetName(uid: currentUser!.uid, section: "MainName"),
-                                    // Text(
-                                    //   GetName(uid: 'uid').toString(),
-                                    //   style: TextStyle(
-                                    //       fontSize: 20.0,
-                                    //       color: Colors.black),
-                                    // ),
-                                    /////////////NAMEEEEEEE
                                     Row(
                                       children: [
                                         const Icon(Icons.bar_chart,
@@ -142,21 +135,15 @@ class _HomeState extends State<Home> {
                                         const Icon(Icons.star,
                                             color: Colors.yellow,
                                             size: 20), // Add the icon here
-                                        // const SizedBox(width: 4.0), // Adjust the spacing between icon and text
-                                        // Gap(5),
-                                        // GetLevel(uid: currentUser!.uid),
                                         const Gap(10),
-
                                         const Text(
                                           'Points:',
                                           style: TextStyle(
                                               fontSize: 15.0,
                                               color: Colors.black),
                                         ),
-
                                         const Gap(5),
                                         GetPoints(uid: currentUser!.uid),
-
                                         const SizedBox(width: 8.0),
                                         // Add the icon here
                                       ],
@@ -234,7 +221,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                // const Divider(),
                 Container(
                   margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                   child: const Text(
@@ -246,7 +232,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ), //updates for fixtures and reports
-                //this part
                 Expanded(
                   child: ListView(
                     children: updates
@@ -415,23 +400,10 @@ class _HomeState extends State<Home> {
                           title: const Text('Change Password',
                               style: TextStyle(fontSize: 20)),
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Change Password Logic'),
-                                  content: const Text('.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return changePasswordPage();
+                            }
+                            ));
                           },
                         ),
                         const Divider(),
@@ -444,15 +416,58 @@ class _HomeState extends State<Home> {
                         ),
                         ListTile(
                           leading: const Icon(Icons.description, size: 30),
-                          title: const Text('Terms of Service',
-                              style: TextStyle(fontSize: 20)),
+                          title: const Text('Terms of Service', style: TextStyle(fontSize: 20)),
                           onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: const Text('Terms of Service'),
-                                  content: const Text('Terms of Service'),
+                                  content: SingleChildScrollView(
+                                    child: Text(
+                                      '''
+Welcome to Nott-A-Problem. These terms and conditions govern your use of the App. By downloading, installing, or using the App, you agree to be bound by these terms. If you do not agree with any part of these terms, please refrain from using the App.
+
+1. Description of Services:
+- The App provides a platform for the University of Nottingham Malaysia community to report faulty facilities by taking a picture and submitting it.
+- The App utilizes artificial intelligence to detect the issue and its location automatically.
+
+2. User Responsibilities:
+- Users are responsible for the accuracy and validity of the information provided through the App.
+- Users must ensure that they have permission to report issues in the locations depicted in the pictures they submit.
+- Users must comply with all applicable laws and University regulations when using the App.
+
+3. Permission Requirements:
+- By using the App, you consent to allow access to your device's camera and location services to enable the reporting functionality.
+
+4. Data Privacy:
+- The App may collect and process personal data as described in the University of Nottingham Malaysia's privacy policy.
+- Users' personal data will be handled in accordance with applicable data protection laws and University policies.
+
+5. Intellectual Property:
+- All intellectual property rights related to the App, including its design, content, and functionality, belong to the University of Nottingham Malaysia.
+- Users may not reproduce, modify, or distribute any part of the App without prior written consent.
+
+6. Limitation of Liability:
+- The University of Nottingham Malaysia shall not be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the App.
+- The University does not guarantee the accuracy, reliability, or completeness of any information provided through the App.
+
+7. Termination:
+- The University reserves the right to terminate or suspend a user's access to the App at any time without prior notice if they violate these terms or misuse the App.
+
+8. Governing Law and Jurisdiction:
+- These terms and conditions shall be governed by and construed in accordance with the laws of Malaysia.
+- Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts of Malaysia.
+
+9. Changes to Terms and Conditions:
+- The University reserves the right to modify or update these terms and conditions at any time. Users will be notified of any changes, and continued use of the App constitutes acceptance of the revised terms.
+
+10. Contact Information:
+- If you have any questions or concerns regarding these terms and conditions, please contact us by clicking the help option in the profile bar.
+              ''',
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
