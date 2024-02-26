@@ -177,7 +177,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              contentPadding: EdgeInsets.all(10.0),
+                                              contentPadding:
+                                                  EdgeInsets.all(10.0),
                                               content: DuplicationUI(
                                                 problemId: isSimilarID,
                                                 imageUrl: widget.imageFile!,
@@ -218,120 +219,6 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                       : Center(
                           child: CircularProgressIndicator(),
                         ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        'We identified it as:\nClass: ${widget.firstPredictionResult[0].replaceAll('_', ' ')}\nSubclass: ${widget.firstPredictionResult[1]}',
-                        style: const TextStyle(fontSize: 20.0),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Text(
-                        'The location is ${widget.locationInfo}',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Text(
-                        'Room Number: ${widget.roomNumber}',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      const SizedBox(height: 16.0),
-                      const Text(
-                        'Is this correct?',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              print(widget.firstPredictionResult[0]
-                                  .replaceAll('_', ' ')
-                                  .toLowerCase()
-                                  .toString());
-                              if (widget.firstPredictionResult[0]
-                                      .replaceAll('_', ' ')
-                                      .toLowerCase() ==
-                                  'no event') {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => NoEventThankYou()));
-                              } else {
-                                Problem_Submission_Database()
-                                    .recordProblemSubmission(
-                                  pIndoorLocation: widget.roomNumber,
-                                  titleClass: widget.firstPredictionResult[0]
-                                      .replaceAll('_', ' '),
-                                  subClass: widget.firstPredictionResult[1],
-                                  description: description,
-                                  location: widget.locationInfo,
-                                  imageURL: widget.imageFile!,
-                                  userTyped: false,
-                                );
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Submitted()));
-                              }
-                            },
-                            child: Text('Yes'),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Which prediction was wrong?'),
-                                    content: SingleChildScrollView(
-                                      child: ListBody(
-                                        children: [
-                                          ListTile(
-                                            title: Text('Class'),
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                              Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SecondPredictionPage(
-                                                  imageFile: widget.imageFile,
-                                                  secondPredictionResult: widget
-                                                      .secondPredictionResult,
-                                                  locationInfo:
-                                                      widget.locationInfo,
-                                                  roomNumber: widget.roomNumber,
-                                                ),
-                                              ));
-                                            },
-                                          ),
-                                          ListTile(
-                                            title: Text('Subclass'),
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                              Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ThirdPredictionPage(
-                                                  imageFile: widget.imageFile,
-                                                  thirdPredictionResult: widget
-                                                      .thirdPredictionResult,
-                                                  locationInfo:
-                                                      widget.locationInfo,
-                                                  roomNumber: widget.roomNumber,
-                                                ),
-                                              ));
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Text('No'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ),
@@ -340,46 +227,47 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
       ),
     );
   }
-}
 
-void _showDescriptionDialog(BuildContext context) {
-  final TextEditingController _descriptionController = TextEditingController();
-  String description = _descriptionController.text;
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title:
-            Text('Please fill in below what the issue is so we can improve:'),
-        content: TextField(
-          onChanged: (value) {
-            description = value;
-          },
-          decoration: InputDecoration(
-            hintText: 'Enter description...',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
+  void _showDescriptionDialog(BuildContext context) {
+    final TextEditingController _descriptionController =
+        TextEditingController();
+    String description = _descriptionController.text;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:
+              Text('Please fill in below what the issue is so we can improve:'),
+          content: TextField(
+            onChanged: (value) {
+              description = value;
             },
-            child: Text('Cancel'),
+            decoration: InputDecoration(
+              hintText: 'Enter description...',
+            ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              print('Description: $description');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Submitted(),
-                ),
-              );
-            },
-            child: Text('Submit'),
-          ),
-        ],
-      );
-    },
-  );
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                print('Description: $description');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Submitted(),
+                  ),
+                );
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
