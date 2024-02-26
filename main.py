@@ -179,7 +179,6 @@ def describe():
 
         img_url = request.form.get('url')
         # img_url = "https://upload.wikimedia.org/wikipedia/commons/2/21/Broken_sink.JPG"
-        print("img_url: ", img_url)
 
         # img_url = request.form.get('img_url')
         if img_url is None:
@@ -206,12 +205,9 @@ def describe():
             # print("base64_image: ", base64_image)
             # Optimized prompt for additional clarity and 
             prompt_text = (
-                    "A heavily damaged wall-mounted sink in a brick building with extensive wear and missing parts; likely necessitates complete replacement."
-                    "Severity: High, due to potential water damage and unusability."
-                    "Tasks: Shut off water supply, remove remnants, prepare wall for new installation, and install new sink with appropriate plumbing connections."
-                    "Safety gear and cleanup crew recommended for debris removal and to ensure the area is secure for users post-repair."
-                    "Adopt the perspective of a maintenance worker tasked with resolving an issue within a university campus where the problem can range from infrastructure issue to pest infestation issue or dangerous animals on the university campus."
-                    " Please provide a detailed summary within 70 words maximum as shown in the example above, focusing on crucial details such as the severity, and specific aspects of the reported issue.")
+                    "A heavily damaged wall-mounted sink in a brick building with extensive wear and missing parts; likely necessitates complete replacement. Severity: High, due to potential water damage and unusability. Tasks: Shut off water supply, remove remnants, prepare wall for new installation, and install new sink with appropriate plumbing connections. Safety gear and cleanup crew recommended for debris removal and to ensure the area is secure for users post-repair."
+                    "Take the above example as a guideline, you are a maintenance worker tasked with resolving an issue within a university campus where the problem can range from infrastructure issue to pest infestation issue or dangerous animals on the university."
+                    " Please provide a detailed summary within 70 words maximum, focusing on crucial details such as the severity, and specific aspects of the reported issue.")
             # Optimized prompt for additional clarity and detail
                 
             # Create the payload for the completion request

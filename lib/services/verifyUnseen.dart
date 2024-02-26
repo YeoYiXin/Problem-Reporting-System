@@ -4,8 +4,10 @@ import 'package:http/http.dart' as http;
 Future<bool> verifyUnseen(String url) async {
   try {
     final response = await http.post(
-      Uri.parse('http://172.20.10.3:5000/verify_unseen'),
-      Uri.parse('https://apiold-vd42zjxz4a-as.a.run.app/verify_unseen'),
+
+      Uri.parse('http://10.163.2.8:5000/verify_unseen'),
+
+      // Uri.parse('https://apiold-vd42zjxz4a-as.a.run.app/verify_unseen'),
       body: {'url': url},
     );
 

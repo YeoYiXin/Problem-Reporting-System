@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
@@ -110,11 +111,67 @@ class SecondPredictionPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Is this correct?',
-                    style: TextStyle(fontSize: 20.0),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      print(secondPredictionResult[0]
+                          .replaceAll('_', ' ')
+                          .toLowerCase()
+                          .toString());
+                      if (secondPredictionResult[0]
+                              .replaceAll('_', ' ')
+                              .toLowerCase() ==
+                          'no event') {
+                        //return no problem is submitted
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => NoEventThankYou()));
+                      } else {
+                        String isSimilarID = await Problem_Submission_Database()
+                            .detectSimilarProblem(
+                                problemClass: secondPredictionResult[0]
+                                    .replaceAll('_', ' '),
+                                problemSubClass: secondPredictionResult[1],
+                                problemLocation: locationInfo);
+                        print("isSimilarID: $isSimilarID");
+                        if (isSimilarID.toString() == "0") {
+                          print("Problem_Submission_Database second( ).....");
+                          Problem_Submission_Database().recordProblemSubmission(
+                            pIndoorLocation: roomNumber,
+                            titleClass:
+                                secondPredictionResult[0].replaceAll('_', ' '),
+                            subClass: secondPredictionResult[1],
+                            description: description, //empty
+                            location: locationInfo,
+                            imageURL: imageFile!,
+                            userTyped: false,
+                          );
+                          print(
+                              "Problem_Submission_Database over second( ).....");
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Submitted()));
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: DuplicationUI(
+                                  problemId: isSimilarID,
+                                  imageUrl: imageFile!,
+                                  roomNumber: roomNumber,
+                                  firstPredictionResult: secondPredictionResult,
+                                  locationInfo: locationInfo,
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      }
+                    },
+                    child: Text('Yes'),
                   ),
                 ),
                 Row(
