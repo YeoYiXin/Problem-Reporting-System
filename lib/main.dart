@@ -8,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:problem_reporting_system/pages/login/informationPage/infoPage.dart';
 import 'package:problem_reporting_system/pages/login/registration_view.dart';
 import 'package:problem_reporting_system/pages/login/login_view.dart';
+import 'package:problem_reporting_system/pages/duplicationUI.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/registrationpage': (context) => Registration(),
         '/submittedpage': (context) => Submitted(),
         '/thankyoupage': (context) => NoEventThankYou(),
+        //duplication ui page
       },
     );
   }

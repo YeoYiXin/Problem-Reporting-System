@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:problem_reporting_system/pages/dashboard/functions/getLevel.dart';
 import 'package:problem_reporting_system/pages/dashboard/functions/getPoints.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/update.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/updatesCard.dart';
@@ -123,15 +122,6 @@ class _HomeState extends State<Home> {
                                       children: [
                                         const Icon(Icons.bar_chart,
                                             color: Colors.green, size: 20),
-                                        const Text(
-                                          'Level:',
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Colors.black),
-                                        ),
-                                        const Gap(5),
-                                        GetLevel(uid: currentUser!.uid),
-                                        const SizedBox(width: 8.0),
                                         const Icon(Icons.star,
                                             color: Colors.yellow,
                                             size: 20), // Add the icon here

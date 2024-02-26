@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'dart:io';
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
+import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'submittedpage.dart';
@@ -118,7 +119,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     print(widget.firstPredictionResult[0]
                                         .replaceAll('_', ' ')
                                         .toLowerCase()
@@ -133,29 +134,57 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                               builder: (context) =>
                                                   NoEventThankYou()));
                                     } else {
-                                      print(
-                                          "Problem_Submission_Database( ).....");
-                                      Problem_Submission_Database()
-                                          .recordProblemSubmission(
-                                        pIndoorLocation: widget.roomNumber,
-                                        titleClass: widget
-                                            .firstPredictionResult[0]
-                                            .replaceAll('_', ' '),
-                                        subClass:
-                                            widget.firstPredictionResult[1],
-                                        description:
-                                            description, // dont have descriptiond
-                                        location: widget.locationInfo,
-                                        imageURL: widget.imageFile!,
-                                        userTyped: false,
-                                      );
-                                      print(
-                                          "Problem_Submission_Database over( ).....");
+                                      String isSimilarID =
+                                          await Problem_Submission_Database()
+                                              .detectSimilarProblem(
+                                                  problemClass: widget
+                                                      .firstPredictionResult[0]
+                                                      .replaceAll('_', ' '),
+                                                  problemSubClass: widget
+                                                      .firstPredictionResult[1],
+                                                  problemLocation:
+                                                      widget.locationInfo);
 
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Submitted()));
+                                      print("isSimilarID: $isSimilarID");
+
+                                      if (isSimilarID.toString() == "0") {
+                                        print(
+                                            "Problem_Submission_Database( ).....");
+                                        Problem_Submission_Database()
+                                            .recordProblemSubmission(
+                                          pIndoorLocation: widget.roomNumber,
+                                          titleClass: widget
+                                              .firstPredictionResult[0]
+                                              .replaceAll('_', ' '),
+                                          subClass:
+                                              widget.firstPredictionResult[1],
+                                          description:
+                                              description, // dont have descriptiond
+                                          location: widget.locationInfo,
+                                          imageURL: widget.imageFile!,
+                                          userTyped: false,
+                                        );
+                                        print(
+                                            "Problem_Submission_Database over( ).....");
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              contentPadding: EdgeInsets.all(10.0),
+                                              content: DuplicationUI(
+                                                problemId: isSimilarID,
+                                                imageUrl: widget.imageFile!,
+                                                roomNumber: widget.roomNumber,
+                                                firstPredictionResult: widget
+                                                    .firstPredictionResult,
+                                                locationInfo:
+                                                    widget.locationInfo,
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
                                     }
                                   },
                                   child: Text('Yes'),

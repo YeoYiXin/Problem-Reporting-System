@@ -5,7 +5,7 @@ Future<bool> verifyUnseen(String url) async {
   try {
     final response = await http.post(
 
-      Uri.parse('http://192.168.0.109:5000/verify_unseen'),
+      Uri.parse('http://10.163.2.8:5000/verify_unseen'),
 
       // Uri.parse('https://apiold-vd42zjxz4a-as.a.run.app/verify_unseen'),
       body: {'url': url},

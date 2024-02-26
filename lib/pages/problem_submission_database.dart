@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:problem_reporting_system/pages/dashboard/functions/writePoints.dart';
 import 'package:problem_reporting_system/pages/login/models/userData.dart';
 import 'package:problem_reporting_system/pages/problemData.dart';
 import 'package:intl/intl.dart';
@@ -37,32 +38,15 @@ class Problem_Submission_Database {
       try {
         print("entered recordProblemSubmission");
         //check if it is the same problem
-        String isSimilarID = await detectSimilarProblem(
-            problemClass: titleClass,
-            problemSubClass: subClass,
-            problemLocation: location);
-        // String reportNum = await detectSimilarProblem(problemClass: titleClass, problemSubClass:subClass, problemLocation: location);
-        print("isSimilarID: $isSimilarID");
-
-        if (isSimilarID == "0") {
-          print("enter if isSimilarID == 0");
-          Future<String> resp = submitProblem(
-              indoorLocation: pIndoorLocation,
-              titleClass: titleClass,
-              subClass: subClass,
-              location: location,
-              imageURL: imageURL,
-              reportNum: 1,
-              userTyped: userTyped);
-          return resp;
-        } else {
-          print("enter else isSimilarID != 0");
-          print("isSimilarID: $isSimilarID");
-          //create output - is this the data? - if yes - then return this problem has already been reported, increase report num, priority change if needed -
-          //if no - then go back to submit
-
-          return "This problem has already been reported";
-        }
+        Future<String> resp = submitProblem(
+            indoorLocation: pIndoorLocation,
+            titleClass: titleClass,
+            subClass: subClass,
+            location: location,
+            imageURL: imageURL,
+            reportNum: 1,
+            userTyped: userTyped);
+        return resp;
       } catch (e) {
         print('An error occurred: $e');
         return "An error occurred";
@@ -123,6 +107,8 @@ class Problem_Submission_Database {
           .doc(problemId)
           .set(ProblemData.toJSon());
       print('Problem data added to firestore...');
+      WritePoint().writePoint(uid: uid);
+      print('User points updated...');
       return "Submission done";
     } catch (e) {
       print('An error occurred: $e');
@@ -138,7 +124,7 @@ class Problem_Submission_Database {
       //upload image to firebase storage
       print('Uploading image into storage...');
       print('Image file: $imageFile');
-      
+
       if (userTyped) {
         print('User typed');
         final storageRef = firebase_storage.FirebaseStorage.instance
@@ -160,7 +146,7 @@ class Problem_Submission_Database {
       }
 
       // Get download URL of the uploaded image
-    } catch (e) { 
+    } catch (e) {
       print('An error occurred: $e');
       return "An error occurred";
     }
@@ -217,17 +203,12 @@ class Problem_Submission_Database {
       print("response.docs.length: ${response.docs.length}");
       if (response.docs.isNotEmpty) {
         for (; i < response.docs.length; i++) {
-          print("i: $i");
-          print("problemClass: ${response.docs[i]['problemClass']} ;;;;, $problemClass"); 
-          print("problemSubClass: ${response.docs[i]['problemSubClass']} ;;;;, $problemSubClass");
-          print("problemLocation: ${response.docs[i]['problemLocation']} ;;;;, $problemLocation ");
-          print("problemStatus: ${response.docs[i]['problemStatus']}");
           if (response.docs[i]['problemClass'] == problemClass &&
               response.docs[i]['problemSubClass'] == problemSubClass &&
               response.docs[i]['problemLocation'] == problemLocation &&
               response.docs[i]['problemStatus'].toString().toLowerCase() ==
                   "in progress") {
-                    print("isSimilar: true");
+            print("isSimilar: true");
             isSimilar = true;
             break;
           }
