@@ -3,6 +3,7 @@ import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'dart:io';
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
+import 'package:problem_reporting_system/pages/ThirdPredictionPage.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'submittedpage.dart';
@@ -11,6 +12,7 @@ class ErrorIdentification extends StatefulWidget {
   final File? imageFile;
   final List<String> firstPredictionResult;
   final List<String> secondPredictionResult;
+  final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
 
@@ -18,6 +20,7 @@ class ErrorIdentification extends StatefulWidget {
     required this.imageFile,
     required this.firstPredictionResult,
     required this.secondPredictionResult,
+    required this.thirdPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
   });
@@ -32,24 +35,27 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          toolbarHeight: 80,
-          title: Image.asset(
-            'assets/nottinghamlogo.jpg',
-            height: 200,
-            width: 200,
-            color: Colors.blue[50],
-            colorBlendMode: BlendMode.darken,
-            fit: BoxFit.fitWidth,
-          ),
-          backgroundColor: Colors.blue[50],
-          elevation: 0,
-          automaticallyImplyLeading: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        toolbarHeight: 80,
+        title: Image.asset(
+          'assets/nottinghamlogo.jpg',
+          height: 200,
+          width: 200,
+          color: Colors.blue[50],
+          colorBlendMode: BlendMode.darken,
+          fit: BoxFit.fitWidth,
         ),
-        body: SingleChildScrollView(
-            child: Container(
-                height: MediaQuery.of(context).size.height,
+        backgroundColor: Colors.blue[50],
+        elevation: 0,
+        automaticallyImplyLeading: false,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Center(
                   child: widget.imageFile != null
                       ? Column(
@@ -212,7 +218,127 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                       : Center(
                           child: CircularProgressIndicator(),
                         ),
-                ))));
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        'We identified it as:\nClass: ${widget.firstPredictionResult[0].replaceAll('_', ' ')}\nSubclass: ${widget.firstPredictionResult[1]}',
+                        style: const TextStyle(fontSize: 20.0),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'The location is ${widget.locationInfo}',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Room Number: ${widget.roomNumber}',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      const SizedBox(height: 16.0),
+                      const Text(
+                        'Is this correct?',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              print(widget.firstPredictionResult[0]
+                                  .replaceAll('_', ' ')
+                                  .toLowerCase()
+                                  .toString());
+                              if (widget.firstPredictionResult[0]
+                                      .replaceAll('_', ' ')
+                                      .toLowerCase() ==
+                                  'no event') {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => NoEventThankYou()));
+                              } else {
+                                Problem_Submission_Database()
+                                    .recordProblemSubmission(
+                                  pIndoorLocation: widget.roomNumber,
+                                  titleClass: widget.firstPredictionResult[0]
+                                      .replaceAll('_', ' '),
+                                  subClass: widget.firstPredictionResult[1],
+                                  description: description,
+                                  location: widget.locationInfo,
+                                  imageURL: widget.imageFile!,
+                                  userTyped: false,
+                                );
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Submitted()));
+                              }
+                            },
+                            child: Text('Yes'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Which prediction was wrong?'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: [
+                                          ListTile(
+                                            title: Text('Class'),
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SecondPredictionPage(
+                                                  imageFile: widget.imageFile,
+                                                  secondPredictionResult: widget
+                                                      .secondPredictionResult,
+                                                  locationInfo:
+                                                      widget.locationInfo,
+                                                  roomNumber: widget.roomNumber,
+                                                ),
+                                              ));
+                                            },
+                                          ),
+                                          ListTile(
+                                            title: Text('Subclass'),
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ThirdPredictionPage(
+                                                  imageFile: widget.imageFile,
+                                                  thirdPredictionResult: widget
+                                                      .thirdPredictionResult,
+                                                  locationInfo:
+                                                      widget.locationInfo,
+                                                  roomNumber: widget.roomNumber,
+                                                ),
+                                              ));
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Text('No'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -242,14 +368,13 @@ void _showDescriptionDialog(BuildContext context) {
           ),
           ElevatedButton(
             onPressed: () {
-              // You can use the 'description' variable here
               print('Description: $description');
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => Submitted(),
                 ),
-              ); // Close the dialog
+              );
             },
             child: Text('Submit'),
           ),

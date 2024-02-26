@@ -35,6 +35,19 @@ class ImageClassificationAPI {
     }
   }
 
+  // Method for third prediction
+  Future<List<String>> getClassAndSubclassThird(String imagePath) async {
+    try {
+      String classResult = await _postImage(imagePath, 'get_class', null);
+      String subclassResult =
+          await _postImage(imagePath, 'get_subclass_second', classResult);
+      return [classResult, subclassResult];
+    } catch (e) {
+      print('Error processing image: $e');
+      throw Exception('Error processing image: $e');
+    }
+  }
+
   Future<String> _postImage(
       String imagePath, String endpoint, String? className) async {
     try {

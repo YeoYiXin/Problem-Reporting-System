@@ -6,6 +6,7 @@ import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'submittedpage.dart';
+import 'package:problem_reporting_system/pages/appBackground.dart';
 
 class SecondPredictionPage extends StatelessWidget {
   final File? imageFile;
@@ -27,68 +28,88 @@ class SecondPredictionPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        toolbarHeight: 80,
-        title: Text('Second Prediction'),
-        backgroundColor: Colors.blue[50],
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  child: imageFile != null
-                      ? Image.file(
-                          imageFile!) // Add ! to access non-nullable File
-                      : const Text('Image not available'),
-                ),
-              ),
-              SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'Second Prediction Results:',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
+        child: Stack(
+          children:[
+            appBackground(),
+            Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Center(
+                    child: Text(
+                      "Nott-A-Problem",
+                      style: TextStyle(
+                        fontFamily: 'Lobster',
+                        fontSize: 50,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: secondPredictionResult.isNotEmpty
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Class: ${secondPredictionResult[0].replaceAll('_', ' ')}',
-                            style: TextStyle(fontSize: 20.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      child: imageFile != null
+                          ? Image.file(
+                              imageFile!) // Add ! to access non-nullable File
+                          : const Text('Image not available'),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Card(
+                  margin: EdgeInsets.all(16.0),
+                  elevation: 4, // Add elevation for a shadow effect
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0), // Adjust the value as needed
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            'Second Prediction Results',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          Text(
-                            'Subclass: ${secondPredictionResult[1]}',
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                        ],
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'The location is  $locationInfo',
-                          style: TextStyle(fontSize: 20.0),
                         ),
-                      ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'Is this correct?',
-                  style: TextStyle(fontSize: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: secondPredictionResult.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Class: ${secondPredictionResult[0].replaceAll('_', ' ')}',
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                    Text(
+                                      'Subclass: ${secondPredictionResult[1]}',
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                  ],
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    'The location is  $locationInfo',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               Row(
@@ -152,46 +173,94 @@ class SecondPredictionPage extends StatelessWidget {
                     },
                     child: Text('Yes'),
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      String problemId =
-                          await Problem_Submission_Database().getProblemId();
-                      final storageRef = firebase_storage
-                          .FirebaseStorage.instance
-                          .ref()
-                          .child('submitted')
-                          .child('$problemId.jpg');
-                      await storageRef.putFile(imageFile as File);
-                      final String imageURL = await storageRef.getDownloadURL();
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton.icon(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                      ),
+                      onPressed: () {
+                        print(secondPredictionResult[0]
+                            .replaceAll('_', ' ')
+                            .toLowerCase()
+                            .toString());
+                        if (secondPredictionResult[0]
+                                .replaceAll('_', ' ')
+                                .toLowerCase() ==
+                            'no event') {
+                          //return no problem is submitted
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => NoEventThankYou()));
+                        } else {
+                          print("Problem_Submission_Database second( ).....");
+                          Problem_Submission_Database().recordProblemSubmission(
+                            pIndoorLocation: roomNumber,
+                            titleClass:
+                                secondPredictionResult[0].replaceAll('_', ' '),
+                            subClass: secondPredictionResult[1],
+                            description: description, //empty
+                            location: locationInfo,
+                            imageURL: imageFile!,
+                            userTyped: false,
+                          );
+                          print(
+                              "Problem_Submission_Database over second( ).....");
 
-                      // Show the description dialog if th
-                      bool isLegit = await verifyUnseen(imageURL);
-
-                      if (isLegit) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Submitted()));
+                        }
+                      },
+                      icon: const Icon(Icons.check,color: Colors.green,),
+                      label: Text('Yes' ,style: TextStyle(color: Colors.green)),
+                    ),
+                    TextButton.icon(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                      ),
+                      onPressed: () async {
+                        String problemId =
+                            await Problem_Submission_Database().getProblemId();
                         final storageRef = firebase_storage
                             .FirebaseStorage.instance
                             .ref()
                             .child('submitted')
                             .child('$problemId.jpg');
-                        await storageRef.delete();
-                        Navigator.pushNamed(context, '/homepage');
-                        _showDescriptionDialog(context);
-                      } else {
-                        final storageRef = firebase_storage
-                            .FirebaseStorage.instance
-                            .ref()
-                            .child('submitted')
-                            .child('$problemId.jpg');
-                        await storageRef.delete();
-                        Navigator.pushNamed(context, '/homepage');
-                      }
-                    },
-                    child: Text('No'),
-                  ),
-                ],
-              ),
-            ],
+                        await storageRef.putFile(imageFile as File);
+                        final String imageURL = await storageRef.getDownloadURL();
+
+                        // Show the description dialog if th
+                        bool isLegit = await verifyUnseen(imageURL);
+
+                        if (isLegit) {
+                          final storageRef = firebase_storage
+                              .FirebaseStorage.instance
+                              .ref()
+                              .child('submitted')
+                              .child('$problemId.jpg');
+                          await storageRef.delete();
+                          Navigator.pushNamed(context, '/homepage');
+                          _showDescriptionDialog(context);
+                        } else {
+                          final storageRef = firebase_storage
+                              .FirebaseStorage.instance
+                              .ref()
+                              .child('submitted')
+                              .child('$problemId.jpg');
+                          await storageRef.delete();
+                          Navigator.pushNamed(context, '/homepage');
+                        }
+                      },
+                      icon: const Icon(Icons.close, color: Colors.red),
+                      label: Text('No', style: TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
+      ],
         ),
       ),
     );
