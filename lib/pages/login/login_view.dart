@@ -7,6 +7,8 @@ import 'package:gap/gap.dart';
 import 'package:problem_reporting_system/pages/login/label/InputLabel.dart';
 import 'package:problem_reporting_system/pages/login/login_background.dart';
 import 'package:problem_reporting_system/pages/login/resources/auth_methods.dart';
+import 'package:problem_reporting_system/pages/dashboard/changePasswordPage.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -180,6 +182,26 @@ class _LoginState extends State<Login> {
                                   onChanged: (val) {
                                     password = val;
                                   },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                                            return changePasswordPage();
+                                          }));
+                                        },
+                                        child: Text('Forgot Password?',
+                                          style: const TextStyle(
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold,
+                                          ),),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 const Gap(20),
                                 Row(
