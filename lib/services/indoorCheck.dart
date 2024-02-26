@@ -55,6 +55,7 @@ class IndoorCheck {
       File imageFile,
       List<String> firstPredictionResult,
       List<String> secondPredictionResult,
+      List<String> thirdPredictionResult,
       String locationInfo) {
     showDialog(
       context: context,
@@ -90,6 +91,7 @@ class IndoorCheck {
                     imageFile,
                     firstPredictionResult,
                     secondPredictionResult,
+                    thirdPredictionResult,
                     locationInfo);
               },
             ),
@@ -106,6 +108,7 @@ class IndoorCheck {
       File imageFile,
       List<String> firstPredictionResult,
       List<String> secondPredictionResult,
+      List<String> thirdPredictionResult,
       String locationInfo) {
     // Navigate to ErrorIdentification page and pass the room number
     Navigator.of(context).pushReplacement(
@@ -114,6 +117,7 @@ class IndoorCheck {
           imageFile: imageFile,
           firstPredictionResult: firstPredictionResult,
           secondPredictionResult: secondPredictionResult,
+          thirdPredictionResult: thirdPredictionResult,
           locationInfo: locationInfo,
           roomNumber: roomNumber,
         ),

@@ -14,6 +14,7 @@ class Camera {
   VoidCallback? onImageSelected;
   List<String> firstPredictionResult = [];
   List<String> secondPredictionResult = [];
+  List<String> thirdPredictionResult = [];
   GeolocationService geolocationService = GeolocationService();
 
   Future<void> onTapCameraButton(BuildContext context) async {
@@ -93,12 +94,11 @@ class Camera {
       // Initialize the image classification API.
 
       ImageClassificationAPI api = ImageClassificationAPI(
-        'http://192.168.0.109:5000',
+        'http://172.20.10.3:5000',
       );
 
       // ImageClassificationAPI api =
       //     ImageClassificationAPI('https://apiold-vd42zjxz4a-as.a.run.app');
-
 
       // Perform the first image classification API call to get both class and subclass
       List<String> firstResults =
@@ -107,11 +107,16 @@ class Camera {
       List<String> secondResults =
           await api.getClassAndSubclassSecond(imageFile!.path);
 
+      List<String> thirdResults =
+          await api.getClassAndSubclassThird(imageFile!.path);
+
       // Assigning first prediction results
       firstPredictionResult = firstResults;
 
       // Assigning first prediction results
       secondPredictionResult = secondResults;
+
+      thirdPredictionResult = thirdResults;
 
       // Get user's location coordinates
       Position? userLocation = await geolocationService.getCurrentLocation();
@@ -133,6 +138,7 @@ class Camera {
             imageFile!,
             firstResults,
             secondResults,
+            thirdResults,
             locationInfo);
       }
     } catch (e) {
