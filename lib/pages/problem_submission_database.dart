@@ -1,17 +1,11 @@
 //contain problem reporting system database
-
-import 'dart:ffi';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/dashboard/functions/writePoints.dart';
-import 'package:problem_reporting_system/pages/login/models/userData.dart';
 import 'package:problem_reporting_system/pages/problemData.dart';
 import 'package:intl/intl.dart';
-import 'dart:convert';
-
 import 'package:problem_reporting_system/pages/problemDescAPI.dart';
 
 class Problem_Submission_Database {
@@ -69,6 +63,8 @@ class Problem_Submission_Database {
       String problemId = await getProblemId();
       String priority = await getPriority(problemClass: titleClass);
       String title = "$subClass at $location, $indoorLocation";
+      String department =
+          await getDepartment(titleClass: titleClass, subClass: subClass, location: location);
 
       print("Indoor Location: $indoorLocation");
       print("Problem ID: $problemId");
@@ -89,7 +85,7 @@ class Problem_Submission_Database {
         problemClass: titleClass,
         pIndoorLocation: indoorLocation,
         date: currentDate,
-        problemDepartment: "Department", //for now
+        problemDepartment: department,
         problemDescription: description,
         problemId: problemId,
         problemImageURL: storageImageURL,
@@ -98,8 +94,8 @@ class Problem_Submission_Database {
         problemReportNum: reportNum,
         problemStatus: "In Progress",
         problemSubClass: subClass,
-        problemTitle: title, //for now
-        uid: uid, //for now - put in user report
+        problemTitle: title,
+        uid: uid,
       );
 
       await _firestore
@@ -107,6 +103,9 @@ class Problem_Submission_Database {
           .doc(problemId)
           .set(ProblemData.toJSon());
       print('Problem data added to firestore...');
+      await recordIssueType(
+          titleClass: titleClass, subClass: subClass, reportNum: reportNum);
+      print('Issue type recorded...');
       WritePoint().writePoint(uid: uid);
       print('User points updated...');
       return "Submission done";
@@ -252,7 +251,117 @@ class Problem_Submission_Database {
       return "An error occurred";
     }
   }
-  // Future<String> recordIssueType({}) async{}
 
-  // Future<String> assignDepartment({}) async{}
+  Future<void> recordIssueType({
+    required String titleClass,
+    required String subClass,
+    required int reportNum,
+  }) async {
+    try {
+      final response = await _firestore.collection('issues').get();
+      if (response.docs.isNotEmpty) {
+        for (var doc in response.docs) {
+          if (doc['class'] == titleClass.toLowerCase()) {
+            // Class exists
+            int availableIndex = 1;
+            bool subClassExist = false;
+
+            // Check for existing subclasses and find the first available index
+            while (doc['subclass$availableIndex'] != null) {
+              if (doc['subclass$availableIndex'] == subClass.toLowerCase()) {
+                subClassExist = true;
+                break;
+              }
+              availableIndex++;
+            }
+
+            if (subClassExist) {
+              // Subclass exists, update its report number
+              await _firestore.collection('issues').doc(doc.id).update({
+                'numReport$availableIndex':
+                    doc['numReport$availableIndex'] + reportNum,
+              });
+              print("Report number updated for subclass $subClass");
+            } else {
+              // Subclass doesn't exist, add it with report number
+              await _firestore.collection('issues').doc(doc.id).update({
+                'subclass$availableIndex': subClass.toLowerCase(),
+                'numReport$availableIndex': reportNum,
+              });
+              print(
+                  "New subclass $subClass added with report number $reportNum");
+            }
+            return;
+          }
+        }
+      }
+
+      // If class doesn't exist, add it along with the subclass and report number
+      await _firestore.collection('issues').add({
+        'class': titleClass.toLowerCase(),
+        'subclass1': subClass.toLowerCase(),
+        'numReport1': reportNum, 
+      });
+      print(
+          "New class $titleClass added with subclass $subClass and report number $reportNum");
+    } catch (e) {
+      print('An error occurred: $e');
+    }
+  }
+
+  Future<String> getDepartment(
+      {required String titleClass,
+      required String subClass,
+      required String location}) async {
+    //if user type, then assign security department -- current plan
+    // Mapping locations to departments
+    Map<String, String> locationToDepartment = {
+      "Block I1; Tioman Hall": "Accommodation Team",
+      "Block I2; Langkawi Hall": "Accommodation Team",
+      "Block I3; Redang Hall": "Accommodation Team",
+      "Block I4; Pangkor Hall": "Accommodation Team",
+      "Block I5; Kapas Hall": "Accommodation Team",
+      "Block J1; Sipadan Hall": "Accommodation Team",
+      "Block J2; Mabul Hall": "Accommodation Team",
+      "Block J3; Lankayan Hall": "Accommodation Team",
+      "Block J4; Rawa Hall": "Accommodation Team",
+      "Block J5; Gemia Hall": "Accommodation Team",
+      "Block J6; Perhentian Hall": "Accommodation Team",
+    };
+    // Check if the location matches any predefined location
+    if (locationToDepartment.containsKey(location)) {
+      return locationToDepartment[location]!;
+    }
+    if (titleClass.toLowerCase() == "electrical") {
+      if (subClass.toLowerCase() == "air conditioner") {
+        return "Air Conditioning Team";
+      } else {
+        return "Mechanical and Electrical Team";
+      }
+    } else if (titleClass.toLowerCase() == "furniture") {
+      if (subClass.toLowerCase() == "cabinet") {
+        return "Civil Team";
+      } else {
+        return "Furniture Team";
+      }
+    } else if (titleClass.toLowerCase() == "plumbing") {
+      return "Plumbing Team";
+    } else if (titleClass.toLowerCase() == "pests") {
+      if (subClass.toLowerCase == "snake") {
+        return "Security Department";
+      } else {
+        return "Cleaning Team";
+      }
+    } else if (titleClass.toLowerCase() == "outdoor") {
+      if (subClass.toLowerCase() == "road damage") {
+        return "Civil Team";
+      } else {
+        return "Landscape Team";
+      }
+    } else if (titleClass.toLowerCase() == "room damage") {
+      return "Civil Team";
+    } else {
+      return "Security Department"; //for now
+    }
+  }
 }

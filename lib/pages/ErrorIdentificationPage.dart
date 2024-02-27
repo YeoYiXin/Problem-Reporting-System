@@ -170,6 +170,12 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                           imageURL: widget.imageFile!,
                                           userTyped: false,
                                         );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Submitted(),
+                                          ),
+                                        );
                                         print(
                                             "Problem_Submission_Database over( ).....");
                                       } else {
