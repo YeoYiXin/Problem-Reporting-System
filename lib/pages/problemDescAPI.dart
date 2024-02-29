@@ -19,20 +19,20 @@ Future<String> getDescription(String imageURL) async {
       Uint8List bytes = response.bodyBytes;
 
       // Resize the image to 512x512
-      List<int> compressedBytes = await FlutterImageCompress.compressWithList(
-        bytes,
-        minHeight: 512,
-        minWidth: 512,
-        quality: 100,
-      );
+      // List<int> compressedBytes = await FlutterImageCompress.compressWithList(
+      //   bytes,
+      //   minHeight: 512,
+      //   minWidth: 512,
+      //   quality: 100,
+      // );
 
       // Convert bytes to base64
-      String base64Image = base64Encode(compressedBytes);
+      String base64Image = base64Encode(bytes);
       print('base64Image: $base64Image');
       // Call your API with the base64 encoded image
       final apiResponse = await http.post(
         Uri.parse(
-            'http://192.168.0.109:5000/get_desc'), // Change the URL accordingly
+            'http://192.168.166.114:5000/get_desc'), // Change the URL accordingly
         body: {'url': base64Image},
       );
 
