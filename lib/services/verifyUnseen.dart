@@ -4,14 +4,7 @@ import 'package:http/http.dart' as http;
 
 Future<bool> verifyUnseen(String url) async {
   try {
-<<<<<<< Updated upstream
     final response = await http.get(Uri.parse(url));
-=======
-    final response = await http.post(
-      Uri.parse('http://172.18.7.129:5000/verify_unseen'),
-      body: {'url': url},
-    );
->>>>>>> Stashed changes
 
     if (response.statusCode == 200) {
       // Convert the response body to bytes
