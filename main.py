@@ -55,7 +55,7 @@ class AIModel:
         return output_data
 
 main_model_path = 'model.tflite'
-main_class_names = ['Electrical', 'Furniture', 'NoEvent', 'Outdoor', 'Pests', 'Plumbing','Room Damage']
+main_class_names = ['Electrical', 'Furniture', 'No Event', 'Outdoor', 'Pests', 'Plumbing','Room Damage']
 
 model_dict = {
     'Electrical': {'model_path': 'Electrical.tflite', 'class_names': ['Air Conditioner', 'Fan', 'Lights']},

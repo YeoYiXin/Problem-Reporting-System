@@ -9,7 +9,7 @@ import 'submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 
 class SecondPredictionPage extends StatelessWidget {
-  final File? imageFile;
+  final File imageFile;
   final List<String> secondPredictionResult;
   final String locationInfo;
   final String roomNumber;
@@ -55,10 +55,9 @@ class SecondPredictionPage extends StatelessWidget {
                       child: Container(
                         width: 300,
                         height: 300,
-                        child: imageFile != null
-                            ? Image.file(
-                                imageFile!) // Add ! to access non-nullable File
-                            : const Text('Image not available'),
+                        child: Image.file(
+                                imageFile), // Add ! to access non-nullable File
+                           
                       ),
                     ),
                   ),
@@ -149,7 +148,7 @@ class SecondPredictionPage extends StatelessWidget {
                                 subClass: secondPredictionResult[1],
                                 description: description,
                                 location: locationInfo,
-                                imageURL: imageFile!,
+                                imageURL: imageFile,
                                 userTyped: false,
                               );
                               print(
@@ -164,7 +163,7 @@ class SecondPredictionPage extends StatelessWidget {
                                   return AlertDialog(
                                     content: DuplicationUI(
                                       problemId: isSimilarID,
-                                      imageUrl: imageFile!,
+                                      imageUrl: imageFile,
                                       roomNumber: roomNumber,
                                       firstPredictionResult:
                                           secondPredictionResult,
@@ -177,6 +176,48 @@ class SecondPredictionPage extends StatelessWidget {
                           }
                         },
                         child: Text('Yes'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          print(secondPredictionResult[0]
+                              .replaceAll('_', ' ')
+                              .toLowerCase()
+                              .toString());
+
+                          String problemId = await Problem_Submission_Database()
+                              .getProblemId();
+                          final storageRef = firebase_storage
+                              .FirebaseStorage.instance
+                              .ref()
+                              .child('submitted')
+                              .child('$problemId.jpg');
+                          await storageRef.putFile(imageFile);
+                          final String imageURL =
+                              await storageRef.getDownloadURL();
+                          print("imageURL: $imageURL");
+
+                          // Show the description dialog if th
+                          bool isLegit = await verifyUnseen(imageURL);
+
+                          if (isLegit) {
+                            final storageRef = firebase_storage
+                                .FirebaseStorage.instance
+                                .ref()
+                                .child('submitted')
+                                .child('$problemId.jpg');
+                            await storageRef.delete();
+                            _showDescriptionDialog(context);
+                          } else {
+                            final storageRef = firebase_storage
+                                .FirebaseStorage.instance
+                                .ref()
+                                .child('submitted')
+                                .child('$problemId.jpg');
+                            await storageRef.delete();
+                            Navigator.pushNamed(context, '/homepage');
+                          }
+                        },
+                        child: Text('No'),
                       ),
                     ],
                   ),

@@ -95,7 +95,7 @@ class Camera {
       // Initialize the image classification API.
 
       ImageClassificationAPI api = ImageClassificationAPI(
-        'http://192.168.166.114:5000',
+        'http://172.18.7.129:5000',
       );
 
       // ImageClassificationAPI api =

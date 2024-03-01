@@ -4,10 +4,7 @@ import 'package:http/http.dart' as http;
 
 Future<bool> verifyUnseen(String url) async {
   try {
-    final response = await http.post(
-      Uri.parse('http://172.20.10.3:5000/verify_unseen'),
-      body: {'url': url},
-    );
+    final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       // Convert the response body to bytes
@@ -17,7 +14,7 @@ Future<bool> verifyUnseen(String url) async {
       print('base64Image: $base64Image');
       // Call your API with the base64 encoded image
       final apiResponse = await http.post(
-        Uri.parse('http://192.168.166.114:5000/verify_unseen'),
+        Uri.parse('http://172.18.7.129:5000/verify_unseen'),
         body: {'url': base64Image},
       );
 
