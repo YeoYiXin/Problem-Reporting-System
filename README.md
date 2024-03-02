@@ -7,4 +7,6 @@ SEGP-PRS
   <li>Problem summarisation - make it simpler</li>
   <li>Website - database, UI</li>
   <li>Display submitted problems, problems report in progress, calendar of submitted problem etc</li>
+  <li>Presentation, Open Day material</li>
+  <li>Report</li>
 </ul>
