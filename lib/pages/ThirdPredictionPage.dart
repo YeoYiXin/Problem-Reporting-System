@@ -5,7 +5,6 @@ import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
-import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'submittedpage.dart';
 
 class ThirdPredictionPage extends StatelessWidget {
