@@ -155,21 +155,21 @@ class Problem_Submission_Database {
     try {
       //get priority of problem class
       if (problemClass == "cracks") {
-        return "high";
+        return "High";
       } else if (problemClass == "dangerous animals") {
-        return "high";
+        return "High";
       } else if (problemClass == "garbage") {
-        return "medium";
+        return "Medium";
       } else if (problemClass == "natural disaster") {
-        return "high";
+        return "High";
       } else if (problemClass == "road conditions") {
-        return "medium";
+        return "Medium";
       } else {
-        return "low";
+        return "Low";
       }
     } catch (e) {
       print('An error occurred: $e');
-      return "low";
+      return "Low";
     }
   }
 
