@@ -8,7 +8,7 @@ import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'dart:io';
 
 class ErrorIdentification extends StatefulWidget {
-  final File? imageFile;
+  final File imageFile;
   final List<String> firstPredictionResult;
   final List<String> secondPredictionResult;
   final List<String> thirdPredictionResult;
