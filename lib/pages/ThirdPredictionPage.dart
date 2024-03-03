@@ -1,13 +1,18 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+<<<<<<< Updated upstream
+=======
+import 'package:problem_reporting_system/pages/duplicationUI.dart';
+>>>>>>> Stashed changes
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
+import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'submittedpage.dart';
 
 class ThirdPredictionPage extends StatelessWidget {
-  final File? imageFile;
+  final File imageFile;
   final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
@@ -94,11 +99,15 @@ class ThirdPredictionPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
+<<<<<<< Updated upstream
                     onPressed: () {
                       print(thirdPredictionResult[0]
                           .replaceAll('_', ' ')
                           .toLowerCase()
                           .toString());
+=======
+                    onPressed: () async {
+>>>>>>> Stashed changes
                       if (thirdPredictionResult[0]
                               .replaceAll('_', ' ')
                               .toLowerCase() ==
@@ -107,6 +116,7 @@ class ThirdPredictionPage extends StatelessWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => NoEventThankYou()));
                       } else {
+<<<<<<< Updated upstream
                         print("Problem_Submission_Database third( ).....");
                         Problem_Submission_Database().recordProblemSubmission(
                           pIndoorLocation: roomNumber,
@@ -122,12 +132,60 @@ class ThirdPredictionPage extends StatelessWidget {
 
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Submitted()));
+=======
+                        String isSimilarID = await Problem_Submission_Database()
+                            .detectSimilarProblem(
+                                problemClass: thirdPredictionResult[0]
+                                    .replaceAll('_', ' '),
+                                problemSubClass: thirdPredictionResult[1],
+                                problemLocation: locationInfo);
+                        print('isSimilarID: $isSimilarID');
+
+                        if (isSimilarID.toString() == "0") {
+                          Problem_Submission_Database().recordProblemSubmission(
+                            pIndoorLocation: roomNumber,
+                            titleClass:
+                                thirdPredictionResult[0].replaceAll('_', ' '),
+                            subClass: thirdPredictionResult[1],
+                            description: '', //empty
+                            location: locationInfo,
+                            imageURL: imageFile,
+                            userTyped: false,
+                          );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Submitted()));
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: DuplicationUI(
+                                  problemId: isSimilarID,
+                                  imageUrl: imageFile,
+                                  roomNumber: roomNumber,
+                                  firstPredictionResult: thirdPredictionResult,
+                                  locationInfo: locationInfo,
+                                ),
+                              );
+                            },
+                          );
+                        }
+>>>>>>> Stashed changes
                       }
                     },
                     child: Text('Yes'),
                   ),
                   ElevatedButton(
                     onPressed: () async {
+<<<<<<< Updated upstream
+=======
+                      // _showDescriptionDialog(context);
+                      print(thirdPredictionResult[0]
+                          .replaceAll('_', ' ')
+                          .toLowerCase()
+                          .toString());
+
+>>>>>>> Stashed changes
                       String problemId =
                           await Problem_Submission_Database().getProblemId();
                       final storageRef = firebase_storage
@@ -135,8 +193,14 @@ class ThirdPredictionPage extends StatelessWidget {
                           .ref()
                           .child('submitted')
                           .child('$problemId.jpg');
+<<<<<<< Updated upstream
                       await storageRef.putFile(imageFile as File);
                       final String imageURL = await storageRef.getDownloadURL();
+=======
+                      await storageRef.putFile(imageFile);
+                      final String imageURL = await storageRef.getDownloadURL();
+                      print("imageURL: $imageURL");
+>>>>>>> Stashed changes
 
                       // Show the description dialog if th
                       bool isLegit = await verifyUnseen(imageURL);
@@ -148,7 +212,10 @@ class ThirdPredictionPage extends StatelessWidget {
                             .child('submitted')
                             .child('$problemId.jpg');
                         await storageRef.delete();
+<<<<<<< Updated upstream
                         Navigator.pushNamed(context, '/homepage');
+=======
+>>>>>>> Stashed changes
                         _showDescriptionDialog(context);
                       } else {
                         final storageRef = firebase_storage
