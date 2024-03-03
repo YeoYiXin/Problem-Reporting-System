@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
+import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'submittedpage.dart';
 
 class ThirdPredictionPage extends StatelessWidget {
-  final File? imageFile;
+  final File imageFile;
   final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
@@ -90,7 +93,8 @@ class ThirdPredictionPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
+
+                    onPressed: () async {
                       if (thirdPredictionResult[0]
                               .replaceAll('_', ' ')
                               .toLowerCase() ==
@@ -98,25 +102,86 @@ class ThirdPredictionPage extends StatelessWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => NoEventThankYou()));
                       } else {
-                        Problem_Submission_Database().recordProblemSubmission(
-                          pIndoorLocation: roomNumber,
-                          titleClass:
-                              thirdPredictionResult[0].replaceAll('_', ' '),
-                          subClass: thirdPredictionResult[1],
-                          description: '', //empty
-                          location: locationInfo,
-                          imageURL: imageFile!,
-                          userTyped: false,
-                        );
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Submitted()));
+                        String isSimilarID = await Problem_Submission_Database()
+                            .detectSimilarProblem(
+                                problemClass: thirdPredictionResult[0]
+                                    .replaceAll('_', ' '),
+                                problemSubClass: thirdPredictionResult[1],
+                                problemLocation: locationInfo);
+                        print('isSimilarID: $isSimilarID');
+
+                        if (isSimilarID.toString() == "0") {
+                          Problem_Submission_Database().recordProblemSubmission(
+                            pIndoorLocation: roomNumber,
+                            titleClass:
+                                thirdPredictionResult[0].replaceAll('_', ' '),
+                            subClass: thirdPredictionResult[1],
+                            description: '', //empty
+                            location: locationInfo,
+                            imageURL: imageFile,
+                            userTyped: false,
+                          );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Submitted()));
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: DuplicationUI(
+                                  problemId: isSimilarID,
+                                  imageUrl: imageFile,
+                                  roomNumber: roomNumber,
+                                  firstPredictionResult: thirdPredictionResult,
+                                  locationInfo: locationInfo,
+                                ),
+                              );
+                            },
+                          );
+                        }
                       }
                     },
                     child: Text('Yes'),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      _showDescriptionDialog(context);
+                    onPressed: () async {
+                      // _showDescriptionDialog(context);
+                      print(thirdPredictionResult[0]
+                          .replaceAll('_', ' ')
+                          .toLowerCase()
+                          .toString());
+
+                      String problemId =
+                          await Problem_Submission_Database().getProblemId();
+                      final storageRef = firebase_storage
+                          .FirebaseStorage.instance
+                          .ref()
+                          .child('submitted')
+                          .child('$problemId.jpg');
+                      await storageRef.putFile(imageFile);
+                      final String imageURL = await storageRef.getDownloadURL();
+                      print("imageURL: $imageURL");
+
+                      // Show the description dialog if th
+                      bool isLegit = await verifyUnseen(imageURL);
+
+                      if (isLegit) {
+                        final storageRef = firebase_storage
+                            .FirebaseStorage.instance
+                            .ref()
+                            .child('submitted')
+                            .child('$problemId.jpg');
+                        await storageRef.delete();
+                        _showDescriptionDialog(context);
+                      } else {
+                        final storageRef = firebase_storage
+                            .FirebaseStorage.instance
+                            .ref()
+                            .child('submitted')
+                            .child('$problemId.jpg');
+                        await storageRef.delete();
+                        Navigator.pushNamed(context, '/homepage');
+                      }
                     },
                     child: Text('No'),
                   ),
