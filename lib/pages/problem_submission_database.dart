@@ -24,7 +24,7 @@ class Problem_Submission_Database {
     required bool userTyped,
   }) async {
     //check if problem class is no_event - if yes, then problem not sumitted
-    if (titleClass == "no event") {
+    if (titleClass.toLowerCase() == "no event") {
       //return no problem
       print(titleClass);
       return "No Problem Submitted";
