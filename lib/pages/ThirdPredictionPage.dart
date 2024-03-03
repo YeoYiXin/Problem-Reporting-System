@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
-import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'submittedpage.dart';
 
@@ -12,8 +11,6 @@ class ThirdPredictionPage extends StatelessWidget {
   final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
-
-  final String description = ''; // don't have
 
   ThirdPredictionPage({
     required this.imageFile,
@@ -95,12 +92,12 @@ class ThirdPredictionPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
+
                     onPressed: () async {
                       if (thirdPredictionResult[0]
                               .replaceAll('_', ' ')
                               .toLowerCase() ==
                           'no event') {
-                        //return no problem is submitted
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => NoEventThankYou()));
                       } else {
@@ -223,9 +220,6 @@ class ThirdPredictionPage extends StatelessWidget {
             TextButton(
               child: Text('Submit'),
               onPressed: () {
-                print("Problem_Submission_Database third second( ).....");
-                print(
-                    description.replaceAll('_', ' ').toLowerCase().toString());
                 if (description.replaceAll('_', ' ').toLowerCase() ==
                     'no event') {
                   Navigator.of(context).push(MaterialPageRoute(
