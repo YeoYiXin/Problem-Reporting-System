@@ -95,7 +95,7 @@ class Camera {
       // Initialize the image classification API.
 
       ImageClassificationAPI api = ImageClassificationAPI(
-        'http://172.18.7.129:5000',
+        'http://192.168.166.114:5000',
       );
 
       // ImageClassificationAPI api =
@@ -111,10 +111,9 @@ class Camera {
       List<String> thirdResults =
           await api.getClassAndSubclassThird(imageFile!.path);
 
-      // Assigning first prediction results
+      // Assigning  prediction results
       firstPredictionResult = firstResults;
 
-      // Assigning first prediction results
       secondPredictionResult = secondResults;
 
       thirdPredictionResult = thirdResults;
