@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:problem_reporting_system/pages/dashboard/editProfilePage.dart';
 import 'package:problem_reporting_system/pages/dashboard/functions/getPoints.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/update.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/updatesCard.dart';
@@ -13,6 +14,9 @@ import '../CheckReports.dart';
 
 import 'package:problem_reporting_system/pages/dashboard/functions/getName.dart';
 
+import 'functions/getProfilePic.dart';
+
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -23,13 +27,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final int _selectedIndex = 0;
   Camera camera = Camera();
-
   User? currentUser;
 
   @override
   void initState() {
     super.initState();
-
     // Set the callback to trigger a rebuild when an image is selected
     camera.onImageSelected = () {
       setState(() {});
@@ -38,6 +40,7 @@ class _HomeState extends State<Home> {
     // Get the current user when the widget initializes
     currentUser = FirebaseAuth.instance.currentUser;
   }
+
 
   List<Update> updates = [
     Update(issue: 'Lamp post near F1 not working', status: 'Status:'),
@@ -101,12 +104,18 @@ class _HomeState extends State<Home> {
                             children: [
                               Container(
                                 margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                                child: const CircleAvatar(
-                                  radius: 20.0, // Adjust the radius as needed
-                                  backgroundColor: Colors.black,
-                                  child: Icon(Icons.person_2_sharp,
-                                      color: Colors.white),
-                                ),
+                                child:
+                                // _image != null ?
+                                GetProfilePic(uid: currentUser!.uid),
+                                  //    : CircleAvatar(
+                                  // backgroundColor: Colors.grey,
+                                  // radius: 20,
+                                  // child: Icon(
+                                  //   Icons.person_2_sharp,
+                                  //   color: Colors.white,
+                                  //   size: 15,
+                                  // ),
+                                // ),
                               ),
                               const SizedBox(
                                   width:
@@ -120,8 +129,6 @@ class _HomeState extends State<Home> {
                                     GetName(uid: currentUser!.uid, section: "MainName"),
                                     Row(
                                       children: [
-                                        const Icon(Icons.bar_chart,
-                                            color: Colors.green, size: 20),
                                         const Icon(Icons.star,
                                             color: Colors.yellow,
                                             size: 20), // Add the icon here
@@ -313,15 +320,17 @@ class _HomeState extends State<Home> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const CircleAvatar(
-                          backgroundColor: Colors.black,
-                          radius: 30,
-                          child: Icon(
-                            Icons.person_2_sharp,
-                            color: Colors.white,
-                          ),
-                        ),
+                      children: <Widget>[// _image != null ?
+                        GetProfilePic(uid: currentUser!.uid),
+                        //    : CircleAvatar(
+                        // backgroundColor: Colors.grey,
+                        // radius: 20,
+                        // child: Icon(
+                        //   Icons.person_2_sharp,
+                        //   color: Colors.white,
+                        //   size: 15,
+                        // ),
+                        // ),
                         GetName(uid: currentUser!.uid,section: "sidebar"),
                         GetName(uid: currentUser!.uid, section: "email"),
                       ],
@@ -362,26 +371,13 @@ class _HomeState extends State<Home> {
                         ),
                         ListTile(
                           leading: const Icon(Icons.edit, size: 30),
-                          title: const Text('Edit Profile',
+                          title: const Text('Change Profile Picture',
                               style: TextStyle(fontSize: 20)),
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Edit Profile Logic'),
-                                  content: const Text('.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return editProfilePage();
+                            }
+                            ));
                           },
                         ),
                         const Divider(),
@@ -391,7 +387,7 @@ class _HomeState extends State<Home> {
                               style: TextStyle(fontSize: 20)),
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return changePasswordPage();
+                              return const changePasswordPage();
                             }
                             ));
                           },
