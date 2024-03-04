@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
+import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 
 class ThirdPredictionPage extends StatelessWidget {
-  final File? imageFile;
+  final File imageFile;
   final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
