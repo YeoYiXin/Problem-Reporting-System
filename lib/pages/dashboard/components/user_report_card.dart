@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../History/user_report_card_items.dart';
+import '../services/user_report_card_items.dart';
 
 class UserReportCard extends StatefulWidget {
   const UserReportCard({super.key});
