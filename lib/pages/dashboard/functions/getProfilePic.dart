@@ -32,7 +32,6 @@ class GetProfilePic extends StatelessWidget {
           snapshot.data!.data() as Map<String, dynamic>;
           String profilePicURL = data['profilePicURL'].toString();
 
-          // print([profilePicURL]);
           return CircleAvatar(
             radius: 20,
             backgroundImage: NetworkImage(
