@@ -1,4 +1,3 @@
-import base64
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -7,9 +6,23 @@ import tensorflow as tf
 from openai import OpenAI
 import numpy as np
 from PIL import Image
-import requests
+# from google.cloud import secretmanager
+# import logging
+import base64
 
 from flask import Flask, request, jsonify
+
+# logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
+# def get_secret(project_id, secret_id, version_id="latest"):
+#     # Create the Secret Manager client.
+#     client = secretmanager.SecretManagerServiceClient()
+#     # Build the resource.
+#     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
+#     # Access the secret.
+#     response = client.access_secret_version(request={"name": name})
+#     # Return the decoded payload.
+#     return response.payload.data.decode('UTF-8')
 
 class AIModel:
     def __init__(self, model_path):
@@ -42,14 +55,15 @@ class AIModel:
         return output_data
 
 main_model_path = 'model.tflite'
-main_class_names = ['cracks', 'dangerous_animals', 'garbage', 'natural_disaster', 'no_event', 'road_conditions']
+main_class_names = ['Electrical', 'Furniture', 'No Event', 'Outdoor', 'Pests', 'Plumbing','Room Damage']
 
 model_dict = {
-    'garbage': {'model_path': 'garbage.tflite', 'class_names': ['garbage', 'no_garbage']},
-    'cracks': {'model_path': 'cracks.tflite', 'class_names': ['cracks', 'no_cracks']},
-    'dangerous_animals': {'model_path': 'dangerous_animals.tflite', 'class_names': ['monkey', 'snake']},
-    'natural_disaster': {'model_path': 'natural_disaster.tflite', 'class_names': ['fire', 'flood']},
-    'road_conditions': {'model_path': 'road_conditions.tflite', 'class_names': ['potholes']}
+    'Electrical': {'model_path': 'Electrical.tflite', 'class_names': ['Air Conditioner', 'Fan', 'Lights']},
+    'Furniture': {'model_path': 'Furniture.tflite', 'class_names': ['Cabinet', 'Chair', 'Table']},
+    'Outdoor': {'model_path': 'Outdoor.tflite', 'class_names': ['Exposed Trash', 'Overgrown Greenery', 'Road Damage']},
+    'Pests': {'model_path': 'Pests.tflite', 'class_names': ['Ants', 'Snake', 'Wasps']},
+    'Plumbing': {'model_path': 'Plumbing.tflite', 'class_names': ['Pipes', 'Sink', 'Toilet']},
+    'Room Damage': {'model_path': 'RoomDamage.tflite', 'class_names': ['Ceiling Damage', 'Floor Damage', 'Wall Damage']}
 }
 
 app = Flask(__name__)
@@ -115,8 +129,8 @@ def subclassify():
         if file is None or file.filename == "":
             return jsonify({"error": "no file"})
         
-        if class_name == 'no_event':
-            return jsonify({"predicted class": "no_event"})
+        if class_name == 'NoEvent':
+            return jsonify({"predicted class": "NoEvent"})
 
         try:
             model_path = model_dict[class_name]['model_path']
@@ -146,8 +160,8 @@ def secondsubclassify():
         if file is None or file.filename == "":
             return jsonify({"error": "no file"})
         
-        if class_name == 'no_event':
-            return jsonify({"predicted class": "no_event"})
+        if class_name == 'NoEvent':
+            return jsonify({"predicted class": "NoEvent"})
 
         try:
             model_path = model_dict[class_name]['model_path']
@@ -170,46 +184,28 @@ def secondsubclassify():
     return "OK"
 
 
-
 @app.route("/get_desc", methods=["GET", "POST"]) 
 #if running on localhost use this url: http://127.0.0.1:5000/get_desc
 #receives one string type with key 'img_url'
 def describe():
     if request.method == "POST":
-
         img_url = request.form.get('url')
-        # img_url = "https://upload.wikimedia.org/wikipedia/commons/2/21/Broken_sink.JPG"
-
-        # img_url = request.form.get('img_url')
         if img_url is None:
             return jsonify({"error": "no img received"})
 
         try:
-            # Download the image
-            image_data = base64.b64decode(img_url)
-            # Decode the base64 image
-            image_data = base64.b64decode(img_url)
-
-            # Open the image with PIL
-            img = Image.open(io.BytesIO(image_data))
-            
-            # Display the image using PIL
-            img.show()
-
             # OpenAI API Key 
+            # open_api_key = get_secret('nottaproblem', 'OpenAI_Key')
             open_api_key = "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"
+            
             # Initialize the OpenAI client with the API key
             client = OpenAI(api_key=open_api_key)
-            # Getting the base64 string
-            # base64_image = encode_image(img_url)
-            # print("base64_image: ", base64_image)
-            # Optimized prompt for additional clarity and 
+            # Optimized prompt for additional clarity and detail
             prompt_text = (
                     "A heavily damaged wall-mounted sink in a brick building with extensive wear and missing parts; likely necessitates complete replacement. Severity: High, due to potential water damage and unusability. Tasks: Shut off water supply, remove remnants, prepare wall for new installation, and install new sink with appropriate plumbing connections. Safety gear and cleanup crew recommended for debris removal and to ensure the area is secure for users post-repair."
                     "Take the above example as a guideline, you are a maintenance worker tasked with resolving an issue within a university campus where the problem can range from infrastructure issue to pest infestation issue or dangerous animals on the university."
-                    " Please provide a detailed summary within 70 words maximum, focusing on crucial details such as the severity, and specific aspects of the reported issue.")
-            # Optimized prompt for additional clarity and detail
-                
+                    " Please provide a detailed summary within 70 words maximum, focusing on crucial details such as the severity, and specific aspects of the reported issue."
+            ) 
             # Create the payload for the completion request
             messages = [
                     {
@@ -220,8 +216,6 @@ def describe():
                             "type": "image_url",
                             "image_url": {
                                 "url": f"data:image/jpeg;base64,{img_url}",
-                                # "url": img_url,
-                                # "url": img_url,
                                 "detail": "low",
                             },
                         }
@@ -231,10 +225,6 @@ def describe():
             # Make the request to the OpenAI API
             response = client.chat.completions.create(
                     model="gpt-4-vision-preview", messages=messages, max_tokens=300, n=1)
-            
-            # Send only the content of the first choice
-            data = {"description": response.choices[0].message.content}
-            print(data)
             # Send only the content of the first choice
             data = {"description": response.choices[0].message.content}
             return jsonify(data)
@@ -246,18 +236,23 @@ def describe():
 
 @app.route("/verify_unseen", methods=["GET", "POST"]) 
 #if running on localhost use this url: http://127.0.0.1:5000/verify_unseen
-#receives one string type with key 'img_url'
+#receives one file type with key 'img'
 def verify():
     if request.method == "POST":
-        img_url = request.form.get('img_url')
-        if img_url is None:
+        file = request.files.get('file')
+        if file is None:
             return jsonify({"error": "no img received"})
 
         try:
             # OpenAI API Key 
-            open_api_key = "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"
+            open_api_key = get_secret('nottaproblem', 'OpenAI_Key')
             # Initialize the OpenAI client with the API key
             client = OpenAI(api_key=open_api_key)
+
+            def encode_image(image_file):
+                    return base64.b64encode(image_file.read()).decode('utf-8')
+            base64_image = encode_image(file)
+
             # Optimized prompt for additional clarity and detail
             prompt_text = (
                     " If this image could be a suitable submission for a campus problem reporting system, send me back 'Yes',"
@@ -272,7 +267,7 @@ def verify():
                         {
                             "type": "image_url",
                             "image_url": {
-                                "url": img_url,
+                                "url": f"data:image/jpeg;base64,{base64_image}",
                                 "detail": "low",
                             },
                         }
@@ -293,7 +288,6 @@ def verify():
             return jsonify({"error": str(e)})
 
     return "OK"
-
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

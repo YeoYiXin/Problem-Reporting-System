@@ -6,6 +6,7 @@ import 'package:problem_reporting_system/pages/ErrorIdentificationPage.dart';
 import 'package:problem_reporting_system/pages/GeolocationService.dart';
 import 'package:problem_reporting_system/pages/ImageClassificationAPI .dart';
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
+import 'package:problem_reporting_system/pages/outside.dart';
 import 'package:problem_reporting_system/services/location.dart';
 import 'package:problem_reporting_system/services/indoorCheck.dart';
 
@@ -94,7 +95,7 @@ class Camera {
       // Initialize the image classification API.
 
       ImageClassificationAPI api = ImageClassificationAPI(
-        'http://10.163.2.8:5000',
+        'http://192.168.166.114:5000',
       );
 
       // ImageClassificationAPI api =
@@ -110,10 +111,9 @@ class Camera {
       List<String> thirdResults =
           await api.getClassAndSubclassThird(imageFile!.path);
 
-      // Assigning first prediction results
+      // Assigning  prediction results
       firstPredictionResult = firstResults;
 
-      // Assigning first prediction results
       secondPredictionResult = secondResults;
 
       thirdPredictionResult = thirdResults;
@@ -125,6 +125,12 @@ class Camera {
           ? locationService.isInsideArea(
               userLocation.latitude, userLocation.longitude)
           : 'Location information not available';
+
+      if (locationInfo == "Outside Specified Areas") {
+        print("Outside Specified Areas");
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => OutsideCampus()));
+      }
 
       // Check if the user is in one of the indoor areas
       if (locationInfo.isNotEmpty) {
