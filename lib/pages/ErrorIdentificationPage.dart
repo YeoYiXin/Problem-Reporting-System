@@ -156,7 +156,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                         imageURL: widget.imageFile!,
                                         userTyped: false,
                                         latitude: widget.latitude,
-                                              longitude: widget.longitude,
+                                        longitude: widget.longitude,
                                       );
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
@@ -176,6 +176,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                               firstPredictionResult:
                                                   widget.firstPredictionResult,
                                               locationInfo: widget.locationInfo,
+                                              latitude: widget.latitude,
+                                              longitude: widget.longitude,
                                             ),
                                           );
                                         },
@@ -212,8 +214,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.locationInfo,
                                                       roomNumber:
                                                           widget.roomNumber,
-                                                          latitude: widget.latitude,
-                                              longitude: widget.longitude,
+                                                      latitude: widget.latitude,
+                                                      longitude: widget.longitude,
                                                     ),
                                                   ));
                                                 },
@@ -234,41 +236,28 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.locationInfo,
                                                       roomNumber:
                                                           widget.roomNumber,
-                                                          latitude: widget.latitude,
-                                              longitude: widget.longitude,
+                                                      latitude: widget.latitude,
+                                                      longitude: widget.longitude,
                                                     ),
                                                   ));
                                                 },
                                               ),
-
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Text('No'),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          : Center(
-                              child: CircularProgressIndicator(),
-                            ),
-          ),
+                                            ], // <-- Closing square bracket for ListBody children
+                                          ),
                                         ),
                                       );
-                                    },
-                                  );
+                                    }, // <-- Closing parenthesis for showDialog builder
+                                  ); // <-- Closing parenthesis for showDialog method
                                 },
                                 child: Text('No'),
                               ),
-                            ],
+                            ], // <-- Closing square bracket for Row children
                           ),
-                        ],
+                        ], // <-- Closing square bracket for Column children
                       ),
                     ),
                   ),
-                ],
+                ], // <-- Closing square bracket for children of Center
               ),
             ),
           ],
