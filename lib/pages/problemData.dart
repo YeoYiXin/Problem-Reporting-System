@@ -15,6 +15,8 @@ class problemData {
   final String problemSubClass;
   final String problemTitle;
   final String uid;
+  final double latitude;
+  final double longitude;
 
   problemData({
     required this.problemClass,
@@ -31,6 +33,8 @@ class problemData {
     required this.problemSubClass,
     required this.problemTitle,
     required this.uid,
+    required this.latitude,
+    required this.longitude,
   });
 
   //return user data as map
@@ -49,5 +53,7 @@ class problemData {
         'problemSubClass': problemSubClass,
         'problemTitle': problemTitle,
         'uid': uid,
+        'latitude': latitude,
+        'longitude': longitude,
       };
 }

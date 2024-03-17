@@ -14,6 +14,8 @@ class ErrorIdentification extends StatefulWidget {
   final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
+  final double latitude;
+  final double longitude;
 
   ErrorIdentification({
     required this.imageFile,
@@ -22,6 +24,8 @@ class ErrorIdentification extends StatefulWidget {
     required this.thirdPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
+    required this.latitude,
+    required this.longitude,
   });
 
   @override
@@ -270,6 +274,151 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                           : Center(
                               child: CircularProgressIndicator(),
                             ),
+<<<<<<< Updated upstream
+=======
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  if (widget.firstPredictionResult[0]
+                                          .replaceAll('_', ' ')
+                                          .toLowerCase() ==
+                                      'no event') {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NoEventThankYou()));
+                                  } else {
+                                    String isSimilarID =
+                                        await Problem_Submission_Database()
+                                            .detectSimilarProblem(
+                                      problemClass: widget
+                                          .firstPredictionResult[0]
+                                          .replaceAll('_', ' '),
+                                      problemSubClass:
+                                          widget.firstPredictionResult[1],
+                                      problemLocation: widget.locationInfo,
+                                    );
+                                    if (isSimilarID == "0") {
+                                      Problem_Submission_Database()
+                                          .recordProblemSubmission(
+                                        pIndoorLocation: widget.roomNumber,
+                                        titleClass: widget
+                                            .firstPredictionResult[0]
+                                            .replaceAll('_', ' '),
+                                        subClass:
+                                            widget.firstPredictionResult[1],
+                                        description:
+                                            '', // No description available
+                                        location: widget.locationInfo,
+                                        imageURL: widget.imageFile!,
+                                        userTyped: false,
+                                        latitude: widget.latitude,
+                                        longitude: widget.longitude,
+                                      );
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Submitted()));
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            contentPadding:
+                                                EdgeInsets.all(10.0),
+                                            content: DuplicationUI(
+                                              problemId: isSimilarID,
+                                              imageUrl: widget.imageFile!,
+                                              roomNumber: widget.roomNumber,
+                                              firstPredictionResult:
+                                                  widget.firstPredictionResult,
+                                              locationInfo: widget.locationInfo,
+                                              latitude: widget.latitude,
+                                              longitude: widget.longitude,
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
+                                  }
+                                },
+                                child: Text('Yes'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title:
+                                            Text('Which prediction was wrong?'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: [
+                                              ListTile(
+                                                title: Text('Class'),
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SecondPredictionPage(
+                                                      imageFile:
+                                                          widget.imageFile,
+                                                      secondPredictionResult: widget
+                                                          .secondPredictionResult,
+                                                      locationInfo:
+                                                          widget.locationInfo,
+                                                      roomNumber:
+                                                          widget.roomNumber,
+                                                      latitude: widget.latitude,
+                                                      longitude:
+                                                          widget.longitude,
+                                                    ),
+                                                  ));
+                                                },
+                                              ),
+                                              ListTile(
+                                                title: Text('Subclass'),
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ThirdPredictionPage(
+                                                      imageFile:
+                                                          widget.imageFile,
+                                                      thirdPredictionResult: widget
+                                                          .thirdPredictionResult,
+                                                      locationInfo:
+                                                          widget.locationInfo,
+                                                      roomNumber:
+                                                          widget.roomNumber,
+                                                      latitude: widget.latitude,
+                                                      longitude:
+                                                          widget.longitude,
+
+                                                    ),
+                                                  ));
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text('No'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+>>>>>>> Stashed changes
                     ),
                   ),
                 ],

@@ -92,7 +92,9 @@ class IndoorCheck {
                     firstPredictionResult,
                     secondPredictionResult,
                     thirdPredictionResult,
-                    locationInfo);
+                    locationInfo,
+                    latitude,
+                    longitude);
               },
             ),
           ],
@@ -109,7 +111,9 @@ class IndoorCheck {
       List<String> firstPredictionResult,
       List<String> secondPredictionResult,
       List<String> thirdPredictionResult,
-      String locationInfo) {
+      String locationInfo,
+      double latitude,
+      double longitude) {
     // Navigate to ErrorIdentification page and pass the room number
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -120,6 +124,8 @@ class IndoorCheck {
           thirdPredictionResult: thirdPredictionResult,
           locationInfo: locationInfo,
           roomNumber: roomNumber,
+          latitude: latitude,
+          longitude: longitude,
         ),
       ),
     );
