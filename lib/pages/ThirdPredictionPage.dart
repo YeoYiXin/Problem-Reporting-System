@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
-import 'package:problem_reporting_system/services/verifyUnseen.dart';
-import 'submittedpage.dart';
+import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 
 class ThirdPredictionPage extends StatelessWidget {
@@ -55,7 +53,7 @@ class ThirdPredictionPage extends StatelessWidget {
                       width: 300,
                       height: 300,
                       child: imageFile != null
-                          ? Image.file(imageFile!)
+                          ? Image.file(imageFile)
                           : const Text('Image not available'),
                     ),
                   ),
@@ -114,44 +112,6 @@ class ThirdPredictionPage extends StatelessWidget {
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),
-                          Text(
-                            'Subclass: ${thirdPredictionResult[1]}',
-                            style: TextStyle(fontSize: 20.0),
-                 Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: thirdPredictionResult.isNotEmpty
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Class: ${thirdPredictionResult[0].replaceAll('_', ' ')}',
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                      Text(
-                                        'Subclass: ${thirdPredictionResult[1]}',
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                    ],
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'The location is $locationInfo',
-                                      style: TextStyle(fontSize: 20.0),
-                                    ),
-                                  ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Is this correct?',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
-
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -174,7 +134,7 @@ class ThirdPredictionPage extends StatelessWidget {
                                       subClass: thirdPredictionResult[1],
                                       description: '', //empty
                                       location: locationInfo,
-                                      imageURL: imageFile!,
+                                      imageURL: imageFile,
                                       userTyped: false,
                                       latitude: latitude,
                                       longitude: longitude,
@@ -245,7 +205,7 @@ class ThirdPredictionPage extends StatelessWidget {
                     subClass: "",
                     description: description, //empty
                     location: locationInfo,
-                    imageURL: imageFile!,
+                    imageURL: imageFile,
                     userTyped: true,
                     latitude: latitude,
                     longitude: longitude,
