@@ -5,6 +5,7 @@ import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
+import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'dart:io';
 
 class ErrorIdentification extends StatefulWidget {
@@ -41,17 +42,13 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blueGrey, // Example background color
-              ),
-            ),
+            appBackground(), // Use the background from SecondPredictionPage
             Center(
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         'Nott-A-Problem',
                         style: TextStyle(
@@ -66,216 +63,59 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                      child: widget.imageFile != null
-                          ? Column(
+                      child: Container(
+                        width: 300,
+                        height: 300,
+                        child: Image.file(widget.imageFile),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Card(
+                    margin: EdgeInsets.all(16.0),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'First Prediction Results',
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Center(
-                                  child: Container(
-                                    margin: EdgeInsets.all(16.0),
-                                    width: 300,
-                                    height: 300,
-                                    child: Image.file(widget.imageFile!),
-                                  ),
+                                Text(
+                                  'Class: ${widget.firstPredictionResult[0].replaceAll('_', ' ')}',
+                                  style: TextStyle(fontSize: 20.0),
                                 ),
-                                Container(
-                                  child: const Center(
-                                    child: Text(
-                                      'The image taken by you is shown above.',
-                                      style: TextStyle(
-                                        fontSize: 15.0,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
+                                Text(
+                                  'Subclass: ${widget.firstPredictionResult[1]}',
+                                  style: TextStyle(fontSize: 20.0),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(
-                                      16.0, 16.0, 16.0, 16.0),
-                                  child: Text(
-                                    'Category:',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
+                                Text(
+                                  'Location: ${widget.locationInfo}',
+                                  style: TextStyle(fontSize: 20.0),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: Text(
-                                    'We identified it as:\nClass: ${widget.firstPredictionResult[0].replaceAll('_', ' ')}\nSubclass: ${widget.firstPredictionResult[1]}',
-                                    style: const TextStyle(fontSize: 20.0),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(
-                                    'The location is ${widget.locationInfo}',
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(
-                                    'Room Number: ${widget.roomNumber}',
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(16.0),
-                                  child: Text(
-                                    'Is this correct?',
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        if (widget.firstPredictionResult[0]
-                                                .replaceAll('_', ' ')
-                                                .toLowerCase() ==
-                                            'no event') {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      NoEventThankYou()));
-                                        } else {
-                                          String isSimilarID =
-                                              await Problem_Submission_Database()
-                                                  .detectSimilarProblem(
-                                            problemClass: widget
-                                                .firstPredictionResult[0]
-                                                .replaceAll('_', ' '),
-                                            problemSubClass:
-                                                widget.firstPredictionResult[1],
-                                            problemLocation:
-                                                widget.locationInfo,
-                                          );
-                                          if (isSimilarID == "0") {
-                                            Problem_Submission_Database()
-                                                .recordProblemSubmission(
-                                              pIndoorLocation:
-                                                  widget.roomNumber,
-                                              titleClass: widget
-                                                  .firstPredictionResult[0]
-                                                  .replaceAll('_', ' '),
-                                              subClass: widget
-                                                  .firstPredictionResult[1],
-                                              description:
-                                                  '', // No description available
-                                              location: widget.locationInfo,
-                                              imageURL: widget.imageFile!,
-                                              userTyped: false,
-                                            );
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Submitted()));
-                                          } else {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  contentPadding:
-                                                      EdgeInsets.all(10.0),
-                                                  content: DuplicationUI(
-                                                    problemId: isSimilarID,
-                                                    imageUrl: widget.imageFile!,
-                                                    roomNumber:
-                                                        widget.roomNumber,
-                                                    firstPredictionResult: widget
-                                                        .firstPredictionResult,
-                                                    locationInfo:
-                                                        widget.locationInfo,
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          }
-                                        }
-                                      },
-                                      child: Text('Yes'),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                  'Which prediction was wrong?'),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: [
-                                                    ListTile(
-                                                      title: Text('Class'),
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        Navigator.of(context)
-                                                            .push(
-                                                                MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              SecondPredictionPage(
-                                                            imageFile: widget
-                                                                .imageFile,
-                                                            secondPredictionResult:
-                                                                widget
-                                                                    .secondPredictionResult,
-                                                            locationInfo: widget
-                                                                .locationInfo,
-                                                            roomNumber: widget
-                                                                .roomNumber,
-                                                          ),
-                                                        ));
-                                                      },
-                                                    ),
-                                                    ListTile(
-                                                      title: Text('Subclass'),
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        Navigator.of(context)
-                                                            .push(
-                                                                MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ThirdPredictionPage(
-                                                            imageFile: widget
-                                                                .imageFile,
-                                                            thirdPredictionResult:
-                                                                widget
-                                                                    .thirdPredictionResult,
-                                                            locationInfo: widget
-                                                                .locationInfo,
-                                                            roomNumber: widget
-                                                                .roomNumber,
-                                                          ),
-                                                        ));
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Text('No'),
-                                    ),
-                                  ],
+                                Text(
+                                  'Room Number: ${widget.roomNumber}',
+                                  style: TextStyle(fontSize: 20.0),
                                 ),
                               ],
-                            )
-                          : Center(
-                              child: CircularProgressIndicator(),
                             ),
-<<<<<<< Updated upstream
-=======
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -316,7 +156,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                         imageURL: widget.imageFile!,
                                         userTyped: false,
                                         latitude: widget.latitude,
-                                        longitude: widget.longitude,
+                                              longitude: widget.longitude,
                                       );
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
@@ -336,8 +176,6 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                               firstPredictionResult:
                                                   widget.firstPredictionResult,
                                               locationInfo: widget.locationInfo,
-                                              latitude: widget.latitude,
-                                              longitude: widget.longitude,
                                             ),
                                           );
                                         },
@@ -374,9 +212,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.locationInfo,
                                                       roomNumber:
                                                           widget.roomNumber,
-                                                      latitude: widget.latitude,
-                                                      longitude:
-                                                          widget.longitude,
+                                                          latitude: widget.latitude,
+                                              longitude: widget.longitude,
                                                     ),
                                                   ));
                                                 },
@@ -397,16 +234,27 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.locationInfo,
                                                       roomNumber:
                                                           widget.roomNumber,
-                                                      latitude: widget.latitude,
-                                                      longitude:
-                                                          widget.longitude,
-
+                                                          latitude: widget.latitude,
+                                              longitude: widget.longitude,
                                                     ),
                                                   ));
                                                 },
                                               ),
-                                            ],
-                                          ),
+
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text('No'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            ),
+          ),
                                         ),
                                       );
                                     },
@@ -418,7 +266,6 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                           ),
                         ],
                       ),
->>>>>>> Stashed changes
                     ),
                   ),
                 ],

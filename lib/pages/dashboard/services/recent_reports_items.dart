@@ -1,9 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'update.dart';
 
-class UpdateCard extends StatelessWidget {
-  final Update update;
-  UpdateCard({required this.update});
+class UpdateCardItems extends StatefulWidget {
+
+  final String reportPicURL;
+  final String title;
+  final String status;
+
+  const UpdateCardItems({super.key, required this.reportPicURL, required this.title, required this.status});
+
+  @override
+  State<UpdateCardItems> createState() => UpdateCardItemsState();
+}
+
+class UpdateCardItemsState extends State<UpdateCardItems> {
 
   @override
   Widget build(BuildContext context) {
@@ -44,39 +54,30 @@ class UpdateCard extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Expanded(
-                        flex: 1,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Image.asset(
-                            'assets/space.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      Image.network(widget.reportPicURL,
+                        width: 50,
+                        fit: BoxFit.cover,),
+                      // Expanded(
+                      //   flex: 1,
+                      //   child: ClipRRect(
+                      //     borderRadius: BorderRadius.circular(16.0),
+                      //     child: Image.asset(
+                      //       'assets/space.png',
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(width: 12.0),
                       Expanded(
                         flex: 2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            Text(
-                              update.issue,
-                              style: TextStyle(
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
+                            // GetReportTitle(problemId: problemId),
+                            Text(widget.title,style: TextStyle(fontWeight: FontWeight.bold),),
                             SizedBox(height: 8.0),
-                            Text(
-                              update.status,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            // GetReportStatus(problemId: problemId),
+                            Text('Status: ' + widget.status),
                             SizedBox(height: 8.0),
                           ],
                         ),
