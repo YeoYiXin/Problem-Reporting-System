@@ -13,6 +13,8 @@ class SecondPredictionPage extends StatelessWidget {
   final List<String> secondPredictionResult;
   final String locationInfo;
   final String roomNumber;
+  final double latitude;
+  final double longitude;
 
   final String description = ''; // dont have
 
@@ -21,6 +23,8 @@ class SecondPredictionPage extends StatelessWidget {
     required this.secondPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
+    required this.latitude,
+    required this.longitude,
   });
 
   @override
@@ -150,6 +154,8 @@ class SecondPredictionPage extends StatelessWidget {
                                 location: locationInfo,
                                 imageURL: imageFile,
                                 userTyped: false,
+                                latitude: latitude,
+                                longitude: longitude,
                               );
                               print(
                                   "Problem_Submission_Database over second( ).....");
@@ -168,6 +174,8 @@ class SecondPredictionPage extends StatelessWidget {
                                       firstPredictionResult:
                                           secondPredictionResult,
                                       locationInfo: locationInfo,
+                                      latitude: latitude,
+                                      longitude: longitude,
                                     ),
                                   );
                                 },
@@ -273,6 +281,8 @@ class SecondPredictionPage extends StatelessWidget {
                     location: locationInfo,
                     imageURL: imageFile!,
                     userTyped: true,
+                    latitude: latitude,
+                    longitude: longitude,
                   );
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => Submitted()));

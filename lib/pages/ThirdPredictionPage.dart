@@ -13,12 +13,16 @@ class ThirdPredictionPage extends StatelessWidget {
   final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
+  final double latitude;
+  final double longitude;
 
   ThirdPredictionPage({
     required this.imageFile,
     required this.thirdPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
+    required this.latitude,
+    required this.longitude,
   });
 
   @override
@@ -110,6 +114,44 @@ class ThirdPredictionPage extends StatelessWidget {
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),
+                          Text(
+                            'Subclass: ${thirdPredictionResult[1]}',
+                            style: TextStyle(fontSize: 20.0),
+                 Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: thirdPredictionResult.isNotEmpty
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Class: ${thirdPredictionResult[0].replaceAll('_', ' ')}',
+                                        style: TextStyle(fontSize: 20.0),
+                                      ),
+                                      Text(
+                                        'Subclass: ${thirdPredictionResult[1]}',
+                                        style: TextStyle(fontSize: 20.0),
+                                      ),
+                                    ],
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      'The location is $locationInfo',
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                  ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              'Is this correct?',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ),
+
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -134,6 +176,8 @@ class ThirdPredictionPage extends StatelessWidget {
                                       location: locationInfo,
                                       imageURL: imageFile!,
                                       userTyped: false,
+                                      latitude: latitude,
+                                      longitude: longitude,
                                     );
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -203,6 +247,8 @@ class ThirdPredictionPage extends StatelessWidget {
                     location: locationInfo,
                     imageURL: imageFile!,
                     userTyped: true,
+                    latitude: latitude,
+                    longitude: longitude,
                   );
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => Submitted()));

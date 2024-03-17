@@ -13,6 +13,8 @@ class DuplicationUI extends StatefulWidget {
   final String roomNumber;
   final List<String> firstPredictionResult;
   final String locationInfo;
+  final double latitude;
+  final double longitude;
 
   const DuplicationUI({
     required this.problemId,
@@ -20,6 +22,8 @@ class DuplicationUI extends StatefulWidget {
     required this.roomNumber,
     required this.firstPredictionResult,
     required this.locationInfo,
+    required this.latitude,
+    required this.longitude,
   });
 
   @override
@@ -128,6 +132,9 @@ class _DuplicationUIState extends State<DuplicationUI> {
                                 location: widget.locationInfo,
                                 imageURL: widget.imageUrl!,
                                 userTyped: false,
+                                latitude: widget.latitude,
+                                longitude: widget.longitude,
+                                
                               );
                               print(
                                   "Problem_Submission_Database over duplication ui( ).....");

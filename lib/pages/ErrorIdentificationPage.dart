@@ -15,6 +15,8 @@ class ErrorIdentification extends StatefulWidget {
   final List<String> thirdPredictionResult;
   final String locationInfo;
   final String roomNumber;
+  final double latitude;
+  final double longitude;
 
   ErrorIdentification({
     required this.imageFile,
@@ -23,6 +25,8 @@ class ErrorIdentification extends StatefulWidget {
     required this.thirdPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
+    required this.latitude,
+    required this.longitude,
   });
 
   @override
@@ -151,6 +155,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                         location: widget.locationInfo,
                                         imageURL: widget.imageFile!,
                                         userTyped: false,
+                                        latitude: widget.latitude,
+                                              longitude: widget.longitude,
                                       );
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
@@ -206,6 +212,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.locationInfo,
                                                       roomNumber:
                                                           widget.roomNumber,
+                                                          latitude: widget.latitude,
+                                              longitude: widget.longitude,
                                                     ),
                                                   ));
                                                 },
@@ -226,12 +234,27 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.locationInfo,
                                                       roomNumber:
                                                           widget.roomNumber,
+                                                          latitude: widget.latitude,
+                                              longitude: widget.longitude,
                                                     ),
                                                   ));
                                                 },
                                               ),
-                                            ],
-                                          ),
+
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text('No'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            ),
+          ),
                                         ),
                                       );
                                     },

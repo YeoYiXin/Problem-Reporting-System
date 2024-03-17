@@ -22,6 +22,8 @@ class Problem_Submission_Database {
     required String location,
     required File imageURL,
     required bool userTyped,
+    required double latitude,
+    required double longitude,
   }) async {
     //check if problem class is no_event - if yes, then problem not sumitted
     if (titleClass.toLowerCase() == "no event") {
@@ -39,7 +41,9 @@ class Problem_Submission_Database {
             location: location,
             imageURL: imageURL,
             reportNum: 1,
-            userTyped: userTyped);
+            userTyped: userTyped,
+            latitude: latitude,
+            longitude: longitude);
         return resp;
       } catch (e) {
         print('An error occurred: $e');
@@ -56,6 +60,8 @@ class Problem_Submission_Database {
     required File imageURL,
     required int reportNum,
     required bool userTyped,
+    required double latitude,
+    required double longitude,
   }) async {
     try {
       print("entered submitProblem");
@@ -63,8 +69,8 @@ class Problem_Submission_Database {
       String problemId = await getProblemId();
       String priority = await getPriority(problemClass: titleClass);
       String title = "$subClass at $location, $indoorLocation";
-      String department =
-          await getDepartment(titleClass: titleClass, subClass: subClass, location: location);
+      String department = await getDepartment(
+          titleClass: titleClass, subClass: subClass, location: location);
 
       print("Indoor Location: $indoorLocation");
       print("Problem ID: $problemId");
@@ -96,6 +102,8 @@ class Problem_Submission_Database {
         problemSubClass: subClass,
         problemTitle: title,
         uid: uid,
+        latitude: latitude,
+        longitude: longitude,
       );
 
       await _firestore
@@ -300,7 +308,7 @@ class Problem_Submission_Database {
       await _firestore.collection('issues').add({
         'class': titleClass.toLowerCase(),
         'subclass1': subClass.toLowerCase(),
-        'numReport1': reportNum, 
+        'numReport1': reportNum,
       });
       print(
           "New class $titleClass added with subclass $subClass and report number $reportNum");
