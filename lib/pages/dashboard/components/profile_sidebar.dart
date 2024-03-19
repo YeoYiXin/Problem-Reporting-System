@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../CheckReports.dart';
 import '../changePasswordPage.dart';
@@ -9,6 +10,7 @@ import '../functions/getProfilePic.dart';
 
 Widget buildProfileDrawer(BuildContext context) {
   User? currentUser = FirebaseAuth.instance.currentUser;
+  const number = '+999';
   return ClipRRect(
     borderRadius: const BorderRadius.only(
       topRight: Radius.circular(20.0),
@@ -59,26 +61,26 @@ Widget buildProfileDrawer(BuildContext context) {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text(
-                        "History",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.assignment, size: 30),
-                        title: const Text('My Reports',
-                            style: TextStyle(fontSize: 20)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CheckReports()),
-                          );
-                        },
-                      ),
-                      const Divider(),
+                      // const Text(
+                      //   "History",
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 20,
+                      //   ),
+                      // ),
+                      // ListTile(
+                      //   leading: const Icon(Icons.assignment, size: 30),
+                      //   title: const Text('My Reports',
+                      //       style: TextStyle(fontSize: 20)),
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => const CheckReports()),
+                      //     );
+                      //   },
+                      // ),
+                      // const Divider(),
                       const Text(
                         "Account Settings",
                         style: TextStyle(
@@ -186,26 +188,32 @@ Welcome to Nott-A-Problem. These terms and conditions govern your use of the App
                       ),
                       const Divider(),
                       ListTile(
-                        leading: const Icon(Icons.question_mark, size: 30),
-                        title: const Text('Help', style: TextStyle(fontSize: 20)),
+                        leading: const Icon(Icons.email, size: 30),
+                        title: const Text('Contact Us', style: TextStyle(fontSize: 20)),
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Hyperlink to email admin'),
-                                content: const Text('.'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
+                          String? encodeQueryParameters(Map<String, String> params) {
+                            return params.entries
+                                .map((MapEntry<String, String> e) =>
+                            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                .join('&');
+                          }
+                          final Uri emailUri = Uri(
+                            scheme: 'mailto',
+                            path: 'segp.grp.b@gmail.com',
+                            query: encodeQueryParameters(<String, String>{
+                              'subject': 'Example Subject & Symbols are allowed!',
+                            }),
                           );
+
+                          launchUrl(emailUri);
+                        },
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: const Icon(Icons.question_mark, size: 30),
+                        title: const Text('Help\n(Security Office)', style: TextStyle(fontSize: 20)),
+                        onTap: () {
+                          launch('tel://$number');
                         },
                       ),
                       const Divider(),
