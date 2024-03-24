@@ -25,14 +25,6 @@ class _UserReportCardState extends State<UserReportCard> {
       child: Container(
         margin: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          // gradient: LinearGradient(
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomRight,
-          //   colors: [
-          //     const Color(0xFF0041E8),
-          //     const Color(0xFFBBA7F5).withOpacity(0.7),
-          //   ],
-          // ),
           color: Colors.white.withOpacity(0.85),
           borderRadius: BorderRadius.circular(16.0),
         ),
@@ -60,10 +52,12 @@ class _UserReportCardState extends State<UserReportCard> {
                     // right: 0,
                     child: SizedBox(
                         width: MediaQuery.sizeOf(context).width / 2,
-                        child: Image.asset('assets/megaphone.png')),
+                        child: Opacity(
+                            opacity: 0.5,
+                            child: Image.asset('assets/megaphone.png'))),
                   ),
                   SizedBox(
-                    height: 150.0, // Adjust the height as needed
+                    height: 200.0, // Adjust the height as needed
                     child: FutureBuilder(
                       future: problemsRecord.where('uid', isEqualTo: uid).get(),
                       builder:(context, snapshot) {
