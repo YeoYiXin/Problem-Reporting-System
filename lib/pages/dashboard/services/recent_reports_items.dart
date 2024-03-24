@@ -29,29 +29,33 @@ class UpdateCardItemsState extends State<UpdateCardItems> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomRight,
-                colors: [Colors.redAccent, Color(0xFFF5A270)],
-              ),
+              // gradient: LinearGradient(
+              //   begin: Alignment.topCenter,
+              //   end: Alignment.bottomRight,
+              //   colors: [
+              //     const Color(0xFF0041E8).withOpacity(0.5),
+              //     const Color(0xFFBBA7F5).withOpacity(0.7),
+              //   ],
+              // ),
+              color: Colors.white.withOpacity(0.85),
             ),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Stack(
                 alignment: Alignment.centerRight,
                 children: [
-                  Positioned(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 4,
-                      child: ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                          Colors.orangeAccent.withOpacity(0.5), // Adjust the opacity as needed
-                          BlendMode.srcATop,
-                        ),
-                        child: Image.asset('assets/hazard.png'),
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   child: Container(
+                  //     width: MediaQuery.of(context).size.width / 4,
+                  //     child: ColorFiltered(
+                  //       colorFilter: ColorFilter.mode(
+                  //         Colors.orangeAccent.withOpacity(0.5), // Adjust the opacity as needed
+                  //         BlendMode.srcATop,
+                  //       ),
+                  //       child: Image.asset('assets/hazard.png'),
+                  //     ),
+                  //   ),
+                  // ),
                   Row(
                     children: [
                       Image.network(widget.reportPicURL,
@@ -74,7 +78,7 @@ class UpdateCardItemsState extends State<UpdateCardItems> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             // GetReportTitle(problemId: problemId),
-                            Text(widget.title,style: TextStyle(fontWeight: FontWeight.bold),),
+                            Text(widget.title,style: TextStyle(fontWeight: FontWeight.bold,),),
                             SizedBox(height: 8.0),
                             // GetReportStatus(problemId: problemId),
                             Text('Status: ' + widget.status),
