@@ -68,6 +68,12 @@ class _ProfileButtonState extends State<ProfileButton> {
                     ],
                   ),
                 ),
+                IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                  icon: Icon(Icons.more_vert), // Three dots icon
+                ),
               ],
             ),
           ],
