@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'package:problem_reporting_system/pages/dashboard/components/profile_button.dart';
@@ -33,50 +34,52 @@ class _HomeState extends State<Home> {
       resizeToAvoidBottomInset: false,
       endDrawer: buildProfileDrawer(context),
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          appBackground(),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Center(
-                  child: Text(
-                    "Nott-A-Problem",
-                    style: TextStyle(
-                      fontFamily: 'Lobster',
-                      fontSize: 50,
-                      color: Colors.black,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            appBackground(),
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Center(
+                    child: Text(
+                      "Nott-A-Problem",
+                      style: TextStyle(
+                        fontFamily: 'Lobster',
+                        fontSize: 50,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                    textAlign: TextAlign.left,
                   ),
-                ),
-                ProfileButton(currentUser: currentUser),
-                UserReportCard(),
-                RecentProblemsSection(),
-                // Container(
-                //   margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-                //   child: const Text(
-                //     'Recent Problems',
-                //     textAlign: TextAlign.left,
-                //     style: TextStyle(
-                //       fontSize: 20.0,
-                //       fontWeight: FontWeight.w700,
-                //     ),
-                //   ),
-                // ), //updates for fixtures and reports
-                // Expanded(
-                //   child: ListView.builder(
-                //     scrollDirection: Axis.vertical,
-                //     itemBuilder: (context, index) {
-                //       return UpdateCardItems();
-                //     },
-                //   ),
-                // ),
-              ],
+                  ProfileButton(currentUser: currentUser),
+                  UserReportCard(),
+                  RecentProblemsSection(),
+                  // Container(
+                  //   margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                  //   child: const Text(
+                  //     'Recent Problems',
+                  //     textAlign: TextAlign.left,
+                  //     style: TextStyle(
+                  //       fontSize: 20.0,
+                  //       fontWeight: FontWeight.w700,
+                  //     ),
+                  //   ),
+                  // ), //updates for fixtures and reports
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //     scrollDirection: Axis.vertical,
+                  //     itemBuilder: (context, index) {
+                  //       return UpdateCardItems();
+                  //     },
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(),
     );

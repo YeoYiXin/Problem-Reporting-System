@@ -39,8 +39,8 @@ class MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      color: Colors.blue.shade200.withOpacity(0.7), // Change color to match your theme
-      backgroundColor: Colors.transparent, // Transparent background
+      color: Colors.blue.shade200, // Change color to match your theme
+      backgroundColor: Colors.blueGrey, // Transparent background
       items: [
         CurvedNavigationBarItem(
           child: Icon(Icons.home),
@@ -55,42 +55,5 @@ class MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         _navigateToPage(index);
       },
     );
-    // return Container(
-    //   height: 70,
-    //   margin:
-    //   const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-    //   // decoration: BoxDecoration(
-    //   //   color: Colors.black,
-    //   //   borderRadius: const BorderRadius.all(Radius.circular(24)),
-    //   //   border: Border.all(color: Colors.black),
-    //   // ),
-    //   child: Padding(
-    //     padding: const EdgeInsets.symmetric(
-    //         horizontal: 15.0, vertical: 0),
-    //     child: GNav(
-    //       selectedIndex: _selectedIndex,
-    //       onTabChange: (selectedIndex) {
-    //         _navigateToPage(selectedIndex);
-    //       },
-    //       // backgroundColor: Colors.black,
-    //       color: Colors.grey.shade700,
-    //       activeColor: Colors.white,
-    //       tabBackgroundColor: Colors.grey.shade800,
-    //       gap: 8,
-    //       padding: const EdgeInsets.symmetric(
-    //           horizontal: 16, vertical: 10),
-    //       tabs: const [
-    //         GButton(
-    //           icon: Icons.house_outlined,
-    //           text: 'Home',
-    //         ),
-    //         GButton(
-    //           icon: Icons.camera_alt,
-    //           text: 'Camera',
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
