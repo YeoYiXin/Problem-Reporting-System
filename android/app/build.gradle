@@ -27,6 +27,7 @@ android {
     namespace "com.example.problem_reporting_system"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+    
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

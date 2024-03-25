@@ -60,8 +60,7 @@ class SecondPredictionPage extends StatelessWidget {
                         width: 300,
                         height: 300,
                         child: Image.file(
-                                imageFile), // Add ! to access non-nullable File
-                           
+                            imageFile), // Add ! to access non-nullable File
                       ),
                     ),
                   ),
@@ -79,8 +78,9 @@ class SecondPredictionPage extends StatelessWidget {
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              'Second Prediction Results',
+                              'Class Prediction Results',
                               style: TextStyle(
+                                decoration: TextDecoration.underline,
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                               ),
