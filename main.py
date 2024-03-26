@@ -202,9 +202,12 @@ def describe():
             client = OpenAI(api_key=open_api_key)
             # Optimized prompt for additional clarity and detail
             prompt_text = (
-                    "A heavily damaged wall-mounted sink in a brick building with extensive wear and missing parts; likely necessitates complete replacement. Severity: High, due to potential water damage and unusability. Tasks: Shut off water supply, remove remnants, prepare wall for new installation, and install new sink with appropriate plumbing connections. Safety gear and cleanup crew recommended for debris removal and to ensure the area is secure for users post-repair."
-                    "Take the above example as a guideline, you are a maintenance worker tasked with resolving an issue within a university campus where the problem can range from infrastructure issue to pest infestation issue or dangerous animals on the university."
-                    " Please provide a detailed summary within 70 words maximum, focusing on crucial details such as the severity, and specific aspects of the reported issue."
+                "Adopt the role of a maintenance manager, you are assigning a "
+                "maintenance worker tasked with resolving the issue in this image within a university campus "
+                " Please provide a simple summary within 30 words maximum, "
+                "focusing on crucial details that can effectively assist the experienced worker, such as the severity of the problem. "
+                "Do not include technical instructions, because the worker knows better. "
+                "Assume you both know the location and you do not need to mention it."
             ) 
             # Create the payload for the completion request
             messages = [

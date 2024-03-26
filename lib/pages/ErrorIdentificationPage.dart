@@ -87,8 +87,10 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                             child: Text(
                               'First Prediction Results',
                               style: TextStyle(
-                                fontSize: 20.0,
+                                decoration: TextDecoration.underline,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
+                                fontSize: 18,
                               ),
                             ),
                           ),
@@ -193,8 +195,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title:
-                                            Text('Which prediction was wrong?'),
+                                        title: Text('What did we get wrong?'),
                                         content: SingleChildScrollView(
                                           child: ListBody(
                                             children: [
@@ -215,7 +216,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                       roomNumber:
                                                           widget.roomNumber,
                                                       latitude: widget.latitude,
-                                                      longitude: widget.longitude,
+                                                      longitude:
+                                                          widget.longitude,
                                                     ),
                                                   ));
                                                 },
@@ -237,7 +239,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                       roomNumber:
                                                           widget.roomNumber,
                                                       latitude: widget.latitude,
-                                                      longitude: widget.longitude,
+                                                      longitude:
+                                                          widget.longitude,
                                                     ),
                                                   ));
                                                 },

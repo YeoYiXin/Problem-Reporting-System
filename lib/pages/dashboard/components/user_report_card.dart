@@ -17,7 +17,7 @@ class _UserReportCardState extends State<UserReportCard> {
   Widget build(BuildContext context) {
     CollectionReference problemsRecord = FirebaseFirestore.instance.collection('problemsRecord');
     return Card(
-      elevation: 15.0,
+      elevation: 0.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
@@ -25,14 +25,7 @@ class _UserReportCardState extends State<UserReportCard> {
       child: Container(
         margin: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFF8C00FF).withOpacity(0.7), // Light blue
-              const Color(0xFFFF9CE6).withOpacity(0.5), // Dark blue
-            ],
-          ),
+          color: Colors.white.withOpacity(0.85),
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Padding(
@@ -48,7 +41,7 @@ class _UserReportCardState extends State<UserReportCard> {
                   style: TextStyle(
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -59,10 +52,12 @@ class _UserReportCardState extends State<UserReportCard> {
                     // right: 0,
                     child: SizedBox(
                         width: MediaQuery.sizeOf(context).width / 2,
-                        child: Image.asset('assets/megaphone.png')),
+                        child: Opacity(
+                            opacity: 0.5,
+                            child: Image.asset('assets/megaphone.png'))),
                   ),
                   SizedBox(
-                    height: 150.0, // Adjust the height as needed
+                    height: 200.0, // Adjust the height as needed
                     child: FutureBuilder(
                       future: problemsRecord.where('uid', isEqualTo: uid).get(),
                       builder:(context, snapshot) {

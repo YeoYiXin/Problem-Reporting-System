@@ -67,50 +67,38 @@ class ThirdPredictionPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Text(
-                              'Subclass Prediction Results:',
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          Text(
+                            'Subclass Prediction Results:',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: thirdPredictionResult.isNotEmpty
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Class: ${thirdPredictionResult[0].replaceAll('_', ' ')}',
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                      Text(
-                                        'Subclass: ${thirdPredictionResult[1]}',
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                    ],
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'The location is $locationInfo',
-                                      style: TextStyle(fontSize: 20.0),
-                                    ),
+                          SizedBox(height: 8),
+                          ...(thirdPredictionResult.isNotEmpty
+                              ? [
+                                  Text(
+                                    'Class: ${thirdPredictionResult[0].replaceAll('_', ' ')}',
+                                    style: TextStyle(fontSize: 20.0),
                                   ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Is this correct?',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
+                                  Text(
+                                    'Subclass: ${thirdPredictionResult[1]}',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ]
+                              : [
+                                  Text(
+                                    'The location is $locationInfo',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ]),
+                          SizedBox(height: 16),
+                          Text(
+                            'Is this correct?',
+                            style: TextStyle(fontSize: 20.0),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -6,9 +6,9 @@ class appBackground extends StatelessWidget {
 
   Widget topWidget(double screenWidth) {
     return Transform.rotate(
-      angle: -30 * math.pi / 180,
+      angle: -90 * math.pi / 180,
       child: Container(
-        width: 1.5 * screenWidth,
+        width: 1.2 * screenWidth,
         height: 1.2 * screenWidth,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -21,7 +21,7 @@ class appBackground extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Color(0xFF66B2FF), // Light blue
-              Color(0xFF004080), // Dark blue
+              Color(0xFF967AE3), // Dark blue
             ],
           ),
         ),
@@ -31,7 +31,7 @@ class appBackground extends StatelessWidget {
 
   Widget bottomWidget(double screenWidth) {
     return Transform.rotate(
-      angle: 150 * math.pi / 180,
+      angle: 170 * math.pi / 180,
       child: Container(
         width: 1.8 * screenWidth,
         height: 1.8 * screenWidth,
