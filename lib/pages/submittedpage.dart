@@ -66,9 +66,9 @@ class _SubmittedState extends State<Submitted> {
                 },
                 child: Text('BACK TO HOME'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors
+                  foregroundColor:  Colors
                       .blue[300], // Adjust the button color as per your theme
-                  onPrimary: Colors.white,
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

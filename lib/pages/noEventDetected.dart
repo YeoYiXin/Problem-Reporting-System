@@ -60,8 +60,8 @@ class NoEventThankYou extends StatelessWidget {
                 },
                 child: Text('BACK TO HOME'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[300],
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.blue[300],
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
