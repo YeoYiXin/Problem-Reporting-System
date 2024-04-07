@@ -98,7 +98,7 @@ class Camera {
 
       ImageClassificationAPI api = ImageClassificationAPI(
           //'http://172.20.10.3:5000',
-          'http://192.168.166.114:5000');
+          'https://api-vd42zjxz4a-as.a.run.app');
 
       // ImageClassificationAPI api =
       //     ImageClassificationAPI('https://apiold-vd42zjxz4a-as.a.run.app');

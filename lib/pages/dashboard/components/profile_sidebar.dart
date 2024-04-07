@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,9 +9,14 @@ import '../editProfilePage.dart';
 import '../functions/getName.dart';
 import '../functions/getProfilePic.dart';
 
-Widget buildProfileDrawer(BuildContext context) {
-  User? currentUser = FirebaseAuth.instance.currentUser;
-  const number = '+999';
+Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dynamic>> user) {
+
+  String extractUsername(String email) {
+    String username = email.split('@')[0];
+    return username;
+  }
+
+  const number = '+601159513557';
   return ClipRRect(
     borderRadius: const BorderRadius.only(
       topRight: Radius.circular(20.0),
@@ -40,7 +46,12 @@ Widget buildProfileDrawer(BuildContext context) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[// _image != null ?
-                      GetProfilePic(uid: currentUser!.uid),
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundImage: NetworkImage(
+                            user.data()?['profilePicURL']
+                        ),
+                      ),
                       //    : CircleAvatar(
                       // backgroundColor: Colors.grey,
                       // radius: 20,
@@ -50,8 +61,16 @@ Widget buildProfileDrawer(BuildContext context) {
                       //   size: 15,
                       // ),
                       // ),
-                      GetName(uid: currentUser!.uid,section: "sidebar"),
-                      GetName(uid: currentUser!.uid, section: "email"),
+                      Text(
+                        extractUsername(user.data()?['email']),
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
+                      Text(
+                        user.data()?['email'],
+                        style: TextStyle(fontSize: 15.0, color: Colors.white),
+                      ),
+                      // GetName(uid: currentUser!.uid,section: "sidebar"),
+                      // GetName(uid: currentUser!.uid, section: "email"),
                     ],
                   ),
                 ),
@@ -61,26 +80,6 @@ Widget buildProfileDrawer(BuildContext context) {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      // const Text(
-                      //   "History",
-                      //   style: TextStyle(
-                      //     fontWeight: FontWeight.bold,
-                      //     fontSize: 20,
-                      //   ),
-                      // ),
-                      // ListTile(
-                      //   leading: const Icon(Icons.assignment, size: 30),
-                      //   title: const Text('My Reports',
-                      //       style: TextStyle(fontSize: 20)),
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => const CheckReports()),
-                      //     );
-                      //   },
-                      // ),
-                      // const Divider(),
                       const Text(
                         "Account Settings",
                         style: TextStyle(
@@ -94,7 +93,7 @@ Widget buildProfileDrawer(BuildContext context) {
                             style: TextStyle(fontSize: 20)),
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return editProfilePage();
+                            return editProfilePage(user);
                           }
                           ));
                         },
@@ -214,15 +213,6 @@ Welcome to Nott-A-Problem. These terms and conditions govern your use of the App
                         title: const Text('Help\n(Security Office)', style: TextStyle(fontSize: 20)),
                         onTap: () {
                           launch('tel://$number');
-                        },
-                      ),
-                      const Divider(),
-                      ListTile(
-                        leading: const Icon(Icons.people_alt_outlined, size: 30),
-                        title:
-                        const Text('About us', style: TextStyle(fontSize: 20)),
-                        onTap: () {
-                          // Your about us logic here
                         },
                       ),
                       const Divider(),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../services/user_report_card_items.dart';
 
 class UserReportCard extends StatefulWidget {
-  const UserReportCard({super.key});
+  const UserReportCard({Key? key});
 
   @override
   State<UserReportCard> createState() => _UserReportCardState();
@@ -51,35 +51,35 @@ class _UserReportCardState extends State<UserReportCard> {
                   Positioned(
                     // right: 0,
                     child: SizedBox(
-                        width: MediaQuery.sizeOf(context).width / 2,
+                        width: MediaQuery.of(context).size.width / 2,
                         child: Opacity(
                             opacity: 0.5,
                             child: Image.asset('assets/megaphone.png'))),
                   ),
                   SizedBox(
                     height: 200.0, // Adjust the height as needed
-                    child: FutureBuilder(
-                      future: problemsRecord.where('uid', isEqualTo: uid).get(),
-                      builder:(context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              return UserReportCardItem(
-                                title: snapshot.data!.docs[index]['problemTitle'],
-                                date: snapshot.data!.docs[index]['date']!,
-                                status: snapshot.data!.docs[index]['problemStatus']!,
-                              );
-                            },
-                          );
-                      }
-                      else if (snapshot.connectionState == ConnectionState.none) {
-                        return CircularProgressIndicator();
-                        } else {
-                        return CircularProgressIndicator();
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: problemsRecord.where('uid', isEqualTo: uid).snapshots(),
+                        builder:(context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                return UserReportCardItem(
+                                  title: snapshot.data!.docs[index]['problemTitle'],
+                                  date: snapshot.data!.docs[index]['date']!,
+                                  status: snapshot.data!.docs[index]['problemStatus']!,
+                                );
+                              },
+                            );
+                          }
+                          else if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else {
+                            return Center(child: Text('No data available'));
+                          }
                         }
-                      }
                     ),
                   ),
                 ],

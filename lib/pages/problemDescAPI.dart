@@ -32,7 +32,7 @@ Future<String> getDescription(String imageURL) async {
       // Call your API with the base64 encoded image
       final apiResponse = await http.post(
         Uri.parse(
-            'http://172.18.7.129:5000/get_desc'), // Change the URL accordingly
+            'https://api-vd42zjxz4a-as.a.run.app/get_desc'), // Change the URL accordingly
         body: {'url': base64Image},
       );
 

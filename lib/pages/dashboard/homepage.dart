@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,75 +12,69 @@ import 'components/recent_reports.dart';
 
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
-  User? currentUser;
-
-  @override
-  void initState() {
-    super.initState();
-    // Get the current user when the widget initializes
-    currentUser = FirebaseAuth.instance.currentUser;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      endDrawer: buildProfileDrawer(context),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            appBackground(),
-            SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Center(
-                    child: Text(
-                      "Nott-A-Problem",
-                      style: TextStyle(
-                        fontFamily: 'Lobster',
-                        fontSize: 50,
-                        color: Colors.black,
+      body: FutureBuilder(
+          future: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get(),
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
+              print(snapshot.data!.data());
+              return Scaffold(
+                endDrawer: buildProfileDrawer(context, snapshot.data!),
+                body: Stack(
+                  children: [
+                    appBackground(),
+                    SafeArea(
+                      child: SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const Center(
+                              child: Text(
+                                "Nott-A-Problem",
+                                style: TextStyle(
+                                  fontFamily: 'Lobster',
+                                  fontSize: 50,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            ProfileButton(user: snapshot.data!),
+                            UserReportCard(),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                              child: const Text(
+                                'Recent Problems',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            RecentProblemsSection(),
+                          ],
+                        ),
                       ),
-                      textAlign: TextAlign.left,
                     ),
-                  ),
-                  ProfileButton(currentUser: currentUser),
-                  UserReportCard(),
-                  RecentProblemsSection(),
-                  // Container(
-                  //   margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-                  //   child: const Text(
-                  //     'Recent Problems',
-                  //     textAlign: TextAlign.left,
-                  //     style: TextStyle(
-                  //       fontSize: 20.0,
-                  //       fontWeight: FontWeight.w700,
-                  //     ),
-                  //   ),
-                  // ), //updates for fixtures and reports
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     scrollDirection: Axis.vertical,
-                  //     itemBuilder: (context, index) {
-                  //       return UpdateCardItems();
-                  //     },
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                  ],
+                ),
+              );
+            }
+            return CircularProgressIndicator();
+          }
       ),
       bottomNavigationBar: MyBottomNavigationBar(),
     );
