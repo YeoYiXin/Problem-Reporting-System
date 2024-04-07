@@ -1,20 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
-import '../functions/getName.dart';
-import '../functions/getPoints.dart';
-import '../functions/getProfilePic.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ProfileButton extends StatefulWidget {
-  final currentUser;
-  const ProfileButton({super.key,required this.currentUser});
+  final DocumentSnapshot<Map<String, dynamic>> user;
+  const ProfileButton({super.key, required this.user});
 
   @override
   State<ProfileButton> createState() => _ProfileButtonState();
 }
 
 class _ProfileButtonState extends State<ProfileButton> {
+
+  String extractUsername(String email) {
+    String username = email.split('@')[0];
+    return username;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,7 +43,12 @@ class _ProfileButtonState extends State<ProfileButton> {
               children: [
                 Container(
                   margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  child: GetProfilePic(uid: widget.currentUser.uid),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(
+                      widget.user.data()?['profilePicURL']
+                    ),
+                  ),
                 ),
                 const SizedBox(
                     width: 8.0), // Adjust the spacing between icon and label
@@ -47,7 +56,10 @@ class _ProfileButtonState extends State<ProfileButton> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GetName(uid: widget.currentUser.uid, section: "MainName"),
+                    Text(
+                      extractUsername(widget.user.data()?['email']),
+                    style: TextStyle(fontSize: 20.0, color: Colors.black),
+                    ),
                       Row(
                         children: [
                           const Icon(Icons.star,
@@ -60,7 +72,10 @@ class _ProfileButtonState extends State<ProfileButton> {
                                 fontSize: 15.0, color: Colors.black),
                           ),
                           const Gap(5),
-                          GetPoints(uid: widget.currentUser.uid),
+                          Text(
+                            widget.user.data()?['points'].toString() ?? '',
+                            style: TextStyle(fontSize: 15.0, color: Colors.black),
+                          ),
                           const SizedBox(width: 8.0),
                           // Add the icon here
                         ],
