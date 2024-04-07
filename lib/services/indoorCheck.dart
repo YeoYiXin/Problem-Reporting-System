@@ -56,6 +56,7 @@ class IndoorCheck {
       List<String> firstPredictionResult,
       List<String> secondPredictionResult,
       List<String> thirdPredictionResult,
+      List<String> fourthPredictionResult,
       String locationInfo) {
     showDialog(
       context: context,
@@ -92,6 +93,7 @@ class IndoorCheck {
                     firstPredictionResult,
                     secondPredictionResult,
                     thirdPredictionResult,
+                    fourthPredictionResult,
                     locationInfo,
                     latitude,
                     longitude);
@@ -111,6 +113,7 @@ class IndoorCheck {
       List<String> firstPredictionResult,
       List<String> secondPredictionResult,
       List<String> thirdPredictionResult,
+      List<String> fourthPredictionResult,
       String locationInfo,
       double latitude,
       double longitude) {
@@ -122,6 +125,7 @@ class IndoorCheck {
           firstPredictionResult: firstPredictionResult,
           secondPredictionResult: secondPredictionResult,
           thirdPredictionResult: thirdPredictionResult,
+          fourthPredictionResult: fourthPredictionResult,
           locationInfo: locationInfo,
           roomNumber: roomNumber,
           latitude: latitude,

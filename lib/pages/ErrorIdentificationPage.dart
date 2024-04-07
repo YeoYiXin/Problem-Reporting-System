@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
 import 'package:problem_reporting_system/pages/ThirdPredictionPage.dart';
+import 'package:problem_reporting_system/pages/FourthPredictionPage.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
@@ -13,6 +14,7 @@ class ErrorIdentification extends StatefulWidget {
   final List<String> firstPredictionResult;
   final List<String> secondPredictionResult;
   final List<String> thirdPredictionResult;
+  final List<String> fourthPredictionResult;
   final String locationInfo;
   final String roomNumber;
   final double latitude;
@@ -23,6 +25,7 @@ class ErrorIdentification extends StatefulWidget {
     required this.firstPredictionResult,
     required this.secondPredictionResult,
     required this.thirdPredictionResult,
+    required this.fourthPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
     required this.latitude,
@@ -85,7 +88,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              'First Prediction Results',
+                              'First Trial',
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 color: Colors.black,
@@ -211,6 +214,8 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.imageFile,
                                                       secondPredictionResult: widget
                                                           .secondPredictionResult,
+                                                      fourthPredictionResult: widget
+                                                          .fourthPredictionResult,
                                                       locationInfo:
                                                           widget.locationInfo,
                                                       roomNumber:
@@ -234,6 +239,10 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                           widget.imageFile,
                                                       thirdPredictionResult: widget
                                                           .thirdPredictionResult,
+                                                      secondPredictionResult: widget
+                                                          .secondPredictionResult,
+                                                      fourthPredictionResult: widget
+                                                          .fourthPredictionResult,
                                                       locationInfo:
                                                           widget.locationInfo,
                                                       roomNumber:

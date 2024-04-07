@@ -6,6 +6,7 @@ import 'package:problem_reporting_system/pages/ErrorIdentificationPage.dart';
 import 'package:problem_reporting_system/pages/GeolocationService.dart';
 import 'package:problem_reporting_system/pages/ImageClassificationAPI .dart';
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
+import 'package:problem_reporting_system/pages/FourthPredictionPage.dart';
 import 'package:problem_reporting_system/pages/outside.dart';
 import 'package:problem_reporting_system/services/location.dart';
 import 'package:problem_reporting_system/services/indoorCheck.dart';
@@ -16,6 +17,7 @@ class Camera {
   List<String> firstPredictionResult = [];
   List<String> secondPredictionResult = [];
   List<String> thirdPredictionResult = [];
+  List<String> fourthPredictionResult = [];
   GeolocationService geolocationService = GeolocationService();
 
   Future<void> onTapCameraButton(BuildContext context) async {
@@ -111,12 +113,17 @@ class Camera {
       List<String> thirdResults =
           await api.getClassAndSubclassThird(imageFile!.path);
 
+      List<String> fourthResults =
+          await api.getClassAndSubclassfourth(imageFile!.path);
+
       // Assigning  prediction results
       firstPredictionResult = firstResults;
 
       secondPredictionResult = secondResults;
 
       thirdPredictionResult = thirdResults;
+
+      fourthPredictionResult = fourthResults;
 
       // Get user's location coordinates
       Position? userLocation = await geolocationService.getCurrentLocation();
@@ -145,6 +152,7 @@ class Camera {
             firstResults,
             secondResults,
             thirdResults,
+            fourthResults,
             locationInfo);
       }
     } catch (e) {

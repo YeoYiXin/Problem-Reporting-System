@@ -5,10 +5,14 @@ import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
+import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
+import 'package:problem_reporting_system/pages/FourthPredictionPage.dart';
 
 class ThirdPredictionPage extends StatelessWidget {
   final File imageFile;
   final List<String> thirdPredictionResult;
+  final List<String> secondPredictionResult;
+  final List<String> fourthPredictionResult;
   final String locationInfo;
   final String roomNumber;
   final double latitude;
@@ -17,6 +21,8 @@ class ThirdPredictionPage extends StatelessWidget {
   ThirdPredictionPage({
     required this.imageFile,
     required this.thirdPredictionResult,
+    required this.secondPredictionResult,
+    required this.fourthPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
     required this.latitude,
@@ -70,7 +76,7 @@ class ThirdPredictionPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Subclass Prediction Results:',
+                            'Third Trial:',
                             style: TextStyle(
                               decoration: TextDecoration.underline,
                               fontSize: 20.0,
@@ -136,7 +142,51 @@ class ThirdPredictionPage extends StatelessWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  _showDescriptionDialog(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('What did we get wrong?'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: [
+                                              ListTile(
+                                                title: Text('Class'),
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context)
+                                                      .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SecondPredictionPage(
+                                                      imageFile: imageFile,
+                                                      secondPredictionResult:
+                                                          secondPredictionResult,
+                                                      fourthPredictionResult:
+                                                          fourthPredictionResult,
+                                                      locationInfo:
+                                                          locationInfo,
+                                                      roomNumber: roomNumber,
+                                                      latitude: latitude,
+                                                      longitude: longitude,
+                                                    ),
+                                                  ));
+                                                },
+                                              ),
+                                              ListTile(
+                                                title: Text('Subclass'),
+                                                onTap: () {
+                                                  Navigator.of(context)
+                                                      .pop(); // Close the dialog
+                                                  _showDescriptionDialog(
+                                                      context); // Call the _showDescriptionDialog function
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
                                 child: Text('No'),
                               ),
