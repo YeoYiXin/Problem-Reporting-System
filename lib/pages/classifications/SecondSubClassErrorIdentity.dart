@@ -1,35 +1,30 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:problem_reporting_system/pages/FourthPredictionPage.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
-import 'submittedpage.dart';
+import '../submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 
-class SecondPredictionPage extends StatelessWidget {
+class SecondSubClassErrorIdentity extends StatelessWidget {
   final File imageFile;
-  final List<String> secondPredictionResult;
   final List<String> fourthPredictionResult;
   final String locationInfo;
   final String roomNumber;
   final double latitude;
   final double longitude;
-  final String imageURL;
 
   final String description = ''; // dont have
 
-  SecondPredictionPage({
+  SecondSubClassErrorIdentity({
     required this.imageFile,
-    required this.secondPredictionResult,
     required this.fourthPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
     required this.latitude,
     required this.longitude,
-    required this.imageURL,
   });
 
   @override
@@ -83,7 +78,7 @@ class SecondPredictionPage extends StatelessWidget {
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              'Second Trial',
+                              'Fourth Trial',
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 20.0,
@@ -94,17 +89,17 @@ class SecondPredictionPage extends StatelessWidget {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: secondPredictionResult.isNotEmpty
+                            child: fourthPredictionResult.isNotEmpty
                                 ? Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Class: ${secondPredictionResult[0].replaceAll('_', ' ')}',
+                                        'Class: ${fourthPredictionResult[0].replaceAll('_', ' ')}',
                                         style: TextStyle(fontSize: 20.0),
                                       ),
                                       Text(
-                                        'Subclass: ${secondPredictionResult[1]}',
+                                        'Subclass: ${fourthPredictionResult[1]}',
                                         style: TextStyle(fontSize: 20.0),
                                       ),
                                     ],
@@ -126,11 +121,11 @@ class SecondPredictionPage extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          print(secondPredictionResult[0]
+                          print(fourthPredictionResult[0]
                               .replaceAll('_', ' ')
                               .toLowerCase()
                               .toString());
-                          if (secondPredictionResult[0]
+                          if (fourthPredictionResult[0]
                                   .replaceAll('_', ' ')
                                   .toLowerCase() ==
                               'no event') {
@@ -140,10 +135,10 @@ class SecondPredictionPage extends StatelessWidget {
                             String isSimilarID =
                                 await Problem_Submission_Database()
                                     .detectSimilarProblem(
-                                        problemClass: secondPredictionResult[0]
+                                        problemClass: fourthPredictionResult[0]
                                             .replaceAll('_', ' '),
                                         problemSubClass:
-                                            secondPredictionResult[1],
+                                            fourthPredictionResult[1],
                                         problemLocation: locationInfo);
                             print("isSimilarID: $isSimilarID");
                             if (isSimilarID.toString() == "0") {
@@ -152,9 +147,9 @@ class SecondPredictionPage extends StatelessWidget {
                               Problem_Submission_Database()
                                   .recordProblemSubmission(
                                 pIndoorLocation: roomNumber,
-                                titleClass: secondPredictionResult[0]
+                                titleClass: fourthPredictionResult[0]
                                     .replaceAll('_', ' '),
-                                subClass: secondPredictionResult[1],
+                                subClass: fourthPredictionResult[1],
                                 description: description,
                                 location: locationInfo,
                                 imageURL: imageFile,
@@ -177,7 +172,7 @@ class SecondPredictionPage extends StatelessWidget {
                                       imageUrl: imageFile,
                                       roomNumber: roomNumber,
                                       firstPredictionResult:
-                                          secondPredictionResult,
+                                          fourthPredictionResult,
                                       locationInfo: locationInfo,
                                       latitude: latitude,
                                       longitude: longitude,
@@ -191,76 +186,63 @@ class SecondPredictionPage extends StatelessWidget {
                         child: Text('Yes'),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('What did we get wrong?'),
-                                content: SingleChildScrollView(
-                                  child: ListBody(
-                                    children: [
-                                      ListTile(
-                                        title: Text('Class'),
-                                        onTap: () async {
-                                          // Verify the unseen image
-                                          bool isLegit =
-                                              await verifyUnseen(imageURL);
+                        onPressed: () async {
+                          print(fourthPredictionResult[0]
+                              .replaceAll('_', ' ')
+                              .toLowerCase()
+                              .toString());
 
-                                          if (isLegit) {
-                                            // If the image is legitimate, proceed to _showDescriptionDialog
-                                            _showDescriptionDialog(context);
-                                          } else {
-                                            // If the image is not legitimate, show a pop-up and navigate to the homepage
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title: Text(
-                                                      "No problem identified"),
-                                                  content: Text(
-                                                      "If there is a problem, kindly retake the picture."),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pushNamed(
-                                                            context,
-                                                            '/homepage');
-                                                      },
-                                                      child: Text('Homepage'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          }
-                                        },
-                                      ),
-                                      ListTile(
-                                        title: Text('Subclass'),
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                FourthPredictionPage(
-                                              imageFile: imageFile,
-                                              fourthPredictionResult:
-                                                  fourthPredictionResult,
-                                              locationInfo: locationInfo,
-                                              roomNumber: roomNumber,
-                                              latitude: latitude,
-                                              longitude: longitude,
-                                            ),
-                                          ));
-                                        },
-                                      ),
-                                    ], // <-- Closing square bracket for ListBody children
-                                  ),
-                                ),
-                              );
-                            }, // <-- Closing parenthesis for showDialog builder
-                          ); // <-- Closing parenthesis for showDialog method
+                          String problemId = await Problem_Submission_Database()
+                              .getProblemId();
+                          final storageRef = firebase_storage
+                              .FirebaseStorage.instance
+                              .ref()
+                              .child('submitted')
+                              .child('$problemId.jpg');
+                          await storageRef.putFile(imageFile);
+                          final String imageURL =
+                              await storageRef.getDownloadURL();
+                          print("imageURL: $imageURL");
+
+                          // Show the description dialog if th
+                          bool isLegit = await verifyUnseen(imageURL);
+
+                          if (isLegit) {
+                            final storageRef = firebase_storage
+                                .FirebaseStorage.instance
+                                .ref()
+                                .child('submitted')
+                                .child('$problemId.jpg');
+                            await storageRef.delete();
+                            _showDescriptionDialog(context);
+                          } else {
+                            final storageRef = firebase_storage
+                                .FirebaseStorage.instance
+                                .ref()
+                                .child('submitted')
+                                .child('$problemId.jpg');
+                            await storageRef.delete();
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("No problem identified"),
+                                  content: Text(
+                                      "If there is a problem, kindly retake the picture."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/homepage');
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         },
                         child: Text('No'),
                       ),

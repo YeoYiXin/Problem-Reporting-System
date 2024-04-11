@@ -1,15 +1,17 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:problem_reporting_system/pages/classifications/SecondSubClassErrorIdentity.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
-import 'submittedpage.dart';
+import '../submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 
-class SecondSubClassErrorIdentity extends StatelessWidget {
+class ClassErrorIdentity extends StatelessWidget {
   final File imageFile;
+  final List<String> secondPredictionResult;
   final List<String> fourthPredictionResult;
   final String locationInfo;
   final String roomNumber;
@@ -18,8 +20,9 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
 
   final String description = ''; // dont have
 
-  SecondSubClassErrorIdentity({
+  ClassErrorIdentity({
     required this.imageFile,
+    required this.secondPredictionResult,
     required this.fourthPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
@@ -78,7 +81,7 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              'Fourth Trial',
+                              'Second Trial',
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 20.0,
@@ -89,17 +92,17 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: fourthPredictionResult.isNotEmpty
+                            child: secondPredictionResult.isNotEmpty
                                 ? Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Class: ${fourthPredictionResult[0].replaceAll('_', ' ')}',
+                                        'Class: ${secondPredictionResult[0].replaceAll('_', ' ')}',
                                         style: TextStyle(fontSize: 20.0),
                                       ),
                                       Text(
-                                        'Subclass: ${fourthPredictionResult[1]}',
+                                        'Subclass: ${secondPredictionResult[1]}',
                                         style: TextStyle(fontSize: 20.0),
                                       ),
                                     ],
@@ -121,11 +124,11 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          print(fourthPredictionResult[0]
+                          print(secondPredictionResult[0]
                               .replaceAll('_', ' ')
                               .toLowerCase()
                               .toString());
-                          if (fourthPredictionResult[0]
+                          if (secondPredictionResult[0]
                                   .replaceAll('_', ' ')
                                   .toLowerCase() ==
                               'no event') {
@@ -135,10 +138,10 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                             String isSimilarID =
                                 await Problem_Submission_Database()
                                     .detectSimilarProblem(
-                                        problemClass: fourthPredictionResult[0]
+                                        problemClass: secondPredictionResult[0]
                                             .replaceAll('_', ' '),
                                         problemSubClass:
-                                            fourthPredictionResult[1],
+                                            secondPredictionResult[1],
                                         problemLocation: locationInfo);
                             print("isSimilarID: $isSimilarID");
                             if (isSimilarID.toString() == "0") {
@@ -147,9 +150,9 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                               Problem_Submission_Database()
                                   .recordProblemSubmission(
                                 pIndoorLocation: roomNumber,
-                                titleClass: fourthPredictionResult[0]
+                                titleClass: secondPredictionResult[0]
                                     .replaceAll('_', ' '),
-                                subClass: fourthPredictionResult[1],
+                                subClass: secondPredictionResult[1],
                                 description: description,
                                 location: locationInfo,
                                 imageURL: imageFile,
@@ -172,7 +175,7 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                                       imageUrl: imageFile,
                                       roomNumber: roomNumber,
                                       firstPredictionResult:
-                                          fourthPredictionResult,
+                                          secondPredictionResult,
                                       locationInfo: locationInfo,
                                       latitude: latitude,
                                       longitude: longitude,
@@ -187,11 +190,7 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          print(fourthPredictionResult[0]
-                              .replaceAll('_', ' ')
-                              .toLowerCase()
-                              .toString());
-
+                          // Upload the image to Firebase Storage
                           String problemId = await Problem_Submission_Database()
                               .getProblemId();
                           final storageRef = firebase_storage
@@ -204,45 +203,80 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                               await storageRef.getDownloadURL();
                           print("imageURL: $imageURL");
 
-                          // Show the description dialog if th
-                          bool isLegit = await verifyUnseen(imageURL);
+                          // ignore: use_build_context_synchronously
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('What did we get wrong?'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: [
+                                      ListTile(
+                                        title: Text('Class'),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                ClassErrorIdentity(
+                                              imageFile: imageFile,
+                                              secondPredictionResult:
+                                                  secondPredictionResult,
+                                              fourthPredictionResult:
+                                                  fourthPredictionResult,
+                                              locationInfo: locationInfo,
+                                              roomNumber: roomNumber,
+                                              latitude: latitude,
+                                              longitude: longitude,
+                                            ),
+                                          ));
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Subclass'),
+                                        onTap: () async {
+                                          // Verify the unseen image
+                                          bool isLegit =
+                                              await verifyUnseen(imageURL);
 
-                          if (isLegit) {
-                            final storageRef = firebase_storage
-                                .FirebaseStorage.instance
-                                .ref()
-                                .child('submitted')
-                                .child('$problemId.jpg');
-                            await storageRef.delete();
-                            _showDescriptionDialog(context);
-                          } else {
-                            final storageRef = firebase_storage
-                                .FirebaseStorage.instance
-                                .ref()
-                                .child('submitted')
-                                .child('$problemId.jpg');
-                            await storageRef.delete();
-
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("No problem identified"),
-                                  content: Text(
-                                      "If there is a problem, kindly retake the picture."),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/homepage');
-                                      },
-                                      child: Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
+                                          if (isLegit) {
+                                            // If the image is legitimate, proceed to _showDescriptionDialog
+                                            _showDescriptionDialog(context);
+                                          } else {
+                                            // If the image is not legitimate, show a pop-up and navigate to the homepage
+                                            // ignore: use_build_context_synchronously
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                      "No problem identified"),
+                                                  content: Text(
+                                                    "If there is a problem, kindly retake the picture.",
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/homepage');
+                                                      },
+                                                      child: Text('Homepage'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Text('No'),
                       ),

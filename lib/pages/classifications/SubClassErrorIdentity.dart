@@ -8,8 +8,8 @@ import 'package:problem_reporting_system/pages/problem_submission_database.dart'
 import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
-import 'package:problem_reporting_system/pages/ClassErrorIdentity.dart';
-import 'package:problem_reporting_system/pages/SecondSubClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/classifications/ClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/classifications/SecondSubClassErrorIdentity.dart';
 
 class SubClassErrorIdentity extends StatelessWidget {
   final File imageFile;

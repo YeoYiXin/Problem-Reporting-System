@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:problem_reporting_system/pages/ClassErrorIdentity.dart';
-import 'package:problem_reporting_system/pages/SubClassErrorIdentity.dart';
-import 'package:problem_reporting_system/pages/SecondSubClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/classifications/ClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/classifications/SubClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/classifications/SecondSubClassErrorIdentity.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
