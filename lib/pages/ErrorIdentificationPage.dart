@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
-import 'package:problem_reporting_system/pages/ThirdPredictionPage.dart';
-import 'package:problem_reporting_system/pages/FourthPredictionPage.dart';
+import 'package:problem_reporting_system/pages/ClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/SubClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/SecondSubClassErrorIdentity.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
@@ -19,7 +19,6 @@ class ErrorIdentification extends StatefulWidget {
   final String roomNumber;
   final double latitude;
   final double longitude;
-  final String imageURL;
 
   ErrorIdentification({
     required this.imageFile,
@@ -31,7 +30,6 @@ class ErrorIdentification extends StatefulWidget {
     required this.roomNumber,
     required this.latitude,
     required this.longitude,
-    required this.imageURL,
   });
 
   @override
@@ -211,7 +209,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                   Navigator.of(context)
                                                       .push(MaterialPageRoute(
                                                     builder: (context) =>
-                                                        SecondPredictionPage(
+                                                        ClassErrorIdentity(
                                                       imageFile:
                                                           widget.imageFile,
                                                       secondPredictionResult: widget
@@ -225,7 +223,6 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                       latitude: widget.latitude,
                                                       longitude:
                                                           widget.longitude,
-                                                      imageURL: widget.imageURL,
                                                     ),
                                                   ));
                                                 },
@@ -237,7 +234,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                   Navigator.of(context)
                                                       .push(MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ThirdPredictionPage(
+                                                        SubClassErrorIdentity(
                                                       imageFile:
                                                           widget.imageFile,
                                                       thirdPredictionResult: widget
@@ -253,7 +250,6 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                       latitude: widget.latitude,
                                                       longitude:
                                                           widget.longitude,
-                                                      imageURL: widget.imageURL,
                                                     ),
                                                   ));
                                                 },

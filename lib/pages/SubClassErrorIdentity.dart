@@ -1,15 +1,17 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart'
+    as firebase_storage; // Add this line
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
-import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
-import 'package:problem_reporting_system/pages/FourthPredictionPage.dart';
+import 'package:problem_reporting_system/pages/ClassErrorIdentity.dart';
+import 'package:problem_reporting_system/pages/SecondSubClassErrorIdentity.dart';
 
-class ThirdPredictionPage extends StatelessWidget {
+class SubClassErrorIdentity extends StatelessWidget {
   final File imageFile;
   final List<String> thirdPredictionResult;
   final List<String> secondPredictionResult;
@@ -18,9 +20,8 @@ class ThirdPredictionPage extends StatelessWidget {
   final String roomNumber;
   final double latitude;
   final double longitude;
-  final String imageURL;
 
-  ThirdPredictionPage({
+  SubClassErrorIdentity({
     required this.imageFile,
     required this.thirdPredictionResult,
     required this.secondPredictionResult,
@@ -29,7 +30,6 @@ class ThirdPredictionPage extends StatelessWidget {
     required this.roomNumber,
     required this.latitude,
     required this.longitude,
-    required this.imageURL,
   });
 
   @override
@@ -144,7 +144,20 @@ class ThirdPredictionPage extends StatelessWidget {
                                 child: Text('Yes'),
                               ),
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  // Upload the image to Firebase Storage
+                                  String problemId =
+                                      await Problem_Submission_Database()
+                                          .getProblemId();
+                                  final storageRef = firebase_storage
+                                      .FirebaseStorage.instance
+                                      .ref()
+                                      .child('submitted')
+                                      .child('$problemId.jpg');
+                                  await storageRef.putFile(imageFile);
+                                  final String imageURL =
+                                      await storageRef.getDownloadURL();
+                                  print("imageURL: $imageURL");
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -160,7 +173,7 @@ class ThirdPredictionPage extends StatelessWidget {
                                                   Navigator.of(context)
                                                       .push(MaterialPageRoute(
                                                     builder: (context) =>
-                                                        SecondPredictionPage(
+                                                        ClassErrorIdentity(
                                                       imageFile: imageFile,
                                                       secondPredictionResult:
                                                           secondPredictionResult,
@@ -171,7 +184,6 @@ class ThirdPredictionPage extends StatelessWidget {
                                                       roomNumber: roomNumber,
                                                       latitude: latitude,
                                                       longitude: longitude,
-                                                      imageURL: imageURL,
                                                     ),
                                                   ));
                                                 },
