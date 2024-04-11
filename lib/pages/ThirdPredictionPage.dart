@@ -5,6 +5,7 @@ import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
+import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/SecondPredictionPage.dart';
 import 'package:problem_reporting_system/pages/FourthPredictionPage.dart';
 
@@ -17,6 +18,7 @@ class ThirdPredictionPage extends StatelessWidget {
   final String roomNumber;
   final double latitude;
   final double longitude;
+  final String imageURL;
 
   ThirdPredictionPage({
     required this.imageFile,
@@ -27,6 +29,7 @@ class ThirdPredictionPage extends StatelessWidget {
     required this.roomNumber,
     required this.latitude,
     required this.longitude,
+    required this.imageURL,
   });
 
   @override
@@ -168,17 +171,49 @@ class ThirdPredictionPage extends StatelessWidget {
                                                       roomNumber: roomNumber,
                                                       latitude: latitude,
                                                       longitude: longitude,
+                                                      imageURL: imageURL,
                                                     ),
                                                   ));
                                                 },
                                               ),
                                               ListTile(
                                                 title: Text('Subclass'),
-                                                onTap: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // Close the dialog
-                                                  _showDescriptionDialog(
-                                                      context); // Call the _showDescriptionDialog function
+                                                onTap: () async {
+                                                  // Verify the unseen image
+                                                  bool isLegit =
+                                                      await verifyUnseen(
+                                                          imageURL);
+
+                                                  if (isLegit) {
+                                                    // If the image is legitimate, proceed to _showDescriptionDialog
+                                                    _showDescriptionDialog(
+                                                        context);
+                                                  } else {
+                                                    // If the image is not legitimate, show a pop-up and navigate to the homepage
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              "No problem identified"),
+                                                          content: Text(
+                                                              "If there is a problem, kindly retake the picture."),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pushNamed(
+                                                                    context,
+                                                                    '/homepage');
+                                                              },
+                                                              child: Text(
+                                                                  'Homepage'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  }
                                                 },
                                               ),
                                             ],

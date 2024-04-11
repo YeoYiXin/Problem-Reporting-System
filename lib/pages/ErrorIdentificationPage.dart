@@ -19,6 +19,7 @@ class ErrorIdentification extends StatefulWidget {
   final String roomNumber;
   final double latitude;
   final double longitude;
+  final String imageURL;
 
   ErrorIdentification({
     required this.imageFile,
@@ -30,6 +31,7 @@ class ErrorIdentification extends StatefulWidget {
     required this.roomNumber,
     required this.latitude,
     required this.longitude,
+    required this.imageURL,
   });
 
   @override
@@ -223,6 +225,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                       latitude: widget.latitude,
                                                       longitude:
                                                           widget.longitude,
+                                                      imageURL: widget.imageURL,
                                                     ),
                                                   ));
                                                 },
@@ -250,6 +253,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                       latitude: widget.latitude,
                                                       longitude:
                                                           widget.longitude,
+                                                      imageURL: widget.imageURL,
                                                     ),
                                                   ));
                                                 },

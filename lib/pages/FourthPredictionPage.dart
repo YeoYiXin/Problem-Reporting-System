@@ -222,7 +222,26 @@ class FourthPredictionPage extends StatelessWidget {
                                 .child('submitted')
                                 .child('$problemId.jpg');
                             await storageRef.delete();
-                            Navigator.pushNamed(context, '/homepage');
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("No problem identified"),
+                                  content: Text(
+                                      "If there is a problem, kindly retake the picture."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/homepage');
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
                         },
                         child: Text('No'),

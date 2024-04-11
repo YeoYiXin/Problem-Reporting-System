@@ -17,6 +17,7 @@ class SecondPredictionPage extends StatelessWidget {
   final String roomNumber;
   final double latitude;
   final double longitude;
+  final String imageURL;
 
   final String description = ''; // dont have
 
@@ -28,6 +29,7 @@ class SecondPredictionPage extends StatelessWidget {
     required this.roomNumber,
     required this.latitude,
     required this.longitude,
+    required this.imageURL,
   });
 
   @override
@@ -200,11 +202,38 @@ class SecondPredictionPage extends StatelessWidget {
                                     children: [
                                       ListTile(
                                         title: Text('Class'),
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .pop(); // Close the dialog
-                                          _showDescriptionDialog(
-                                              context); // Call the _showDescriptionDialog function
+                                        onTap: () async {
+                                          // Verify the unseen image
+                                          bool isLegit =
+                                              await verifyUnseen(imageURL);
+
+                                          if (isLegit) {
+                                            // If the image is legitimate, proceed to _showDescriptionDialog
+                                            _showDescriptionDialog(context);
+                                          } else {
+                                            // If the image is not legitimate, show a pop-up and navigate to the homepage
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                      "No problem identified"),
+                                                  content: Text(
+                                                      "If there is a problem, kindly retake the picture."),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            '/homepage');
+                                                      },
+                                                      child: Text('Homepage'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          }
                                         },
                                       ),
                                       ListTile(
