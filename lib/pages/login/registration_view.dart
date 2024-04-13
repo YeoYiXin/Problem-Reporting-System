@@ -42,7 +42,7 @@ class _RegistrationState extends State<Registration> {
     //year
     //then navigate to get ready page
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: Form(
             key: formkey,
             child: Stack(

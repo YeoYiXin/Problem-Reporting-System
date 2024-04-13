@@ -9,7 +9,6 @@ import 'package:problem_reporting_system/pages/login/login_background.dart';
 import 'package:problem_reporting_system/pages/login/resources/auth_methods.dart';
 import 'package:problem_reporting_system/pages/dashboard/changePasswordPage.dart';
 
-
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -27,12 +26,42 @@ class _LoginState extends State<Login> {
 
   // sign user in method
   void signUserIn() async {
+    if (!formkey.currentState!.validate()) {
+      return;
+    }
+
+    // Validate email format
+    if (!EmailValidator(errorText: "Not a valid email").isValid(email)) {
+      // Show error message for invalid email format
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Invalid email format")),
+      );
+      return; // Exit sign in process
+    }
+
+    // Check if email domain is allowed
+    if (!email.endsWith("@nottingham.edu.my")) {
+      // Show error message for invalid domain
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Email must end with @nottingham.edu.my")),
+      );
+      return; // Exit sign in process
+    }
+
+    // Validate password fields
+    if (password.isEmpty) {
+      // Show error message for empty password fields
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill in the password fields")),
+      );
+      return; // Exit sign in process
+    }
+
     String resp = await Auth_Methods().signIn(
       context: context,
       email: email,
       password: password,
     );
-    print(resp);
   }
 
   //email validator
@@ -48,9 +77,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Form(
           key: formkey,
           child: Stack(
@@ -58,7 +86,7 @@ class _LoginState extends State<Login> {
               const Login_Background(),
               SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 200),
+                  padding: const EdgeInsets.only(top: 150),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -79,23 +107,6 @@ class _LoginState extends State<Login> {
                         ],
                       ),
                       const Gap(20),
-                      // const Row(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     Padding(
-                      //       padding: EdgeInsets.only(left: 20),
-                      //       child: Text(
-                      //         "Welcome Back!",
-                      //         style: TextStyle(
-                      //           fontSize: 30,
-                      //           fontWeight: FontWeight.bold,
-                      //           color: Colors.black87,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const Gap(20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -189,16 +200,20 @@ class _LoginState extends State<Login> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       GestureDetector(
-                                        onTap: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
                                             return changePasswordPage();
                                           }));
                                         },
-                                        child: Text('Forgot Password?',
+                                        child: Text(
+                                          'Forgot Password?',
                                           style: const TextStyle(
                                             color: Colors.blue,
                                             fontWeight: FontWeight.bold,
-                                          ),),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
