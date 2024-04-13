@@ -1,4 +1,3 @@
-
 //registration form
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -37,11 +36,51 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     return null; // Return null if the email is valid
   }
 
-  void registerUser1(BuildContext context) async {
+  void registerUser(BuildContext context) async {
+    // Validate email format
+    if (!EmailValidator(errorText: "Not a valid email")
+        .isValid(_emailcontroller.text)) {
+      // Show error message for invalid email format
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Invalid email format")),
+      );
+      return; // Exit registration process
+    }
+
+    // Check if email domain is allowed
+    if (!_emailcontroller.text.endsWith("@nottingham.edu.my")) {
+      // Show error message for invalid domain
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Email must end with @nottingham.edu.my")),
+      );
+      return; // Exit registration process
+    }
+
+    // Validate password fields
+    if (_passwordcontroller.text.isEmpty ||
+        _confirmPasswordcontroller.text.isEmpty) {
+      // Show error message for empty password fields
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill in all password fields")),
+      );
+      return; // Exit registration process
+    }
+
+    // Validate if passwords match
+    if (_passwordcontroller.text != _confirmPasswordcontroller.text) {
+      // Show error message for mismatched passwords
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Passwords do not match")),
+      );
+      return; // Exit registration process
+    }
+
+    // Proceed with user registration
     String resp = await Auth_Methods().createUser(
-        context: context,
-        email: _emailcontroller.text,
-        password: _passwordcontroller.text);
+      context: context,
+      email: _emailcontroller.text,
+      password: _passwordcontroller.text,
+    );
   }
 
   @override
@@ -55,147 +94,151 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: MediaQuery.of(context).padding,
         child: Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          // const Gap(30),
-          Column(
+          padding: const EdgeInsets.all(20),
+          child: Column(
             children: [
-              const InputLabel(label: "University Email"),
-              const Gap(10),
-              TextFormField(
-                controller: _emailcontroller,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  hintText: "hfyze@nottingham.edu.my",
-                  fillColor: Colors.white,
-                  filled: true,
-                ),
-                validator: (value) => validateEmail(value!),
-                onChanged: (val) {
-                  _emailcontroller.text = val;
-                },
-              ),
-              const Gap(20),
-              const InputLabel(label: "Password"),
-              const Gap(10),
-              TextFormField(
-                controller: _passwordcontroller,
-                obscureText: !passwordVisible,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  hintText: "Password",
-                  fillColor: Colors.white,
-                  filled: true,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      // Based on passwordVisible state choose the icon
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: Colors.black,
+              // const Gap(30),
+              Column(
+                children: [
+                  const InputLabel(label: "University Email"),
+                  const Gap(10),
+                  TextFormField(
+                    controller: _emailcontroller,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      hintText: "hfyze@nottingham.edu.my",
+                      fillColor: Colors.white,
+                      filled: true,
                     ),
-                    onPressed: () {
-                      // Update the state i.e. toogle the state of passwordVisible variable
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
+                    validator: (value) => validateEmail(value!),
+                    onChanged: (val) {
+                      _emailcontroller.text = val;
                     },
                   ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your password";
-                  }
-                  return null;
-                },
-                onChanged: (val) {
-                  _passwordcontroller.text = val;
-                },
-              ),
-              const Gap(20),
-              const InputLabel(label: "Confirm Password"),
-              const Gap(10),
-              TextFormField(
-                controller: _confirmPasswordcontroller,
-                obscureText: !passwordVisible,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  hintText: "Confirm Password",
-                  fillColor: Colors.white,
-                  filled: true,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      // Based on passwordVisible state choose the icon
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: Colors.black,
+                  const Gap(20),
+                  const InputLabel(label: "Password"),
+                  const Gap(10),
+                  TextFormField(
+                    controller: _passwordcontroller,
+                    obscureText: !passwordVisible,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      hintText: "Password",
+                      fillColor: Colors.white,
+                      filled: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      // Update the state i.e. toogle the state of passwordVisible variable
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter your password";
+                      }
+                      return null;
+                    },
+                    onChanged: (val) {
+                      _passwordcontroller.text = val;
                     },
                   ),
-                ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter your password";
-                  }
-                  if (value != _passwordcontroller.text) {
-                    print("Not matched");
-                    return "Passwords do not match";
-                  }
-                  return null;
-                },
-                onChanged: (val) {
-                  _confirmPasswordcontroller.text = val;
-                },
+                  const Gap(20),
+                  const InputLabel(label: "Confirm Password"),
+                  const Gap(10),
+                  TextFormField(
+                    controller: _confirmPasswordcontroller,
+                    obscureText: !passwordVisible,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      hintText: "Confirm Password",
+                      fillColor: Colors.white,
+                      filled: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter your password";
+                      }
+                      if (value != _passwordcontroller.text) {
+                        print("Not matched");
+                        return "Passwords do not match";
+                      }
+                      return null;
+                    },
+                    onChanged: (val) {
+                      _confirmPasswordcontroller.text = val;
+                    },
+                  ),
+                ],
+              ),
+
+              const Gap(30),
+
+              //may be wrong because use the same as sign in
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 200,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 3,
+                        backgroundColor: Colors.blue.shade600,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        registerUser(context);
+                      },
+                      child: const Text(
+                        'Register Now',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-
-          const Gap(30),
-
-          //may be wrong because use the same as sign in
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 50,
-                width: 200,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 3,
-                    backgroundColor: Colors.blue.shade600,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    print('pressed');
-                    registerUser1(context);
-                  },
-                  child: const Text(
-                    'Register Now',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ));
+        ));
   }
 }
 
@@ -221,8 +264,6 @@ class _emailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // width: 300, // Set an appropriate width
-      // child: Padding(
       controller: _controller,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
@@ -233,8 +274,6 @@ class _emailField extends StatelessWidget {
       ),
       onChanged: (value) => {
         _controller.text = value,
-        //read value into variable
-        //pass it and create a new user in firebase
       },
       validator: (value) => validateEmail(value!),
 
@@ -295,10 +334,6 @@ class _passwordFieldState extends State<_passwordField> {
       validator: MultiValidator(
         [
           RequiredValidator(errorText: "Password Required"),
-          MinLengthValidator(6,
-              errorText: "Password should be atleast 8 characters"),
-          MaxLengthValidator(15,
-              errorText: "Password should not be greater than 15 characters")
         ],
       ),
 

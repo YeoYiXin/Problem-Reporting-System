@@ -1,4 +1,3 @@
-
 //contain log in and sign up methods
 //add necessary information
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,11 +47,11 @@ class Auth_Methods {
               .set(UserData.toJSon());
 
           resp = "User registered successfully";
+          Navigator.pop(context); // Close the dialog
           Navigator.pushNamed(context, '/infoPage');
         }
       } else {
         resp = "User or UserCredential is null";
-        
       }
     } on FirebaseAuthException catch (e) {
       resp = e.toString();
@@ -64,7 +63,7 @@ class Auth_Methods {
     return resp;
   }
 
-  //sign in with email and password - bot used
+  //sign in with email and password
   Future<String> signIn({
     required BuildContext context,
     required String email,
@@ -86,18 +85,22 @@ class Auth_Methods {
 
         if (userCredential != null && userCredential.user != null) {
           resp = "User logged in successfully";
+          print(resp);
+          Navigator.pop(context); // Close the dialog
           Navigator.pushNamed(context, '/homepage');
         }
       } else {
         resp = "User or UserCredential is null";
       }
     } on FirebaseAuthException catch (e) {
-      resp = e.toString();
+      resp = "Invalid email or password. Please try again.";
+
       // Show error message to the user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(resp)),
       );
-    }
+      Navigator.pop(context);
+    } 
     return resp;
   }
 
