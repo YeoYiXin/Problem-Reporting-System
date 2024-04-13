@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:problem_reporting_system/pages/classifications/SecondSubClassErrorIdentity.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import '../submittedpage.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
+import 'package:problem_reporting_system/pages/classifications/SecondSubClassErrorIdentity.dart';
 
 class ClassErrorIdentity extends StatelessWidget {
   final File imageFile;
@@ -17,8 +17,7 @@ class ClassErrorIdentity extends StatelessWidget {
   final String roomNumber;
   final double latitude;
   final double longitude;
-
-  final String description = ''; // dont have
+  final String description = '';
 
   ClassErrorIdentity({
     required this.imageFile,
@@ -214,28 +213,26 @@ class ClassErrorIdentity extends StatelessWidget {
                                     children: [
                                       ListTile(
                                         title: Text('Class'),
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                ClassErrorIdentity(
-                                              imageFile: imageFile,
-                                              secondPredictionResult:
-                                                  secondPredictionResult,
-                                              fourthPredictionResult:
-                                                  fourthPredictionResult,
-                                              locationInfo: locationInfo,
-                                              roomNumber: roomNumber,
-                                              latitude: latitude,
-                                              longitude: longitude,
-                                            ),
-                                          ));
-                                        },
-                                      ),
-                                      ListTile(
-                                        title: Text('Subclass'),
                                         onTap: () async {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible:
+                                                false, // Prevent dismissing the dialog by tapping outside
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    CircularProgressIndicator(), // Loading indicator
+                                                    SizedBox(height: 16),
+                                                    Text(
+                                                        'Verifying...'), // Loading text
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
                                           // Verify the unseen image
                                           bool isLegit =
                                               await verifyUnseen(imageURL);
@@ -269,6 +266,27 @@ class ClassErrorIdentity extends StatelessWidget {
                                               },
                                             );
                                           }
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Subclass'),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                SecondSubClassErrorIdentity(
+                                              imageFile: imageFile,
+                                              secondPredictionResult:
+                                                  secondPredictionResult,
+                                              fourthPredictionResult:
+                                                  fourthPredictionResult,
+                                              locationInfo: locationInfo,
+                                              roomNumber: roomNumber,
+                                              latitude: latitude,
+                                              longitude: longitude,
+                                            ),
+                                          ));
                                         },
                                       ),
                                     ],

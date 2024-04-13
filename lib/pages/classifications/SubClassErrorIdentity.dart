@@ -78,12 +78,15 @@ class SubClassErrorIdentity extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Third Trial:',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
+                          Center(
+                            // Center-align "Third Trial" text
+                            child: Text(
+                              'Third Trial:',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           SizedBox(height: 8),
@@ -191,6 +194,28 @@ class SubClassErrorIdentity extends StatelessWidget {
                                               ListTile(
                                                 title: Text('Subclass'),
                                                 onTap: () async {
+                                                  // Show loading dialog
+                                                  showDialog(
+                                                    context: context,
+                                                    barrierDismissible:
+                                                        false, // Prevent dismissing the dialog by tapping outside
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            CircularProgressIndicator(), // Loading indicator
+                                                            SizedBox(
+                                                                height: 16),
+                                                            Text(
+                                                                'Verifying...'), // Loading text
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
                                                   // Verify the unseen image
                                                   bool isLegit =
                                                       await verifyUnseen(

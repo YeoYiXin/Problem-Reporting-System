@@ -96,9 +96,9 @@ class Camera {
 
       // Initialize the image classification API.
 
-      ImageClassificationAPI api = ImageClassificationAPI(
-          //'http://172.20.10.3:5000',
-          'https://api-vd42zjxz4a-as.a.run.app');
+      ImageClassificationAPI api =
+          //ImageClassificationAPI('http://172.20.10.3:5000');
+          ImageClassificationAPI('https://api-vd42zjxz4a-as.a.run.app');
 
       // ImageClassificationAPI api =
       //     ImageClassificationAPI('https://apiold-vd42zjxz4a-as.a.run.app');
@@ -133,11 +133,11 @@ class Camera {
               userLocation.latitude, userLocation.longitude)
           : 'Location information not available';
 
-      if (locationInfo == "Outside Specified Areas") {
-        print("Outside Specified Areas");
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => OutsideCampus()));
-      }
+      // if (locationInfo == "Outside Specified Areas") {
+      //  print("Outside Specified Areas");
+      //  Navigator.of(context)
+      //      .push(MaterialPageRoute(builder: (context) => OutsideCampus()));
+      // }
 
       // Check if the user is in one of the indoor areas
       if (locationInfo.isNotEmpty) {
@@ -170,7 +170,17 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text(
+              "Please wait as the AI works its Magic",
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
       ),
     );
   }

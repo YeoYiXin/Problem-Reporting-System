@@ -10,16 +10,17 @@ import 'package:problem_reporting_system/pages/appBackground.dart';
 
 class SecondSubClassErrorIdentity extends StatelessWidget {
   final File imageFile;
+  final List<String> secondPredictionResult;
   final List<String> fourthPredictionResult;
   final String locationInfo;
   final String roomNumber;
   final double latitude;
   final double longitude;
-
-  final String description = ''; // dont have
+  final String description = '';
 
   SecondSubClassErrorIdentity({
     required this.imageFile,
+    required this.secondPredictionResult,
     required this.fourthPredictionResult,
     required this.locationInfo,
     required this.roomNumber,
@@ -74,6 +75,7 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -203,6 +205,24 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                           final String imageURL =
                               await storageRef.getDownloadURL();
                           print("imageURL: $imageURL");
+
+                          showDialog(
+                            context: context,
+                            barrierDismissible:
+                                false, // Prevent dismissing the dialog by tapping outside
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(), // Loading indicator
+                                    SizedBox(height: 16),
+                                    Text('Verifying...'), // Loading text
+                                  ],
+                                ),
+                              );
+                            },
+                          );
 
                           // Show the description dialog if th
                           bool isLegit = await verifyUnseen(imageURL);
