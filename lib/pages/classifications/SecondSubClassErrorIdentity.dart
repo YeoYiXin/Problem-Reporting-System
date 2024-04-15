@@ -316,9 +316,9 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                     pIndoorLocation: roomNumber,
                     titleClass: description,
                     subClass: "",
-                    description: description, //empty
+                    description: "", 
                     location: locationInfo,
-                    imageURL: imageFile!,
+                    imageURL: imageFile,
                     userTyped: true,
                     latitude: latitude,
                     longitude: longitude,

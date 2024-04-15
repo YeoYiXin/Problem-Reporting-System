@@ -12,7 +12,7 @@ class WritePoint {
       if (documentSnapshot.exists) {
         final points = documentSnapshot.get('points') ?? 0;
         await _firestore
-            .collection('points')
+            .collection('users')
             .doc(uid)
             .update({'points': points + 1});
       }

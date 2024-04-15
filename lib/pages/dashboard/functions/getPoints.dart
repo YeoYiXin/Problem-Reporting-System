@@ -36,17 +36,6 @@ class GetPoints extends StatelessWidget {
 
           print(points);
 
-          // return Container(
-          //   height: MediaQuery.of(context).size.height * 0.1,
-          //   width: MediaQuery.of(context).size.width * 0.5,
-          //   child: Text(email));
-          // return Text(
-          //   email,
-          //   style: TextStyle(fontSize: 20.0, color: Colors.black),
-          // );
-          // Extracting username without @nottingham.edu.my
-          // String username = extractUsername(email);
-
           // Return the username
           return Text(
             points,
