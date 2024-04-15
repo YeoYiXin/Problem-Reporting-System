@@ -139,7 +139,7 @@ class Problem_Submission_Database {
             .child('unseen')
             .child('$problemId.JPG'); // Change file extension if necessary
         await storageRef.putFile(imageFile as File);
-        final String imageURL = storageRef.getDownloadURL().toString();
+        final String imageURL = await storageRef.getDownloadURL();
         return imageURL;
       } else {
         print('User did not type');

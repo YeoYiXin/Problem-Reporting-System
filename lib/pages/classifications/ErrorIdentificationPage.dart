@@ -158,7 +158,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                         description:
                                             '', // No description available
                                         location: widget.locationInfo,
-                                        imageURL: widget.imageFile!,
+                                        imageURL: widget.imageFile,
                                         userTyped: false,
                                         latitude: widget.latitude,
                                         longitude: widget.longitude,
@@ -176,7 +176,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                 EdgeInsets.all(10.0),
                                             content: DuplicationUI(
                                               problemId: isSimilarID,
-                                              imageUrl: widget.imageFile!,
+                                              imageUrl: widget.imageFile,
                                               roomNumber: widget.roomNumber,
                                               firstPredictionResult:
                                                   widget.firstPredictionResult,

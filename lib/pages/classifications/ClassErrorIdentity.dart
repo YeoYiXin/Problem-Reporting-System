@@ -350,7 +350,7 @@ class ClassErrorIdentity extends StatelessWidget {
                     subClass: "",
                     description: description, //empty
                     location: locationInfo,
-                    imageURL: imageFile!,
+                    imageURL: imageFile,
                     userTyped: true,
                     latitude: latitude,
                     longitude: longitude,
