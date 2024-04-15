@@ -15,7 +15,7 @@ Future<bool> verifyUnseen(String url) async {
       // Call your API with the base64 encoded image
       final apiResponse = await http.post(
         //Uri.parse('http://172.20.10.3:5000/verify_unseen'),
-        Uri.parse('http://172.20.10.3:5000/verify_unseen'),
+        Uri.parse('https://api-vd42zjxz4a-as.a.run.app/verify_unseen'),
         body: {'url': base64Image},
       );
 

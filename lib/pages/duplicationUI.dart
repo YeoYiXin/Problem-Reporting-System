@@ -75,13 +75,13 @@ class _DuplicationUIState extends State<DuplicationUI> {
                         ),
                       ),
                       Gap(20),
-                      Image.file(widget.imageUrl, height: 300, width: 300),
+                      Image.file(widget.imageUrl, height: 400, width: 300),
                       Gap(20),
                       Text(
-                        '$location, at $indoorLocation',
+                        'Is this the same problem as the one you are currently trying to report?',
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          
                         ),
                       ),
                       Gap(20),

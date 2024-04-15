@@ -307,7 +307,7 @@ class Problem_Submission_Database {
       // If class doesn't exist, add it along with the subclass and report number
       await _firestore.collection('issues').add({
         'class': titleClass.toLowerCase(),
-        'subclass1': subClass.toLowerCase(),
+        'subclass1': titleClass.toLowerCase(),
         'numReport1': reportNum,
       });
       print(
