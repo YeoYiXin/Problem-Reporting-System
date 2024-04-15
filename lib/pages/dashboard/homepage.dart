@@ -1,18 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/appBackground.dart';
 import 'package:problem_reporting_system/pages/dashboard/components/profile_button.dart';
 import 'package:problem_reporting_system/pages/dashboard/components/user_report_card.dart';
-import 'package:problem_reporting_system/pages/dashboard/services/recent_reports_items.dart';
 import 'components/bottom_navigation_bar.dart';
 import 'components/profile_sidebar.dart';
 import 'components/recent_reports.dart';
 
-
 class Home extends StatefulWidget {
-  const Home({Key? key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -33,10 +30,10 @@ class _HomeState extends State<Home> {
                 endDrawer: buildProfileDrawer(context, snapshot.data!),
                 body: Stack(
                   children: [
-                    appBackground(),
+                    const appBackground(),
                     SafeArea(
                       child: SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -52,7 +49,7 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             ProfileButton(user: snapshot.data!),
-                            UserReportCard(),
+                            const UserReportCard(),
                             Container(
                               margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                               child: const Text(
@@ -64,7 +61,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                            RecentProblemsSection(),
+                            const RecentProblemsSection(),
                           ],
                         ),
                       ),
@@ -73,10 +70,10 @@ class _HomeState extends State<Home> {
                 ),
               );
             }
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
       ),
-      bottomNavigationBar: MyBottomNavigationBar(),
+      bottomNavigationBar: const MyBottomNavigationBar(),
     );
   }
 }

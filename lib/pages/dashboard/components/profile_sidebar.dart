@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../changePasswordPage.dart';
 import '../editProfilePage.dart';
-import '../functions/getName.dart';
-import '../functions/getProfilePic.dart';
 
 Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dynamic>> user) {
 

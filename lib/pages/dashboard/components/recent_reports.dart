@@ -12,7 +12,7 @@ class RecentProblemsSection extends StatelessWidget {
     final problemsStream = FirebaseFirestore.instance.collection('problemsRecord').orderBy('date', descending: true).limit(5).snapshots();
 
     return SizedBox(
-      height: 200,
+      height: 157,
       child: StreamBuilder<QuerySnapshot>(
         stream: problemsStream,
         builder: (context, snapshot) {

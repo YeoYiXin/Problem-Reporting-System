@@ -1,7 +1,6 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:problem_reporting_system/pages/dashboard/services/Camera.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
@@ -12,13 +11,11 @@ class MyBottomNavigationBar extends StatefulWidget {
 }
 
 class MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
-  final int _selectedIndex = 0;
   Camera camera = Camera();
 
   @override
   void initState() {
     super.initState();
-    // Set the callback to trigger a rebuild when an image is selected
     camera.onImageSelected = () {
       setState(() {});
     };
@@ -27,10 +24,8 @@ class MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   void _navigateToPage(int index) {
     switch (index) {
       case 0:
-      //refresh logic
         break;
       case 1:
-      // Camera button tapped
         camera.onTapCameraButton(context);
         break;
     }
@@ -41,7 +36,7 @@ class MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     return CurvedNavigationBar(
       color: Colors.blue.shade200, // Change color to match your theme
       backgroundColor: Colors.blueGrey, // Transparent background
-      items: [
+      items: const [
         CurvedNavigationBarItem(
           child: Icon(Icons.home),
           label: 'Home',
