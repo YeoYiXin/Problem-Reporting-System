@@ -1,44 +1,61 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gap/gap.dart';
-import 'package:geolocator/geolocator.dart';
 
 class ProfileButton extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> user;
-  const ProfileButton({super.key, required this.user});
+  const ProfileButton({Key? key, required this.user}) : super(key: key);
 
   @override
   State<ProfileButton> createState() => _ProfileButtonState();
 }
 
 class _ProfileButtonState extends State<ProfileButton> {
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> _userStream;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the stream to listen for updates to the user document
+    _userStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.user.id)
+        .snapshots();
+  }
 
   String extractUsername(String email) {
-    String username = email.split('@')[0];
-    return username;
+    return email.split('@')[0];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Add padding
-      child: ElevatedButton(
-        onPressed: () {
-          Scaffold.of(context).openEndDrawer();
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white, // Set background color to white
-          // foregroundColor: Colors.black, // Set text color to black
-          // elevation: 10, // Add elevation to create a pop-out effect
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0), // Rounded edges
-            // side: BorderSide(color: Colors.grey.shade200), // Border color
-          ),
-        ),
-        child: Column(
-          children: [
-            Row(
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: _userStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final userData = snapshot.data?.data();
+        final points = userData?['points'] ?? 0;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Scaffold.of(context).openEndDrawer();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
@@ -46,38 +63,33 @@ class _ProfileButtonState extends State<ProfileButton> {
                   child: CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                      widget.user.data()?['profilePicURL']
+                      userData?['profilePicURL'] ?? '',
                     ),
                   ),
                 ),
-                const SizedBox(
-                    width: 8.0), // Adjust the spacing between icon and label
+                const SizedBox(width: 8.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text(
-                      extractUsername(widget.user.data()?['email']),
-                    style: TextStyle(fontSize: 20.0, color: Colors.black),
-                    ),
+                      Text(
+                        extractUsername(userData?['email'] ?? ''),
+                        style: TextStyle(fontSize: 20.0, color: Colors.black),
+                      ),
                       Row(
                         children: [
-                          const Icon(Icons.star,
-                              color: Colors.yellow,
-                              size: 20), // Add the icon here
+                          const Icon(Icons.star, color: Colors.yellow, size: 20),
                           const Gap(10),
                           const Text(
                             'Points:',
-                            style: TextStyle(
-                                fontSize: 15.0, color: Colors.black),
+                            style: TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
                           const Gap(5),
                           Text(
-                            widget.user.data()?['points'].toString() ?? '',
+                            points.toString(),
                             style: TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
                           const SizedBox(width: 8.0),
-                          // Add the icon here
                         ],
                       ),
                     ],
@@ -87,13 +99,13 @@ class _ProfileButtonState extends State<ProfileButton> {
                   onPressed: () {
                     Scaffold.of(context).openEndDrawer();
                   },
-                  icon: Icon(Icons.more_vert), // Three dots icon
+                  icon: Icon(Icons.more_vert),
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
