@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 //YYX
 //map user data to json
 class problemData {
   final String problemClass;
   final String pIndoorLocation;
-  final String date;
+  final Timestamp date;
   final String problemDepartment;
   final String problemDescription;
   final String problemId;

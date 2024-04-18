@@ -41,12 +41,31 @@ Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dyn
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[// _image != null ?
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                            user.data()?['profilePicURL']
+                      user.data()?['profilePicURL'] != null
+                          ? Container(
+                        margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                        child:
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(user.data()?['profilePicURL'] ?? ''),
+                        ),
+                      )
+                          : Container(
+                        margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                        child: CircleAvatar(
+                          radius: 20,
+                          child: Text(
+                            extractUsername(user.data()?['email'] ?? '')[0].toUpperCase(),
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                         ),
                       ),
+                      // CircleAvatar(
+                      //   radius: 30,
+                      //   backgroundImage: NetworkImage(
+                      //       user.data()?['profilePicURL']
+                      //   ),
+                      // ),
                       //    : CircleAvatar(
                       // backgroundColor: Colors.grey,
                       // radius: 20,
