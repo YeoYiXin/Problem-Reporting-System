@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             const RecentProblemsSection(),
+                            MyBottomNavigationBar(),
                           ],
                         ),
                       ),
@@ -73,7 +74,7 @@ class _HomeState extends State<Home> {
             return const CircularProgressIndicator();
           }
       ),
-      bottomNavigationBar: const MyBottomNavigationBar(),
+      // bottomNavigationBar: const MyBottomNavigationBar(),
     );
   }
 }

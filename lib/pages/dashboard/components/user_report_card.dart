@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import for date formatting
+
 import '../services/user_report_card_items.dart';
 
 class UserReportCard extends StatefulWidget {
@@ -59,25 +61,34 @@ class _UserReportCardState extends State<UserReportCard> {
                   SizedBox(
                     height: 200.0, // Adjust the height as needed
                     child: StreamBuilder<QuerySnapshot>(
-                        stream: problemsRecord.where('uid', isEqualTo: uid).snapshots(),
-                        builder:(context, snapshot) {
+                        stream: problemsRecord.where('uid', isEqualTo: uid)
+                        .orderBy('date', descending: true)
+                            .snapshots(),
+                        builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: snapshot.data!.docs.length,
                               itemBuilder: (context, index) {
+                                // Get the timestamp
+                                Timestamp timestamp = snapshot.data!.docs[index]['date'];
+
+                                // Format the timestamp into a desired date string
+                                final DateFormat formatter = DateFormat('yyyy-MM-dd'); // Adjust format as needed (e.g., 'dd/MM/yyyy')
+                                String formattedDate = formatter.format(timestamp.toDate());
+
                                 return UserReportCardItem(
                                   title: snapshot.data!.docs[index]['problemTitle'],
-                                  date: snapshot.data!.docs[index]['date']!,
+                                  date: formattedDate,
                                   status: snapshot.data!.docs[index]['problemStatus']!,
                                 );
                               },
                             );
-                          }
-                          else if (snapshot.connectionState == ConnectionState.waiting) {
+                          } else if (snapshot.connectionState == ConnectionState.waiting) {
                             return Center(child: CircularProgressIndicator());
-                          } else {
-                            return Center(child: Text('No data available'));
+                          }
+                          else {
+                            return Center(child: Text('no data available'));
                           }
                         }
                     ),

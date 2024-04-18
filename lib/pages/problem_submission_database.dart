@@ -90,7 +90,7 @@ class Problem_Submission_Database {
       problemData ProblemData = problemData(
         problemClass: titleClass,
         pIndoorLocation: indoorLocation,
-        date: currentDate,
+        date: Timestamp.now(),
         problemDepartment: department,
         problemDescription: description,
         problemId: problemId,

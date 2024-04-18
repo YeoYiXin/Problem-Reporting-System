@@ -58,15 +58,33 @@ class _ProfileButtonState extends State<ProfileButton> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(
-                      userData?['profilePicURL'] ?? '',
+                // Container(
+                //   margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                //   child: CircleAvatar(
+                //     radius: 20,
+                //     backgroundImage: NetworkImage(
+                //       userData?['profilePicURL'] ?? '',
+                //     ),
+                //   ),
+                // ),
+                userData?['profilePicURL'] != null
+                    ? Container(
+                    margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                      child: CircleAvatar(
+                                        radius: 20,
+                                        backgroundImage: NetworkImage(userData?['profilePicURL'] ?? ''),
+                                      ),
+                    )
+                    : Container(
+                    margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                      child: CircleAvatar(
+                                        radius: 20,
+                                        child: Text(
+                      extractUsername(userData?['email'] ?? '')[0].toUpperCase(),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                                        ),
+                                      ),
                     ),
-                  ),
-                ),
                 const SizedBox(width: 8.0),
                 Expanded(
                   child: Column(
