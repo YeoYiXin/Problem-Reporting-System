@@ -22,11 +22,11 @@ class InfoCard extends StatelessWidget {
       ),
       title: Text(
         name,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       subtitle: Text(
         profession,
-        style: TextStyle(
+        style: const TextStyle(
             color: Colors.white
         ),
       ),

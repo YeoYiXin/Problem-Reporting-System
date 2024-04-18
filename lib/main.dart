@@ -8,7 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:problem_reporting_system/pages/login/informationPage/infoPage.dart';
 import 'package:problem_reporting_system/pages/login/registration_view.dart';
 import 'package:problem_reporting_system/pages/login/login_view.dart';
-import 'package:problem_reporting_system/pages/duplicationUI.dart';
 
 
 void main() async {
@@ -31,14 +30,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthPage(),
+      home: const AuthPage(),
       routes: {
-        '/homepage': (context) => Home(),
-        '/loginpage': (context) => Login(),
-        '/infoPage': (context) => InfoPage(),
-        '/registrationpage': (context) => Registration(),
-        '/submittedpage': (context) => Submitted(),
-        '/thankyoupage': (context) => NoEventThankYou(),
+        '/homepage': (context) => const Home(),
+        '/loginpage': (context) => const Login(),
+        '/infoPage': (context) => const InfoPage(),
+        '/registrationpage': (context) => const Registration(),
+        '/submittedpage': (context) => const Submitted(),
+        '/thankyoupage': (context) => const NoEventThankYou(),
         //duplication ui page
       },
     );

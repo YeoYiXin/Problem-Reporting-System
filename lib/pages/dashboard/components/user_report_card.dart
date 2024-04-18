@@ -85,10 +85,10 @@ class _UserReportCardState extends State<UserReportCard> {
                               },
                             );
                           } else if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
+                            return const Center(child: CircularProgressIndicator());
                           }
                           else {
-                            return Center(child: Text('no data available'));
+                            return const Center(child: Text('no data available'));
                           }
                         }
                     ),

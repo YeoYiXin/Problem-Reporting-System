@@ -2,12 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:problem_reporting_system/pages/classifications/ErrorIdentificationPage.dart';
 import 'package:problem_reporting_system/pages/GeolocationService.dart';
 import 'package:problem_reporting_system/pages/ImageClassificationAPI .dart';
-import 'package:problem_reporting_system/pages/classifications/ClassErrorIdentity.dart';
-import 'package:problem_reporting_system/pages/classifications/SecondSubClassErrorIdentity.dart';
-import 'package:problem_reporting_system/pages/outside.dart';
 import 'package:problem_reporting_system/services/location.dart';
 import 'package:problem_reporting_system/services/indoorCheck.dart';
 
@@ -90,7 +86,7 @@ class Camera {
       // Show loading screen while processing
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => LoadingScreen(),
+          builder: (context) => const LoadingScreen(),
         ),
       );
 

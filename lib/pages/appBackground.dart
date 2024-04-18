@@ -10,7 +10,7 @@ class appBackground extends StatelessWidget {
       child: Container(
         width: 1.2 * screenWidth,
         height: 1.2 * screenWidth,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(50),
@@ -38,7 +38,7 @@ class appBackground extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(30),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment(0.0, -1.0),
             end: Alignment(0.0, 1.0),
             colors: [
@@ -58,11 +58,11 @@ class appBackground extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: RadialGradient(
-          center: Alignment(0.5, -0.5),
+          center: const Alignment(0.5, -0.5),
           radius: 1.5,
           colors: [
             Colors.white.withOpacity(0.7),
-            Color(0xFF3399CC), // Teal
+            const Color(0xFF3399CC), // Teal
           ],
         ),
       ),
@@ -72,25 +72,23 @@ class appBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Container(
-        height: screenSize.height,
-        width: screenSize.width,
-        child: Stack(
-          children: [
-            Positioned(top: -80, left: -20, child: topWidget(screenSize.width)),
-            Positioned(
-              bottom: -100,
-              left: -30,
-              child: bottomWidget(screenSize.width),
-            ),
-            Positioned(
-              top: screenSize.height * 0.1,
-              left: screenSize.width * 0.25,
-              child: centerWidget(screenSize.width),
-            ),
-          ],
-        ),
+    return SizedBox(
+      height: screenSize.height,
+      width: screenSize.width,
+      child: Stack(
+        children: [
+          Positioned(top: -80, left: -20, child: topWidget(screenSize.width)),
+          Positioned(
+            bottom: -100,
+            left: -30,
+            child: bottomWidget(screenSize.width),
+          ),
+          Positioned(
+            top: screenSize.height * 0.1,
+            left: screenSize.width * 0.25,
+            child: centerWidget(screenSize.width),
+          ),
+        ],
       ),
     );
   }

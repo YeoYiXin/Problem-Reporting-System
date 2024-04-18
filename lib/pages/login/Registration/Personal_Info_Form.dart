@@ -2,10 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:problem_reporting_system/pages/login/label/InputLabel.dart';
-import 'package:problem_reporting_system/pages/login/resources/auth_methods.dart';
 
 class PersonalInfoForm extends StatefulWidget {
   const PersonalInfoForm({super.key});
@@ -42,7 +39,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
         .isValid(_emailcontroller.text)) {
       // Show error message for invalid email format
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Invalid email format")),
+        const SnackBar(content: Text("Invalid email format")),
       );
       return; // Exit registration process
     }
@@ -51,7 +48,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     if (!_emailcontroller.text.endsWith("@nottingham.edu.my")) {
       // Show error message for invalid domain
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Email must end with @nottingham.edu.my")),
+        const SnackBar(content: Text("Email must end with @nottingham.edu.my")),
       );
       return; // Exit registration process
     }
@@ -61,7 +58,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
         _confirmPasswordcontroller.text.isEmpty) {
       // Show error message for empty password fields
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill in all password fields")),
+        const SnackBar(content: Text("Please fill in all password fields")),
       );
       return; // Exit registration process
     }
@@ -70,17 +67,12 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     if (_passwordcontroller.text != _confirmPasswordcontroller.text) {
       // Show error message for mismatched passwords
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Passwords do not match")),
+        const SnackBar(content: Text("Passwords do not match")),
       );
       return; // Exit registration process
     }
 
     // Proceed with user registration
-    String resp = await Auth_Methods().createUser(
-      context: context,
-      email: _emailcontroller.text,
-      password: _passwordcontroller.text,
-    );
   }
 
   @override
@@ -246,7 +238,6 @@ class _emailField extends StatelessWidget {
   final TextEditingController _controller;
 
   const _emailField({
-    super.key,
     required TextEditingController controller,
   }) : _controller = controller;
 
@@ -266,7 +257,7 @@ class _emailField extends StatelessWidget {
     return TextFormField(
       controller: _controller,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         filled: true,
         fillColor: Colors.white,
         hintStyle: Theme.of(context).textTheme.labelLarge,
@@ -286,7 +277,6 @@ class _passwordField extends StatefulWidget {
   final TextEditingController _passwordcontroller;
 
   const _passwordField({
-    super.key,
     required TextEditingController passwordcontroller,
   }) : _passwordcontroller = passwordcontroller;
 
@@ -304,7 +294,7 @@ class _passwordFieldState extends State<_passwordField> {
       controller: widget._passwordcontroller,
       obscureText: !passwordVisible,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         filled: true,
         fillColor: Colors.white,
         hintStyle: Theme.of(context).textTheme.labelLarge,
@@ -347,7 +337,6 @@ class _confirmPasswordField extends StatefulWidget {
   final TextEditingController _passwordcontroller;
 
   const _confirmPasswordField({
-    super.key,
     required TextEditingController confirmPasswordcontroller,
     required TextEditingController passwordcontroller,
   })  : _confirmPasswordcontroller = confirmPasswordcontroller,
@@ -368,7 +357,7 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
       controller: widget._confirmPasswordcontroller,
       obscureText: !confirmPasswordVisible,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         filled: true,
         fillColor: Colors.white,
         hintStyle: Theme.of(context).textTheme.labelLarge,

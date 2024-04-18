@@ -30,8 +30,8 @@ class OutsideCampus extends StatelessWidget {
 
           // Text widget positioned above the Lottie animation
           Container(
-            margin: EdgeInsets.fromLTRB(0, 16.0, 16.0, 16.0),
-            child: Center(
+            margin: const EdgeInsets.fromLTRB(0, 16.0, 16.0, 16.0),
+            child: const Center(
               child: Text(
                 'Problem detected is not within the campus! Thank you for your time! Only problems within the campus can be reported.',
                 style: TextStyle(
@@ -45,11 +45,11 @@ class OutsideCampus extends StatelessWidget {
 
           // Button below the Lottie animation
           Container(
-            margin: EdgeInsets.fromLTRB(0, 16.0, 16.0, 16.0),
+            margin: const EdgeInsets.fromLTRB(0, 16.0, 16.0, 16.0),
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => Home()),
+                  MaterialPageRoute(builder: (context) => const Home()),
                   (route) => false,
                 );
               },

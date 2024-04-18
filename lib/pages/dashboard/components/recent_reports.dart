@@ -11,21 +11,20 @@ class RecentProblemsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final problemsStream = FirebaseFirestore.instance.collection('problemsRecord').orderBy('date', descending: true).limit(5).snapshots();
 
-    return SizedBox(
-      height: 157,
-      child: StreamBuilder<QuerySnapshot>(
-        stream: problemsStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No data available'));
-          }
-          return ListView.builder(
+    return StreamBuilder<QuerySnapshot>(
+      stream: problemsStream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Center(child: Text('No data available'));
+        }
+        return Expanded(
+          child: ListView.builder(
             shrinkWrap: true,
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
@@ -36,9 +35,9 @@ class RecentProblemsSection extends StatelessWidget {
                 status: doc['problemStatus'],
               );
             },
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

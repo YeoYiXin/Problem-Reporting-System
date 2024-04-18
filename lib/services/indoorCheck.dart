@@ -63,9 +63,9 @@ class IndoorCheck {
       builder: (BuildContext context) {
         String roomNumber = ''; // Declare roomNumber variable
         return AlertDialog(
-          title: Text('Enter Room Number'),
+          title: const Text('Enter Room Number'),
           content: TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Room Number',
             ),
             onChanged: (input) {
@@ -74,13 +74,13 @@ class IndoorCheck {
           ),
           actions: [
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 // Perform action when OK is pressed
                 print('Room Number: $roomNumber'); // Example action

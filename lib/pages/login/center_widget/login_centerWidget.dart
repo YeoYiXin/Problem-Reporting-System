@@ -40,8 +40,8 @@ class CenterWidget extends StatelessWidget {
             child: Container(
                 decoration: BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment(1, -0.6),
-                  end: Alignment(-1, 0.8),
+                  begin: const Alignment(1, -0.6),
+                  end: const Alignment(-1, 0.8),
                   colors: [
                     Colors.blue.shade100.withOpacity(0.5),
                     Colors.purple.shade300.withOpacity(0.5),
