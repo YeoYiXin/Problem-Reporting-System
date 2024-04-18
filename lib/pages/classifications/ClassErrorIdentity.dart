@@ -19,7 +19,7 @@ class ClassErrorIdentity extends StatelessWidget {
   final double longitude;
   final String description = '';
 
-  ClassErrorIdentity({
+  const ClassErrorIdentity({super.key,
     required this.imageFile,
     required this.secondPredictionResult,
     required this.fourthPredictionResult,
@@ -37,13 +37,13 @@ class ClassErrorIdentity extends StatelessWidget {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            appBackground(),
+            const appBackground(),
             Center(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Center(
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
                       child: Text(
                         "Nott-A-Problem",
                         style: TextStyle(
@@ -58,7 +58,7 @@ class ClassErrorIdentity extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                      child: Container(
+                      child: SizedBox(
                         width: 300,
                         height: 300,
                         child: Image.file(
@@ -66,9 +66,9 @@ class ClassErrorIdentity extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Card(
-                    margin: EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.all(16.0),
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -98,11 +98,11 @@ class ClassErrorIdentity extends StatelessWidget {
                                     children: [
                                       Text(
                                         'Class: ${secondPredictionResult[0].replaceAll('_', ' ')}',
-                                        style: TextStyle(fontSize: 20.0),
+                                        style: const TextStyle(fontSize: 20.0),
                                       ),
                                       Text(
                                         'Subclass: ${secondPredictionResult[1]}',
-                                        style: TextStyle(fontSize: 20.0),
+                                        style: const TextStyle(fontSize: 20.0),
                                       ),
                                     ],
                                   )
@@ -110,7 +110,7 @@ class ClassErrorIdentity extends StatelessWidget {
                                     padding: const EdgeInsets.all(16.0),
                                     child: Text(
                                       'The location is  $locationInfo',
-                                      style: TextStyle(fontSize: 20.0),
+                                      style: const TextStyle(fontSize: 20.0),
                                     ),
                                   ),
                           ),
@@ -132,7 +132,7 @@ class ClassErrorIdentity extends StatelessWidget {
                                   .toLowerCase() ==
                               'no event') {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => NoEventThankYou()));
+                                builder: (context) => const NoEventThankYou()));
                           } else {
                             String isSimilarID =
                                 await Problem_Submission_Database()
@@ -163,7 +163,7 @@ class ClassErrorIdentity extends StatelessWidget {
                                   "Problem_Submission_Database over second( ).....");
 
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Submitted()));
+                                  builder: (context) => const Submitted()));
                             } else {
                               showDialog(
                                 context: context,
@@ -185,7 +185,7 @@ class ClassErrorIdentity extends StatelessWidget {
                             }
                           }
                         },
-                        child: Text('Yes'),
+                        child: const Text('Yes'),
                       ),
                       ElevatedButton(
                         onPressed: () async {
@@ -207,19 +207,19 @@ class ClassErrorIdentity extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('What did we get wrong?'),
+                                title: const Text('What did we get wrong?'),
                                 content: SingleChildScrollView(
                                   child: ListBody(
                                     children: [
                                       ListTile(
-                                        title: Text('Class'),
+                                        title: const Text('Class'),
                                         onTap: () async {
                                           showDialog(
                                             context: context,
                                             barrierDismissible:
                                                 false, // Prevent dismissing the dialog by tapping outside
                                             builder: (BuildContext context) {
-                                              return AlertDialog(
+                                              return const AlertDialog(
                                                 content: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
@@ -247,9 +247,9 @@ class ClassErrorIdentity extends StatelessWidget {
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
-                                                  title: Text(
+                                                  title: const Text(
                                                       "No problem identified"),
-                                                  content: Text(
+                                                  content: const Text(
                                                     "If there is a problem, kindly retake the picture.",
                                                   ),
                                                   actions: [
@@ -259,7 +259,7 @@ class ClassErrorIdentity extends StatelessWidget {
                                                             context,
                                                             '/homepage');
                                                       },
-                                                      child: Text('Homepage'),
+                                                      child: const Text('Homepage'),
                                                     ),
                                                   ],
                                                 );
@@ -269,7 +269,7 @@ class ClassErrorIdentity extends StatelessWidget {
                                         },
                                       ),
                                       ListTile(
-                                        title: Text('Subclass'),
+                                        title: const Text('Subclass'),
                                         onTap: () {
                                           Navigator.of(context).pop();
                                           Navigator.of(context)
@@ -296,7 +296,7 @@ class ClassErrorIdentity extends StatelessWidget {
                             },
                           );
                         },
-                        child: Text('No'),
+                        child: const Text('No'),
                       ),
                     ],
                   ),
@@ -310,31 +310,31 @@ class ClassErrorIdentity extends StatelessWidget {
   }
 
   void _showDescriptionDialog(BuildContext context) {
-    final TextEditingController _descriptionController =
+    final TextEditingController descriptionController =
         TextEditingController();
-    String description = _descriptionController.text;
+    String description = descriptionController.text;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Please describe the issue'),
+          title: const Text('Please describe the issue'),
           content: TextField(
             onChanged: (value) {
               // Handle onChanged
               description = value;
             },
-            decoration: InputDecoration(hintText: "Enter description..."),
+            decoration: const InputDecoration(hintText: "Enter description..."),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Submit'),
+              child: const Text('Submit'),
               onPressed: () {
                 print("Problem_Submission_Database second second( ).....");
                 print(
@@ -342,7 +342,7 @@ class ClassErrorIdentity extends StatelessWidget {
                 if (description.replaceAll('_', ' ').toLowerCase() ==
                     'no event') {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => NoEventThankYou()));
+                      builder: (context) => const NoEventThankYou()));
                 } else {
                   Problem_Submission_Database().recordProblemSubmission(
                     pIndoorLocation: roomNumber,
@@ -350,13 +350,13 @@ class ClassErrorIdentity extends StatelessWidget {
                     subClass: "",
                     description: description, //empty
                     location: locationInfo,
-                    imageURL: imageFile!,
+                    imageURL: imageFile,
                     userTyped: true,
                     latitude: latitude,
                     longitude: longitude,
                   );
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Submitted()));
+                      MaterialPageRoute(builder: (context) => const Submitted()));
                 }
               },
             ),

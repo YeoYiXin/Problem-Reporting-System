@@ -19,10 +19,10 @@ class _SubmittedState extends State<Submitted> {
           mainAxisAlignment: MainAxisAlignment
               .spaceBetween, // This will space out the elements evenl
           children: [
-            SizedBox(height: 20), // Spacer at the top
+            const SizedBox(height: 20), // Spacer at the top
 
             // Large Nottingham logo from your dashboard
-            Center(
+            const Center(
               child: Text(
                 "Nott-A-Problem",
                 style: TextStyle(
@@ -33,7 +33,7 @@ class _SubmittedState extends State<Submitted> {
                 textAlign: TextAlign.left,
               ),
             ),
-            SizedBox(height: 20), // Spacer between logo and content
+            const SizedBox(height: 20), // Spacer between logo and content
 
             // Lottie Animation
             Center(
@@ -41,8 +41,8 @@ class _SubmittedState extends State<Submitted> {
             ),
 
             // Thank you text
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Thank you for submitting your complaint!',
                 textAlign: TextAlign.center,
@@ -60,11 +60,10 @@ class _SubmittedState extends State<Submitted> {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => const Home()),
                     (Route<dynamic> route) => false,
                   );
                 },
-                child: Text('BACK TO HOME'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor:  Colors
                       .blue[300], // Adjust the button color as per your theme
@@ -72,11 +71,12 @@ class _SubmittedState extends State<Submitted> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
+                child: const Text('BACK TO HOME'),
               ),
             ),
-            SizedBox(height: 20), // Spacer at the bottom
+            const SizedBox(height: 20), // Spacer at the bottom
           ],
         ),
       ),

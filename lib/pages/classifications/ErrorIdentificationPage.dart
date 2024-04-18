@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/classifications/ClassErrorIdentity.dart';
 import 'package:problem_reporting_system/pages/classifications/SubClassErrorIdentity.dart';
-import 'package:problem_reporting_system/pages/classifications/SecondSubClassErrorIdentity.dart';
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
@@ -20,7 +19,7 @@ class ErrorIdentification extends StatefulWidget {
   final double latitude;
   final double longitude;
 
-  ErrorIdentification({
+  const ErrorIdentification({super.key,
     required this.imageFile,
     required this.firstPredictionResult,
     required this.secondPredictionResult,
@@ -45,12 +44,12 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            appBackground(), // Use the background from SecondPredictionPage
+            const appBackground(), // Use the background from SecondPredictionPage
             Center(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
                         'Nott-A-Problem',
@@ -66,16 +65,16 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
-                      child: Container(
+                      child: SizedBox(
                         width: 300,
                         height: 300,
                         child: Image.file(widget.imageFile),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Card(
-                    margin: EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.all(16.0),
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -84,9 +83,9 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          Padding(
+                          const Padding(
                             padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                                EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
                               'First Trial',
                               style: TextStyle(
@@ -105,19 +104,19 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                               children: [
                                 Text(
                                   'Class: ${widget.firstPredictionResult[0].replaceAll('_', ' ')}',
-                                  style: TextStyle(fontSize: 20.0),
+                                  style: const TextStyle(fontSize: 20.0),
                                 ),
                                 Text(
                                   'Subclass: ${widget.firstPredictionResult[1]}',
-                                  style: TextStyle(fontSize: 20.0),
+                                  style: const TextStyle(fontSize: 20.0),
                                 ),
                                 Text(
                                   'Location: ${widget.locationInfo}',
-                                  style: TextStyle(fontSize: 20.0),
+                                  style: const TextStyle(fontSize: 20.0),
                                 ),
                                 Text(
                                   'Room Number: ${widget.roomNumber}',
-                                  style: TextStyle(fontSize: 20.0),
+                                  style: const TextStyle(fontSize: 20.0),
                                 ),
                               ],
                             ),
@@ -134,7 +133,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                NoEventThankYou()));
+                                                const NoEventThankYou()));
                                   } else {
                                     String isSimilarID =
                                         await Problem_Submission_Database()
@@ -158,7 +157,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                         description:
                                             '', // No description available
                                         location: widget.locationInfo,
-                                        imageURL: widget.imageFile!,
+                                        imageURL: widget.imageFile,
                                         userTyped: false,
                                         latitude: widget.latitude,
                                         longitude: widget.longitude,
@@ -166,17 +165,17 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Submitted()));
+                                                  const Submitted()));
                                     } else {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             contentPadding:
-                                                EdgeInsets.all(10.0),
+                                                const EdgeInsets.all(10.0),
                                             content: DuplicationUI(
                                               problemId: isSimilarID,
-                                              imageUrl: widget.imageFile!,
+                                              imageUrl: widget.imageFile,
                                               roomNumber: widget.roomNumber,
                                               firstPredictionResult:
                                                   widget.firstPredictionResult,
@@ -190,7 +189,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                     }
                                   }
                                 },
-                                child: Text('Yes'),
+                                child: const Text('Yes'),
                               ),
                               ElevatedButton(
                                 onPressed: () {
@@ -198,12 +197,12 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('What did we get wrong?'),
+                                        title: const Text('What did we get wrong?'),
                                         content: SingleChildScrollView(
                                           child: ListBody(
                                             children: [
                                               ListTile(
-                                                title: Text('Class'),
+                                                title: const Text('Class'),
                                                 onTap: () {
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context)
@@ -228,7 +227,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                 },
                                               ),
                                               ListTile(
-                                                title: Text('Subclass'),
+                                                title: const Text('Subclass'),
                                                 onTap: () {
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context)
@@ -261,7 +260,7 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                     }, // <-- Closing parenthesis for showDialog builder
                                   ); // <-- Closing parenthesis for showDialog method
                                 },
-                                child: Text('No'),
+                                child: const Text('No'),
                               ),
                             ], // <-- Closing square bracket for Row children
                           ),

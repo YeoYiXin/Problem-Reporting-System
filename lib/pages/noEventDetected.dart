@@ -13,10 +13,10 @@ class NoEventThankYou extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: 20), // Spacer at the top
+            const SizedBox(height: 20), // Spacer at the top
 
             // Header with "Nott-A-Problem" text
-            Center(
+            const Center(
               child: Text(
                 "Nott-A-Problem",
                 style: TextStyle(
@@ -27,7 +27,7 @@ class NoEventThankYou extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 20), // Spacer between logo and content
+            const SizedBox(height: 20), // Spacer between logo and content
 
             // Placeholder for Lottie Animation (uncomment when animation file is added)
             Center(
@@ -35,8 +35,8 @@ class NoEventThankYou extends StatelessWidget {
             ),
 
             // "No Event Detected" text
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'No Event Detected! Thank you for your time!',
                 textAlign: TextAlign.center,
@@ -54,22 +54,22 @@ class NoEventThankYou extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => const Home()),
                     (Route<dynamic> route) => false,
                   );
                 },
-                child: Text('BACK TO HOME'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.blue[300],
                   backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
+                child: const Text('BACK TO HOME'),
               ),
             ),
-            SizedBox(height: 20), // Spacer at the bottom
+            const SizedBox(height: 20), // Spacer at the bottom
           ],
         ),
       ),

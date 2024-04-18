@@ -37,7 +37,7 @@ class _ProfileButtonState extends State<ProfileButton> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
 
         final userData = snapshot.data?.data();
@@ -81,7 +81,7 @@ class _ProfileButtonState extends State<ProfileButton> {
                                         radius: 20,
                                         child: Text(
                       extractUsername(userData?['email'] ?? '')[0].toUpperCase(),
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: const TextStyle(fontSize: 16, color: Colors.white),
                                         ),
                                       ),
                     ),
@@ -92,7 +92,7 @@ class _ProfileButtonState extends State<ProfileButton> {
                     children: [
                       Text(
                         extractUsername(userData?['email'] ?? ''),
-                        style: TextStyle(fontSize: 20.0, color: Colors.black),
+                        style: const TextStyle(fontSize: 20.0, color: Colors.black),
                       ),
                       Row(
                         children: [
@@ -105,7 +105,7 @@ class _ProfileButtonState extends State<ProfileButton> {
                           const Gap(5),
                           Text(
                             points.toString(),
-                            style: TextStyle(fontSize: 15.0, color: Colors.black),
+                            style: const TextStyle(fontSize: 15.0, color: Colors.black),
                           ),
                           const SizedBox(width: 8.0),
                         ],
@@ -117,7 +117,7 @@ class _ProfileButtonState extends State<ProfileButton> {
                   onPressed: () {
                     Scaffold.of(context).openEndDrawer();
                   },
-                  icon: Icon(Icons.more_vert),
+                  icon: const Icon(Icons.more_vert),
                 ),
               ],
             ),

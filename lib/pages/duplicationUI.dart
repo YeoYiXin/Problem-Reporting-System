@@ -16,7 +16,7 @@ class DuplicationUI extends StatefulWidget {
   final double latitude;
   final double longitude;
 
-  const DuplicationUI({
+  const DuplicationUI({super.key,
     required this.problemId,
     required this.imageUrl,
     required this.roomNumber,
@@ -49,16 +49,16 @@ class _DuplicationUIState extends State<DuplicationUI> {
       future: _problemFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || !snapshot.data!.exists) {
-          return Center(child: Text('Problem details not found'));
+          return const Center(child: Text('Problem details not found'));
         } else {
           final problemData = snapshot.data!;
           final title = problemData.get('problemTitle');
-          final location = problemData.get('problemLocation');
-          final indoorLocation = problemData.get('pIndoorLocation');
+          problemData.get('problemLocation');
+          problemData.get('pIndoorLocation');
 
           return Stack(
             children: [
@@ -69,22 +69,22 @@ class _DuplicationUIState extends State<DuplicationUI> {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Gap(20),
+                      const Gap(20),
                       Image.file(widget.imageUrl, height: 400, width: 300),
-                      Gap(20),
-                      Text(
+                      const Gap(20),
+                      const Text(
                         'Is this the same problem as the one you are currently trying to report?',
                         style: TextStyle(
                           fontSize: 20,
                           
                         ),
                       ),
-                      Gap(20),
+                      const Gap(20),
                       Row(
                         children: [
                           ElevatedButton(
@@ -94,28 +94,28 @@ class _DuplicationUIState extends State<DuplicationUI> {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: Text('Problem has been updated!'),
-                                  content: Text('Thank you for your time!'),
+                                  title: const Text('Problem has been updated!'),
+                                  content: const Text('Thank you for your time!'),
                                   actions: [
                                     ElevatedButton(
                                       onPressed: () {
                                         Navigator.of(context)
                                             .pushAndRemoveUntil(
                                           MaterialPageRoute(
-                                            builder: (context) => Home(),
+                                            builder: (context) => const Home(),
                                           ),
                                           (route) => false,
                                         );
                                       },
-                                      child: Text('OK'),
+                                      child: const Text('OK'),
                                     ),
                                   ],
                                 ),
                               );
                             },
-                            child: Text('Yes'),
+                            child: const Text('Yes'),
                           ),
-                          Gap(20),
+                          const Gap(20),
                           ElevatedButton(
                             onPressed: () {
                               // Navigator.of(context).pop();
@@ -130,7 +130,7 @@ class _DuplicationUIState extends State<DuplicationUI> {
                                 description:
                                     description, // dont have descriptiond
                                 location: widget.locationInfo,
-                                imageURL: widget.imageUrl!,
+                                imageURL: widget.imageUrl,
                                 userTyped: false,
                                 latitude: widget.latitude,
                                 longitude: widget.longitude,
@@ -141,12 +141,12 @@ class _DuplicationUIState extends State<DuplicationUI> {
 
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                  builder: (context) => Submitted(),
+                                  builder: (context) => const Submitted(),
                                 ),
                                 (route) => false,
                               );
                             },
-                            child: Text('No'),
+                            child: const Text('No'),
                           ),
                         ],
                       ),
@@ -162,13 +162,13 @@ class _DuplicationUIState extends State<DuplicationUI> {
   }
 
   Future<void> writeReportNumber(String problemId) async {
-    final _firestore = FirebaseFirestore.instance;
+    final firestore = FirebaseFirestore.instance;
     try {
       final documentSnapshot =
-          await _firestore.collection('problemsRecord').doc(problemId).get();
+          await firestore.collection('problemsRecord').doc(problemId).get();
       if (documentSnapshot.exists) {
         final reportNum = documentSnapshot.get('problemReportNum') ?? 0;
-        await _firestore
+        await firestore
             .collection('problemsRecord')
             .doc(problemId)
             .update({'problemReportNum': reportNum + 1});
@@ -179,26 +179,26 @@ class _DuplicationUIState extends State<DuplicationUI> {
   }
 
   Future<void> checkIncrementPriority(String problemId) async {
-    final _firestore = FirebaseFirestore.instance;
+    final firestore = FirebaseFirestore.instance;
     try {
       final documentSnapshot =
-          await _firestore.collection('problemsRecord').doc(problemId).get();
+          await firestore.collection('problemsRecord').doc(problemId).get();
       if (documentSnapshot.exists) {
         final reportNum = documentSnapshot.get('problemReportNum') ?? 0;
         if (reportNum > 5) {
           final priority = documentSnapshot.get('problemPriority').toString();
           if (priority == 'low') {
-            await _firestore
+            await firestore
                 .collection('problemsRecord')
                 .doc(problemId)
                 .update({'problemPriority': 'medium'});
           } else if (priority == 'medium') {
-            await _firestore
+            await firestore
                 .collection('problemsRecord')
                 .doc(problemId)
                 .update({'problemPriority': 'high'});
           } else {
-            await _firestore
+            await firestore
                 .collection('problemsRecord')
                 .doc(problemId)
                 .update({'problemPriority': 'high'});

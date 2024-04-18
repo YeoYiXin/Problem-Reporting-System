@@ -22,7 +22,7 @@ class _changePasswordPageState extends State<changePasswordPage> {
       await FirebaseAuth.instance.sendPasswordResetEmail(
           email: _emailController.text.trim());
       showDialog(context: context, builder: (context){
-        return AlertDialog(content: Text('Password change link sent! Please check your email.'),
+        return const AlertDialog(content: Text('Password change link sent! Please check your email.'),
         );
       });
     } on FirebaseAuthException catch (e) {
@@ -38,32 +38,32 @@ class _changePasswordPageState extends State<changePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Password'),
+        title: const Text('Change Password'),
         backgroundColor: Colors.blue[200],
         elevation: 0,
       ),
       body:
       Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Text('Enter Your Email and we will send you a password reset link.',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20),
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0,),
             child: TextField(
               controller: _emailController,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: const BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.deepPurple),
+                  borderSide: const BorderSide(color: Colors.deepPurple),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 hintText: 'Email',
@@ -72,9 +72,9 @@ class _changePasswordPageState extends State<changePasswordPage> {
               ),
             ),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           MaterialButton(onPressed: () => changePassword(),
-            child: Text('Change Password'),
+            child: const Text('Change Password'),
             color: Colors.blue[200],
           ),
         ],

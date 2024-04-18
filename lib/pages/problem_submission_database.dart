@@ -138,7 +138,7 @@ class Problem_Submission_Database {
             .ref()
             .child('unseen')
             .child('$problemId.JPG'); // Change file extension if necessary
-        await storageRef.putFile(imageFile as File);
+        await storageRef.putFile(imageFile);
         final String imageURL = storageRef.getDownloadURL().toString();
         return imageURL;
       } else {
@@ -147,7 +147,7 @@ class Problem_Submission_Database {
             .ref()
             .child('submitted')
             .child('$problemId.jpg'); // Change file extension if necessary
-        await storageRef.putFile(imageFile as File);
+        await storageRef.putFile(imageFile);
         final String imageURL = await storageRef.getDownloadURL();
         return imageURL;
       }

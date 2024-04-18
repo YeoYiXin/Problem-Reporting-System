@@ -1,6 +1,5 @@
 //YYX
 //information page (after registration successfuly)
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:problem_reporting_system/pages/login/login_background.dart';
@@ -13,7 +12,7 @@ class InfoPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Login_Background(),
+          const Login_Background(),
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(top: 140, left: 20, right: 20),
@@ -29,7 +28,7 @@ class InfoPage extends StatelessWidget {
                   ),
                   // const Gap(20),
 
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.3,
                     child: Center(
                       child: Image.asset(
@@ -44,7 +43,7 @@ class InfoPage extends StatelessWidget {
 
                   const Gap(20),
 
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: const Text(
                       "Don't skip out on the faulty facilities. Fix them by just a snap of a picture with Nott-A-Problem. Make our campus a better place.",
@@ -55,7 +54,7 @@ class InfoPage extends StatelessWidget {
                     ),
                   ),
                   const Gap(20),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: const Text(
                       "Reporting problems increases points which shows that you care about our campus facilities and earn chances to obtain rewards!",

@@ -18,7 +18,7 @@ class Login_Background extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(150),
             gradient: LinearGradient(
-                begin: Alignment(-0.2, -0.8),
+                begin: const Alignment(-0.2, -0.8),
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.blue.shade600.withOpacity(0.5),
@@ -70,7 +70,7 @@ class Login_Background extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: screenSize.height,
           width: screenSize.width,
             child: Stack(children: [

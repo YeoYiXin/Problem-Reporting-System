@@ -10,7 +10,6 @@ class Auth_Methods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //get current user
-  @override
   Future<String> createUser({
     required BuildContext context,
     required String email,
@@ -34,13 +33,12 @@ class Auth_Methods {
 
         userData UserData = userData(
           email: email,
-          password: password,
           uid: userId,
         );
 
         print(UserData);
 
-        if (userCredential != null && userCredential.user != null) {
+        if (userCredential.user != null) {
           await _firestore
               .collection("users")
               .doc(userId)
@@ -83,7 +81,7 @@ class Auth_Methods {
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
             email: email, password: password);
 
-        if (userCredential != null && userCredential.user != null) {
+        if (userCredential.user != null) {
           resp = "User logged in successfully";
           print(resp);
           Navigator.pop(context); // Close the dialog
@@ -92,7 +90,7 @@ class Auth_Methods {
       } else {
         resp = "User or UserCredential is null";
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       resp = "Invalid email or password. Please try again.";
 
       // Show error message to the user
@@ -104,7 +102,6 @@ class Auth_Methods {
     return resp;
   }
 
-  @override
   Future<void> signOut() async {
     await _auth.signOut();
   }

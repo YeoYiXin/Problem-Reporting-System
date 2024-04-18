@@ -17,7 +17,7 @@
     @override
     Widget build(BuildContext context) {
       return Center(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width - 32,
           child: Card(
             elevation: 15.0,
@@ -40,18 +40,18 @@
                         Image.network(widget.reportPicURL,
                           width: 50,
                           fit: BoxFit.cover,),
-                        SizedBox(width: 12.0),
+                        const SizedBox(width: 12.0),
                         Expanded(
                           flex: 2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               // GetReportTitle(problemId: problemId),
-                              Text(widget.title,style: TextStyle(fontWeight: FontWeight.bold,),),
-                              SizedBox(height: 8.0),
+                              Text(widget.title,style: const TextStyle(fontWeight: FontWeight.bold,),),
+                              const SizedBox(height: 8.0),
                               // GetReportStatus(problemId: problemId),
-                              Text('Status: ' + widget.status),
-                              SizedBox(height: 8.0),
+                              Text('Status: ${widget.status}'),
+                              const SizedBox(height: 8.0),
                             ],
                           ),
                         ),

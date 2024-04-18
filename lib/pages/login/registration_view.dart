@@ -6,7 +6,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:problem_reporting_system/pages/login/Registration/Personal_Info_Form.dart';
 import 'package:problem_reporting_system/pages/login/login_background.dart';
-import 'package:problem_reporting_system/pages/login/label/InputLabel.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -32,11 +31,6 @@ class _RegistrationState extends State<Registration> {
 
   @override
   Widget build(BuildContext context) {
-    String email = "";
-    String password = "";
-    String school = "";
-    String course = "";
-    String year = "";
     //school
     //course
     //year
@@ -79,7 +73,7 @@ class _RegistrationState extends State<Registration> {
                                 color: Colors.white.withOpacity(0.7),
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              child: PersonalInfoForm(),
+                              child: const PersonalInfoForm(),
                             ))
                       ],
                     ),

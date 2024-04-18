@@ -36,9 +36,9 @@ class UserReportCardItemState extends State<UserReportCardItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(widget.title, style: TextStyle(fontWeight: FontWeight.bold),),
-              Text('Status: ' + widget.status),
-              Text('Date: ' + widget.date),
+              Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold),),
+              Text('Status: ${widget.status}'),
+              Text('Date: ${widget.date}'),
             ],
           ),
         ),

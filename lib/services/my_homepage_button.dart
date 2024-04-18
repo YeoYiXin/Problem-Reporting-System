@@ -16,7 +16,7 @@ class MyHomepageButton extends StatelessWidget {
           color: Colors.blue,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             "Homepage",
             style: TextStyle(

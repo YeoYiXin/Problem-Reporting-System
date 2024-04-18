@@ -56,7 +56,7 @@ Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dyn
                           radius: 20,
                           child: Text(
                             extractUsername(user.data()?['email'] ?? '')[0].toUpperCase(),
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            style: const TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
                       ),
@@ -77,11 +77,11 @@ Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dyn
                       // ),
                       Text(
                         extractUsername(user.data()?['email']),
-                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                        style: const TextStyle(fontSize: 20.0, color: Colors.white),
                       ),
                       Text(
                         user.data()?['email'],
-                        style: TextStyle(fontSize: 15.0, color: Colors.white),
+                        style: const TextStyle(fontSize: 15.0, color: Colors.white),
                       ),
                       // GetName(uid: currentUser!.uid,section: "sidebar"),
                       // GetName(uid: currentUser!.uid, section: "email"),
@@ -141,7 +141,7 @@ Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dyn
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('Terms of Service'),
-                                content: SingleChildScrollView(
+                                content: const SingleChildScrollView(
                                   child: Text(
                                     '''
 Welcome to Nott-A-Problem. These terms and conditions govern your use of the App. By downloading, installing, or using the App, you agree to be bound by these terms. If you do not agree with any part of these terms, please refrain from using the App.

@@ -27,44 +27,41 @@ class _HomeState extends State<Home> {
             if(snapshot.hasData){
               print(snapshot.data!.data());
               return Scaffold(
+                bottomNavigationBar: const MyBottomNavigationBar(),
                 endDrawer: buildProfileDrawer(context, snapshot.data!),
                 body: Stack(
                   children: [
                     const appBackground(),
                     SafeArea(
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const Center(
-                              child: Text(
-                                "Nott-A-Problem",
-                                style: TextStyle(
-                                  fontFamily: 'Lobster',
-                                  fontSize: 50,
-                                  color: Colors.black,
-                                ),
-                                textAlign: TextAlign.left,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Center(
+                            child: Text(
+                              "Nott-A-Problem",
+                              style: TextStyle(
+                                fontFamily: 'Lobster',
+                                fontSize: 50,
+                                color: Colors.black,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          ProfileButton(user: snapshot.data!),
+                          const UserReportCard(),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                            child: const Text(
+                              'Recent Problems',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            ProfileButton(user: snapshot.data!),
-                            const UserReportCard(),
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-                              child: const Text(
-                                'Recent Problems',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            const RecentProblemsSection(),
-                            MyBottomNavigationBar(),
-                          ],
-                        ),
+                          ),
+                          const RecentProblemsSection(),
+                        ],
                       ),
                     ),
                   ],

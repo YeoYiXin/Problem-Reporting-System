@@ -2,14 +2,13 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'functions/writeProfilePic.dart';
 import 'services/chooseProfilePic.dart';
 
 
 class editProfilePage extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> user;
 
-  editProfilePage(this.user, {Key? key}) : super(key: key);
+  const editProfilePage(this.user, {Key? key}) : super(key: key);
 
   @override
   State<editProfilePage> createState() => editProfilePageState();
@@ -28,11 +27,10 @@ class editProfilePageState extends State<editProfilePage> {
 
   void saveProfile() async {
     if (_image != null) {
-      String resp = await StoreData().updateUserData(userId: widget.user.id, file: _image!);
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
+          return const AlertDialog(
             content: Text('Profile picture saved!'),
           );
         },
@@ -41,7 +39,7 @@ class editProfilePageState extends State<editProfilePage> {
       showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
+          return const AlertDialog(
             content: Text('No image selected!'),
           );
         },
@@ -52,7 +50,7 @@ class editProfilePageState extends State<editProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Change Profile Picture'),),
+      appBar: AppBar(title: const Text('Change Profile Picture'),),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +62,7 @@ class editProfilePageState extends State<editProfilePage> {
                   radius: 64,
                   backgroundImage: MemoryImage(_image!),
                 )
-                    : CircleAvatar(
+                    : const CircleAvatar(
                   backgroundColor: Colors.grey,
                   radius: 64,
                   child: Icon(
@@ -74,6 +72,8 @@ class editProfilePageState extends State<editProfilePage> {
                   ),
                 ),
                 Positioned(
+                  bottom: -10,
+                  left: 80,
                   child: IconButton(
                     onPressed: selectImage,
                     icon: const Icon(Icons.add_a_photo
@@ -81,13 +81,11 @@ class editProfilePageState extends State<editProfilePage> {
                       size:40,
                     ),
                   ),
-                  bottom: -10,
-                  left: 80,
                 ),
               ],
             ),
             const SizedBox(height: 24),
-            ElevatedButton(onPressed: saveProfile, child: Text('Save Profile Picture!'))
+            ElevatedButton(onPressed: saveProfile, child: const Text('Save Profile Picture!'))
           ],
         ),
       ),

@@ -18,7 +18,7 @@ class RegistrationPage extends StatelessWidget {
         password: passwordController.text,
       );
 
-      if (userCredential != null && userCredential.user != null) {
+      if (userCredential.user != null) {
         DatabaseReference usersRef =
             FirebaseDatabase.instance.ref().child('users');
         usersRef.child(userCredential.user!.uid).set({
@@ -65,12 +65,12 @@ class RegistrationPage extends StatelessWidget {
                 elevation: 3,
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                        margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
                         child: const Center(
                           child: Text(
                             'Register now',
@@ -82,7 +82,7 @@ class RegistrationPage extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                        margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                         child: const Padding(
                           padding: EdgeInsets.symmetric(vertical: 16.0),
                           child: Text(
@@ -123,7 +123,7 @@ class RegistrationPage extends StatelessWidget {
                         'Confirm Password', // Change the hint for the password field
                         obscureText: true,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
                         height: 60,
                         width: 300,

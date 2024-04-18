@@ -6,7 +6,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:problem_reporting_system/pages/login/label/InputLabel.dart';
 import 'package:problem_reporting_system/pages/login/login_background.dart';
-import 'package:problem_reporting_system/pages/login/resources/auth_methods.dart';
 import 'package:problem_reporting_system/pages/dashboard/changePasswordPage.dart';
 
 class Login extends StatefulWidget {
@@ -34,7 +33,7 @@ class _LoginState extends State<Login> {
     if (!EmailValidator(errorText: "Not a valid email").isValid(email)) {
       // Show error message for invalid email format
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Invalid email format")),
+        const SnackBar(content: Text("Invalid email format")),
       );
       return; // Exit sign in process
     }
@@ -43,7 +42,7 @@ class _LoginState extends State<Login> {
     if (!email.endsWith("@nottingham.edu.my")) {
       // Show error message for invalid domain
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Email must end with @nottingham.edu.my")),
+        const SnackBar(content: Text("Email must end with @nottingham.edu.my")),
       );
       return; // Exit sign in process
     }
@@ -52,16 +51,11 @@ class _LoginState extends State<Login> {
     if (password.isEmpty) {
       // Show error message for empty password fields
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill in the password fields")),
+        const SnackBar(content: Text("Please fill in the password fields")),
       );
       return; // Exit sign in process
     }
 
-    String resp = await Auth_Methods().signIn(
-      context: context,
-      email: email,
-      password: password,
-    );
   }
 
   //email validator
@@ -204,12 +198,12 @@ class _LoginState extends State<Login> {
                                           Navigator.push(context,
                                               MaterialPageRoute(
                                                   builder: (context) {
-                                            return changePasswordPage();
+                                            return const changePasswordPage();
                                           }));
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           'Forgot Password?',
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.blue,
                                             fontWeight: FontWeight.bold,
                                           ),

@@ -3,15 +3,13 @@
 class userData {
   final String email;
   final String uid;
-  final String password;
-  userData({required this.email, required this.uid, required this.password});
+  userData({required this.email, required this.uid});
 
   //return user data as map
   Map<String, dynamic> toJSon() => {
         "uid": uid,
         "email": email,
         "level": 0,
-        "password": password,
         "pId": "",
         "probNum": 0,
         "profilePicURL": "",
