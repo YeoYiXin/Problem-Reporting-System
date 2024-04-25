@@ -83,7 +83,7 @@ class Problem_Submission_Database {
       print("Storage Image URL: $storageImageURL");
 
       String description = "";
-      description = await getDescription(storageImageURL);
+      description = await getDescription(storageImageURL, subClass);
 
       print("Description: $description");
 

@@ -2,37 +2,22 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 
-Future<String> getDescription(String imageURL) async {
+Future<String> getDescription(String imageURL, String subclass) async {
   try {
     // Download the image
-    // final response = await http.get(Uri.parse(imageURL));
-
-    // if (response.statusCode == 200) {
-    //   // Convert the response body to base64
-    //   String base64Image = base64Encode(response.bodyBytes);
-    //   print('base64Image: $base64Image');
     final response = await http.get(Uri.parse(imageURL));
 
     if (response.statusCode == 200) {
       // Convert the response body to bytes
       Uint8List bytes = response.bodyBytes;
 
-      // Resize the image to 512x512
-      // List<int> compressedBytes = await FlutterImageCompress.compressWithList(
-      //   bytes,
-      //   minHeight: 512,
-      //   minWidth: 512,
-      //   quality: 100,
-      // );
-
       // Convert bytes to base64
       String base64Image = base64Encode(bytes);
-      print('base64Image: $base64Image');
       // Call your API with the base64 encoded image
       final apiResponse = await http.post(
         Uri.parse(
             'https://api-vd42zjxz4a-as.a.run.app/get_desc'), // Change the URL accordingly
-        body: {'url': base64Image},
+        body: {'url': base64Image, 'subclass': subclass},
       );
 
       if (apiResponse.statusCode == 200) {
