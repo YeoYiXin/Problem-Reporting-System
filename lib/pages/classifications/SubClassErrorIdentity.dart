@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart'
     as firebase_storage; // Add this line
+import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
@@ -19,7 +20,8 @@ class SubClassErrorIdentity extends StatelessWidget {
   final double latitude;
   final double longitude;
 
-  const SubClassErrorIdentity({super.key,
+  const SubClassErrorIdentity({
+    super.key,
     required this.imageFile,
     required this.thirdPredictionResult,
     required this.secondPredictionResult,
@@ -114,7 +116,7 @@ class SubClassErrorIdentity extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   if (thirdPredictionResult[0]
                                           .replaceAll('_', ' ')
                                           .toLowerCase() ==
@@ -124,22 +126,54 @@ class SubClassErrorIdentity extends StatelessWidget {
                                             builder: (context) =>
                                                 const NoEventThankYou()));
                                   } else {
-                                    Problem_Submission_Database()
-                                        .recordProblemSubmission(
-                                      pIndoorLocation: roomNumber,
-                                      titleClass: thirdPredictionResult[0]
+                                    String isSimilarID =
+                                        await Problem_Submission_Database()
+                                            .detectSimilarProblem(
+                                      problemClass: thirdPredictionResult[0]
                                           .replaceAll('_', ' '),
-                                      subClass: thirdPredictionResult[1],
-                                      description: '', //empty
-                                      location: locationInfo,
-                                      imageURL: imageFile,
-                                      userTyped: false,
-                                      latitude: latitude,
-                                      longitude: longitude,
+                                      problemSubClass: thirdPredictionResult[1],
+                                      problemLocation: locationInfo,
                                     );
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => const Submitted()));
+                                    if (isSimilarID == "0") {
+                                      Problem_Submission_Database()
+                                          .recordProblemSubmission(
+                                        pIndoorLocation: roomNumber,
+                                        titleClass: thirdPredictionResult[0]
+                                            .replaceAll('_', ' '),
+                                        subClass: thirdPredictionResult[1],
+                                        description:
+                                            '', // No description available
+                                        location: locationInfo,
+                                        imageURL: imageFile,
+                                        userTyped: false,
+                                        latitude: latitude,
+                                        longitude: longitude,
+                                      );
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Submitted()));
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            contentPadding:
+                                                const EdgeInsets.all(10.0),
+                                            content: DuplicationUI(
+                                              problemId: isSimilarID,
+                                              imageUrl: imageFile,
+                                              roomNumber: roomNumber,
+                                              firstPredictionResult:
+                                                  thirdPredictionResult,
+                                              locationInfo: locationInfo,
+                                              latitude: latitude,
+                                              longitude: longitude,
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
                                   }
                                 },
                                 child: const Text('Yes'),
@@ -163,7 +197,8 @@ class SubClassErrorIdentity extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: const Text('What did we get wrong?'),
+                                        title: const Text(
+                                            'What did we get wrong?'),
                                         content: SingleChildScrollView(
                                           child: ListBody(
                                             children: [
@@ -276,8 +311,7 @@ class SubClassErrorIdentity extends StatelessWidget {
   }
 
   void _showDescriptionDialog(BuildContext context) {
-    final TextEditingController descriptionController =
-        TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
     String description = descriptionController.text;
 
     showDialog(
@@ -318,8 +352,8 @@ class SubClassErrorIdentity extends StatelessWidget {
                     latitude: latitude,
                     longitude: longitude,
                   );
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Submitted()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const Submitted()));
                 }
               },
             ),
