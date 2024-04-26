@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:problem_reporting_system/pages/login/label/InputLabel.dart';
 import 'package:problem_reporting_system/pages/login/login_background.dart';
 import 'package:problem_reporting_system/pages/dashboard/changePasswordPage.dart';
+import 'package:problem_reporting_system/pages/login/resources/auth_methods.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -56,6 +57,11 @@ class _LoginState extends State<Login> {
       return; // Exit sign in process
     }
 
+    String resp = await Auth_Methods().signIn(
+      context: context,
+      email: email,
+      password: password,
+    );
   }
 
   //email validator
