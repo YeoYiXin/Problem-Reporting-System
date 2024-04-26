@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:problem_reporting_system/pages/login/label/InputLabel.dart';
+import 'package:problem_reporting_system/pages/login/resources/auth_methods.dart';
 
 class PersonalInfoForm extends StatefulWidget {
   const PersonalInfoForm({super.key});
@@ -72,6 +73,11 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
       return; // Exit registration process
     }
 
+    String resp = await Auth_Methods().createUser(
+      context: context,
+      email: _emailcontroller.text,
+      password: _passwordcontroller.text,
+    );
     // Proceed with user registration
   }
 
