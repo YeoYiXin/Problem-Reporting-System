@@ -1,6 +1,6 @@
 # A Novel IoT-Based Problem Reporting System Utilising Human Sensors: A Case Study at University of Nottingham Malaysia
 
-<h1>Nott-A-Problem Mobile (NAP) Application</h1>
+<h1>Nott-A-Problem (NAP) Mobile Application</h1>
 <p>NAP emerged as a pioneering solution that speeds up the traditional problem-reporting process. NAP used cutting-edge AI models and a user-friendly mobile interface. This innovative approach aims not only to simplify and automate the reporting process but also to encourage a proactive culture of maintenance and issue resolution across the campus. Hence, NAP significantly reduces the barriers to reporting, ensuring that problems are addressed quickly and efficiently, thereby enhancing the overall campus experience for all community members.</p>
 
 <h1>Motivation</h1>
