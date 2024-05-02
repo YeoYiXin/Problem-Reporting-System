@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:problem_reporting_system/pages/dashboard/homepage.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
-import 'package:problem_reporting_system/pages/problem_submission_database.dart';
+import 'package:problem_reporting_system/services/problem_submission_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DuplicationUI extends StatefulWidget {

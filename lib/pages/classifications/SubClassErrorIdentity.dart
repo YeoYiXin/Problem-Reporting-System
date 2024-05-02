@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart'
     as firebase_storage; 
-import 'package:problem_reporting_system/pages/duplicationUI.dart';
-import 'package:problem_reporting_system/pages/noEventDetected.dart';
-import 'package:problem_reporting_system/pages/problem_submission_database.dart';
+import 'package:problem_reporting_system/services/duplicationUI.dart';
+import 'package:problem_reporting_system/services/noEventDetected.dart';
+import 'package:problem_reporting_system/services/problem_submission_database.dart';
 import 'package:problem_reporting_system/pages/submittedpage.dart';
-import 'package:problem_reporting_system/pages/appBackground.dart';
+import 'package:problem_reporting_system/services/appBackground.dart';
 import 'package:problem_reporting_system/services/verifyUnseen.dart';
 import 'package:problem_reporting_system/pages/classifications/ClassErrorIdentity.dart';
 

@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:problem_reporting_system/pages/GeolocationService.dart';
-import 'package:problem_reporting_system/pages/ImageClassificationAPI .dart';
+import 'package:problem_reporting_system/services/GeolocationService.dart';
+import 'package:problem_reporting_system/services/ImageClassificationAPI%20.dart';
 import 'package:problem_reporting_system/services/location.dart';
 import 'package:problem_reporting_system/services/indoorCheck.dart';
 
