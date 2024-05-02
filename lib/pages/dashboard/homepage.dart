@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:problem_reporting_system/pages/appBackground.dart';
+import 'package:problem_reporting_system/services/appBackground.dart';
 import 'package:problem_reporting_system/pages/dashboard/components/profile_button.dart';
 import 'package:problem_reporting_system/pages/dashboard/components/user_report_card.dart';
 import 'components/bottom_navigation_bar.dart';

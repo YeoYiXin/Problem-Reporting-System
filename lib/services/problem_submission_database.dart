@@ -5,9 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:problem_reporting_system/pages/dashboard/functions/writePoints.dart';
-import 'package:problem_reporting_system/pages/problemData.dart';
+import 'package:problem_reporting_system/services/problemData.dart';
 import 'package:intl/intl.dart';
-import 'package:problem_reporting_system/pages/problemDescAPI.dart';
+import 'package:problem_reporting_system/services/problemDescAPI.dart';
 
 class Problem_Submission_Database {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
