@@ -23,11 +23,6 @@ class OutsideCampus extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Lottie Animation
-          // Center(
-          //   child: Lottie.asset('assets/tick.json'),
-          // ),
-
           // Text widget positioned above the Lottie animation
           Container(
             margin: const EdgeInsets.fromLTRB(0, 16.0, 16.0, 16.0),

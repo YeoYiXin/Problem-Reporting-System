@@ -58,15 +58,6 @@ class _ProfileButtonState extends State<ProfileButton> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // Container(
-                //   margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                //   child: CircleAvatar(
-                //     radius: 20,
-                //     backgroundImage: NetworkImage(
-                //       userData?['profilePicURL'] ?? '',
-                //     ),
-                //   ),
-                // ),
                 userData?['profilePicURL'] != null
                     ? Container(
                     margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),

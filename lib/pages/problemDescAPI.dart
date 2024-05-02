@@ -13,10 +13,10 @@ Future<String> getDescription(String imageURL, String subclass) async {
 
       // Convert bytes to base64
       String base64Image = base64Encode(bytes);
-      // Call your API with the base64 encoded image
+      // Call API with the base64 encoded image
       final apiResponse = await http.post(
         Uri.parse(
-            'https://api-vd42zjxz4a-as.a.run.app/get_desc'), // Change the URL accordingly
+            'https://api-vd42zjxz4a-as.a.run.app/get_desc'), 
         body: {'url': base64Image, 'subclass': subclass},
       );
 
@@ -33,14 +33,6 @@ Future<String> getDescription(String imageURL, String subclass) async {
           print('Failed to parse JSON: $e');
           return 'Failed to parse JSON: $e';
         }
-        // final data = jsonDecode(response.body);
-
-        // return data.toString();
-        // if (data.containsKey('description')) {
-        //   return data['description'].toString();
-        // } else {
-        //   return 'Description not found in response';
-        // }
       } else {
         print('Server responded with status code ${apiResponse.statusCode}.');
         return 'Server responded with status code ${apiResponse.statusCode}.';

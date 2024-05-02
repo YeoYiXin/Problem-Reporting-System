@@ -201,10 +201,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                   ),
                 ],
               ),
-
               const Gap(30),
-
-              //may be wrong because use the same as sign in
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -295,8 +292,6 @@ class _passwordFieldState extends State<_passwordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // width: 300, // Set an appropriate width
-      // child: Padding(
       controller: widget._passwordcontroller,
       obscureText: !passwordVisible,
       decoration: InputDecoration(
@@ -307,7 +302,6 @@ class _passwordFieldState extends State<_passwordField> {
         hintText: 'Enter your password',
         suffixIcon: IconButton(
           icon: Icon(
-            // Based on passwordVisible state choose the icon
             passwordVisible ? Icons.visibility : Icons.visibility_off,
             color: Theme.of(context).primaryColorDark,
           ),
@@ -323,17 +317,12 @@ class _passwordFieldState extends State<_passwordField> {
         widget._passwordcontroller.text = value,
         print(value),
         print(widget._passwordcontroller.text),
-
-        //read value into variable
-        //pass it and create a new user in firebase
       },
       validator: MultiValidator(
         [
           RequiredValidator(errorText: "Password Required"),
         ],
       ),
-
-      // ),
     );
   }
 }
@@ -358,8 +347,6 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // width: 300, // Set an appropriate width
-      // child: Padding(
       controller: widget._confirmPasswordcontroller,
       obscureText: !confirmPasswordVisible,
       decoration: InputDecoration(
@@ -386,8 +373,6 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
         widget._confirmPasswordcontroller.text = value,
         print(value),
         print(widget._confirmPasswordcontroller.text),
-        //read value into variable
-        //pass it and create a new user in firebase
       },
       validator: (val) {
         if (val!.isEmpty) {
@@ -397,15 +382,9 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
           print("Not matched");
           return "Passwords do not match";
         }
-        //if not equal to what is written in password field
-        // if (val != context.read<SignupCubit>().state.password) {
-        //   return "Passwords do not match";
-        // }
         print("matched");
         return null; // Validation passed
       },
-
-      // ),
     );
   }
 }

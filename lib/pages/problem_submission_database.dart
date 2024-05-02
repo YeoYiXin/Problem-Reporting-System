@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:problem_reporting_system/pages/problemDescAPI.dart';
 
 class Problem_Submission_Database {
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String currentDate = DateFormat('EEEE, d MMMM y').format(DateTime.now());
@@ -264,7 +263,7 @@ class Problem_Submission_Database {
       return user.uid;
     } else {
       // Handle the case where no user is signed in
-      return "No user sign in"; // You might want to handle this differently based on your app's requirements
+      return "No user sign in"; 
     }
   }
 
@@ -346,7 +345,6 @@ class Problem_Submission_Database {
       {required String titleClass,
       required String subClass,
       required String location}) async {
-    //if user type, then assign security department -- current plan
     // Mapping locations to departments
     Map<String, String> locationToDepartment = {
       "Block I1; Tioman Hall": "Accommodation Team",
@@ -394,7 +392,7 @@ class Problem_Submission_Database {
     } else if (titleClass.toLowerCase() == "room damage") {
       return "Civil Team";
     } else {
-      return "Security Department"; //for now
+      return "Security Department"; 
     }
   }
 }

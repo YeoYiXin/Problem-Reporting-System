@@ -1,4 +1,3 @@
-//YYX
 //register interface
 //on successful submission of form, go to infoPage
 import 'package:flutter/material.dart';
@@ -31,10 +30,6 @@ class _RegistrationState extends State<Registration> {
 
   @override
   Widget build(BuildContext context) {
-    //school
-    //course
-    //year
-    //then navigate to get ready page
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: Form(

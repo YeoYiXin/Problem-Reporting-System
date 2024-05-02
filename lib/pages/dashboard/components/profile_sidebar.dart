@@ -60,21 +60,6 @@ Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dyn
                           ),
                         ),
                       ),
-                      // CircleAvatar(
-                      //   radius: 30,
-                      //   backgroundImage: NetworkImage(
-                      //       user.data()?['profilePicURL']
-                      //   ),
-                      // ),
-                      //    : CircleAvatar(
-                      // backgroundColor: Colors.grey,
-                      // radius: 20,
-                      // child: Icon(
-                      //   Icons.person_2_sharp,
-                      //   color: Colors.white,
-                      //   size: 15,
-                      // ),
-                      // ),
                       Text(
                         extractUsername(user.data()?['email']),
                         style: const TextStyle(fontSize: 20.0, color: Colors.white),
@@ -83,8 +68,6 @@ Widget buildProfileDrawer(BuildContext context, DocumentSnapshot<Map<String, dyn
                         user.data()?['email'],
                         style: const TextStyle(fontSize: 15.0, color: Colors.white),
                       ),
-                      // GetName(uid: currentUser!.uid,section: "sidebar"),
-                      // GetName(uid: currentUser!.uid, section: "email"),
                     ],
                   ),
                 ),

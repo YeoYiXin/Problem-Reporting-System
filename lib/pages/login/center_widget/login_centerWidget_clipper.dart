@@ -1,5 +1,3 @@
-//YYX
-//return path
 import 'package:flutter/material.dart';
 
 class CenterWidgetClipper extends CustomClipper<Path> {

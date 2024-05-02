@@ -74,7 +74,7 @@ class _UserReportCardState extends State<UserReportCard> {
                                 Timestamp timestamp = snapshot.data!.docs[index]['date'];
 
                                 // Format the timestamp into a desired date string
-                                final DateFormat formatter = DateFormat('yyyy-MM-dd'); // Adjust format as needed (e.g., 'dd/MM/yyyy')
+                                final DateFormat formatter = DateFormat('yyyy-MM-dd'); 
                                 String formattedDate = formatter.format(timestamp.toDate());
 
                                 return UserReportCardItem(

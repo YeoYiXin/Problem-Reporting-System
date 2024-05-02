@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart'
-    as firebase_storage; // Add this line
+    as firebase_storage; 
 import 'package:problem_reporting_system/pages/duplicationUI.dart';
 import 'package:problem_reporting_system/pages/noEventDetected.dart';
 import 'package:problem_reporting_system/pages/problem_submission_database.dart';
@@ -79,7 +79,6 @@ class SubClassErrorIdentity extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Center(
-                            // Center-align "Third Trial" text
                             child: Text(
                               'Third Trial:',
                               style: TextStyle(

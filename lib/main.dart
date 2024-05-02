@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
         '/registrationpage': (context) => const Registration(),
         '/submittedpage': (context) => const Submitted(),
         '/thankyoupage': (context) => const NoEventThankYou(),
-        //duplication ui page
       },
     );
   }

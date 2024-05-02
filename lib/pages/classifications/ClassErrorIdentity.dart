@@ -62,7 +62,7 @@ class ClassErrorIdentity extends StatelessWidget {
                         width: 300,
                         height: 300,
                         child: Image.file(
-                            imageFile), // Add ! to access non-nullable File
+                            imageFile), 
                       ),
                     ),
                   ),
