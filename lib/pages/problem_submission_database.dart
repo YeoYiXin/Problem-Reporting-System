@@ -129,20 +129,17 @@ class Problem_Submission_Database {
       required bool userTyped}) async {
     try {
       //upload image to firebase storage
-      print('Uploading image into storage...');
-      print('Image file: $imageFile');
 
-      if (userTyped) {
-        print('User typed');
+      if (userTyped) { 
         final storageRef = firebase_storage.FirebaseStorage.instance
             .ref()
             .child('unseen')
-            .child('$problemId.JPG'); // Change file extension if necessary
+            .child('$problemId.jpg'); // Change file extension if necessary
         await storageRef.putFile(imageFile);
-        final String imageURL = storageRef.getDownloadURL().toString();
+        final String imageURL = await storageRef.getDownloadURL();
         return imageURL;
       } else {
-        print('User did not type');
+       
         final storageRef = firebase_storage.FirebaseStorage.instance
             .ref()
             .child('submitted')
