@@ -234,7 +234,7 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                                 .child('submitted')
                                 .child('$problemId.jpg');
                             await storageRef.delete();
-                            _showDescriptionDialog(context);
+                            _showDescriptionDialog(context, imageFile);
                           } else {
                             final storageRef = firebase_storage
                                 .FirebaseStorage.instance
@@ -277,7 +277,7 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
     );
   }
 
-  void _showDescriptionDialog(BuildContext context) {
+  void _showDescriptionDialog(BuildContext context, File imageURL) {
     final TextEditingController descriptionController =
         TextEditingController();
     String description = descriptionController.text;
@@ -318,7 +318,7 @@ class SecondSubClassErrorIdentity extends StatelessWidget {
                     subClass: "",
                     description: "", 
                     location: locationInfo,
-                    imageURL: imageFile,
+                    imageURL: imageURL,
                     userTyped: true,
                     latitude: latitude,
                     longitude: longitude,

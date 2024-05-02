@@ -257,7 +257,7 @@ class SubClassErrorIdentity extends StatelessWidget {
                                                   if (isLegit) {
                                                     // If the image is legitimate, proceed to _showDescriptionDialog
                                                     _showDescriptionDialog(
-                                                        context);
+                                                        context, imageFile);
                                                   } else {
                                                     // If the image is not legitimate, show a pop-up and navigate to the homepage
                                                     showDialog(
@@ -310,7 +310,7 @@ class SubClassErrorIdentity extends StatelessWidget {
     );
   }
 
-  void _showDescriptionDialog(BuildContext context) {
+  void _showDescriptionDialog(BuildContext context, File imageURL) {
     final TextEditingController descriptionController = TextEditingController();
     String description = descriptionController.text;
 
@@ -347,7 +347,7 @@ class SubClassErrorIdentity extends StatelessWidget {
                     subClass: "",
                     description: description, //empty
                     location: locationInfo,
-                    imageURL: imageFile,
+                    imageURL: imageURL,
                     userTyped: true,
                     latitude: latitude,
                     longitude: longitude,

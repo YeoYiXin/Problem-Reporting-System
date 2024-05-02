@@ -239,7 +239,7 @@ class ClassErrorIdentity extends StatelessWidget {
 
                                           if (isLegit) {
                                             // If the image is legitimate, proceed to _showDescriptionDialog
-                                            _showDescriptionDialog(context);
+                                            _showDescriptionDialog(context, imageFile);
                                           } else {
                                             // If the image is not legitimate, show a pop-up and navigate to the homepage
                                             // ignore: use_build_context_synchronously
@@ -309,7 +309,7 @@ class ClassErrorIdentity extends StatelessWidget {
     );
   }
 
-  void _showDescriptionDialog(BuildContext context) {
+  void _showDescriptionDialog(BuildContext context, File imageURL) {
     final TextEditingController descriptionController =
         TextEditingController();
     String description = descriptionController.text;
@@ -348,9 +348,9 @@ class ClassErrorIdentity extends StatelessWidget {
                     pIndoorLocation: roomNumber,
                     titleClass: description,
                     subClass: "",
-                    description: description, //empty
+                    description: description, 
                     location: locationInfo,
-                    imageURL: imageFile,
+                    imageURL: imageURL,
                     userTyped: true,
                     latitude: latitude,
                     longitude: longitude,
