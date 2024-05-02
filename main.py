@@ -14,15 +14,15 @@ from flask import Flask, request, jsonify
 
 # logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# def get_secret(project_id, secret_id, version_id="latest"):
-#     # Create the Secret Manager client.
-#     client = secretmanager.SecretManagerServiceClient()
-#     # Build the resource.
-#     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
-#     # Access the secret.
-#     response = client.access_secret_version(request={"name": name})
-#     # Return the decoded payload.
-#     return response.payload.data.decode('UTF-8')
+def get_secret(project_id, secret_id, version_id="latest"):
+    # Create the Secret Manager client.
+    client = secretmanager.SecretManagerServiceClient()
+    # Build the resource.
+    name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
+    # Access the secret.
+    response = client.access_secret_version(request={"name": name})
+    # Return the decoded payload.
+    return response.payload.data.decode('UTF-8')
 
 class AIModel:
     def __init__(self, model_path):
@@ -195,8 +195,7 @@ def describe():
 
         try:
             # OpenAI API Key 
-            # open_api_key = get_secret('nottaproblem', 'OpenAI_Key')
-            open_api_key = "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"
+            open_api_key = get_secret('nottaproblem', 'OpenAI_Key')
             
             # Initialize the OpenAI client with the API key
             client = OpenAI(api_key=open_api_key)
