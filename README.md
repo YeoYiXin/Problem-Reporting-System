@@ -71,6 +71,19 @@
    <li>At the terminal, add all available dependencies through
      <code>flutter pub get</code>
    </li>
+    <li>To run, there are two options
+      <ul>
+        <li>Open up a phone emulator in the laptop</li>
+        <li>In terminal, write <code>flutter run</code></li>
+      </ul>
+      Or
+      <ul>
+        <li>Change the phone setting to developer mode</li>
+        <li>Connect a Type C cable (or the cable that is compatible with the phone)</li>
+        <li>In terminal, write <code>flutter run</code></li>
+      </ul>
+     
+   </li>
  </ol>
 
 <h1>Folder Structure</h1>
