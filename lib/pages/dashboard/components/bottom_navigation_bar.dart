@@ -34,8 +34,8 @@ class MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      color: Colors.blue.shade200, // Change color to match your theme
-      backgroundColor: Colors.blueGrey, // Transparent background
+      color: Colors.blue.shade200, //change color to match your theme
+      backgroundColor: Colors.blueGrey, //transparent background
       items: const [
         CurvedNavigationBarItem(
           child: Icon(Icons.home),

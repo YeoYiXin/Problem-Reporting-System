@@ -1,5 +1,3 @@
-//YYX
-//background wi
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:problem_reporting_system/pages/login/center_widget/login_centerWidget.dart';

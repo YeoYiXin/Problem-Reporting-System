@@ -1,5 +1,3 @@
-//YYX
-//login interface
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -20,7 +18,6 @@ class _LoginState extends State<Login> {
   bool passwordVisible = false;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-  //change from within build to here
   String email = "";
   String password = "";
 

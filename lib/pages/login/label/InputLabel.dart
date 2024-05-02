@@ -1,5 +1,3 @@
-//YYX
-//return
 import 'package:flutter/material.dart';
 
 class InputLabel extends StatelessWidget {

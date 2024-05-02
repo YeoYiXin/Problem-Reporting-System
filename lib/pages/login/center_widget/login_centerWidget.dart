@@ -1,5 +1,3 @@
-//YYX
-//create background center widget
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:problem_reporting_system/pages/login/center_widget/login_centerWidget_clipper.dart';

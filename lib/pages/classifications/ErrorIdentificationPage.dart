@@ -253,22 +253,22 @@ class _ErrorIdentificationState extends State<ErrorIdentification> {
                                                   ));
                                                 },
                                               ),
-                                            ], // <-- Closing square bracket for ListBody children
+                                            ], 
                                           ),
                                         ),
                                       );
-                                    }, // <-- Closing parenthesis for showDialog builder
-                                  ); // <-- Closing parenthesis for showDialog method
+                                    }, 
+                                  ); 
                                 },
                                 child: const Text('No'),
                               ),
-                            ], // <-- Closing square bracket for Row children
+                            ],
                           ),
-                        ], // <-- Closing square bracket for Column children
+                        ], 
                       ),
                     ),
                   ),
-                ], // <-- Closing square bracket for children of Center
+                ], 
               ),
             ),
           ],

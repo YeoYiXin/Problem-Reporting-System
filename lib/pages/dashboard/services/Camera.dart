@@ -49,10 +49,7 @@ class Camera {
         permission == LocationPermission.whileInUse) {
       return true;
     } else {
-      // Display a message to the user about the importance of location
-      // or navigate to a settings page where they can manually enable location
-      // You can customize this part based on your app's UX design.
-      // For simplicity, we'll just print a message for demonstration purposes.
+      // Display a message to the user about the importance of turning on location for the app
       print('Location permission required for this feature');
       return false;
     }
@@ -91,13 +88,8 @@ class Camera {
       );
 
       // Initialize the image classification API.
-
       ImageClassificationAPI api =
-          //ImageClassificationAPI('http://172.20.10.3:5000');
           ImageClassificationAPI('https://api-vd42zjxz4a-as.a.run.app');
-
-      // ImageClassificationAPI api =
-      //     ImageClassificationAPI('https://apiold-vd42zjxz4a-as.a.run.app');
 
       // Perform the first image classification API call to get both class and subclass
       List<String> firstResults =
@@ -128,13 +120,7 @@ class Camera {
           ? locationService.isInsideArea(
               userLocation.latitude, userLocation.longitude)
           : 'Location information not available';
-
-      // if (locationInfo == "Outside Specified Areas") {
-      //  print("Outside Specified Areas");
-      //  Navigator.of(context)
-      //      .push(MaterialPageRoute(builder: (context) => OutsideCampus()));
-      // }
-
+          
       // Check if the user is in one of the indoor areas
       if (locationInfo.isNotEmpty) {
         // If the user is in an indoor area, prompt them to enter the room number

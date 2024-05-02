@@ -1,5 +1,3 @@
-//YYX
-//map user data to json
 class userData {
   final String email;
   final String uid;
