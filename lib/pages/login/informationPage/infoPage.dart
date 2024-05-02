@@ -1,3 +1,4 @@
+// Written by Grp B
 //information page (after registration successfuly)
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
