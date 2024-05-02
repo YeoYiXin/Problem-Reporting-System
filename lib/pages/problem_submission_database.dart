@@ -68,7 +68,13 @@ class Problem_Submission_Database {
       String uid = await getUserID();
       String problemId = await getProblemId();
       String priority = await getPriority(problemClass: titleClass);
-      String title = "$subClass at $location, $indoorLocation";
+      
+      String title = "";
+      if (userTyped){
+        title= "$titleClass at $location, $indoorLocation";
+      }else{
+        title= "$subClass at $location, $indoorLocation";
+      }
       String department = await getDepartment(
           titleClass: titleClass, subClass: subClass, location: location);
 
@@ -87,24 +93,47 @@ class Problem_Submission_Database {
 
       print("Description: $description");
 
-      problemData ProblemData = problemData(
-        problemClass: titleClass,
-        pIndoorLocation: indoorLocation,
-        date: Timestamp.now(),
-        problemDepartment: department,
-        problemDescription: description,
-        problemId: problemId,
-        problemImageURL: storageImageURL,
-        problemLocation: location,
-        problemPriority: priority,
-        problemReportNum: reportNum,
-        problemStatus: "In Progress",
-        problemSubClass: subClass,
-        problemTitle: title,
-        uid: uid,
-        latitude: latitude,
-        longitude: longitude,
-      );
+      problemData ProblemData;
+
+      if (userTyped) {
+        ProblemData = problemData(
+          problemClass: titleClass,
+          pIndoorLocation: indoorLocation,
+          date: Timestamp.now(),
+          problemDepartment: department,
+          problemDescription: description,
+          problemId: problemId,
+          problemImageURL: storageImageURL,
+          problemLocation: location,
+          problemPriority: priority,
+          problemReportNum: reportNum,
+          problemStatus: "In Progress",
+          problemSubClass: titleClass,
+          problemTitle: title,
+          uid: uid,
+          latitude: latitude,
+          longitude: longitude,
+        );
+      } else {
+        ProblemData = problemData(
+          problemClass: titleClass,
+          pIndoorLocation: indoorLocation,
+          date: Timestamp.now(),
+          problemDepartment: department,
+          problemDescription: description,
+          problemId: problemId,
+          problemImageURL: storageImageURL,
+          problemLocation: location,
+          problemPriority: priority,
+          problemReportNum: reportNum,
+          problemStatus: "In Progress",
+          problemSubClass: subClass,
+          problemTitle: title,
+          uid: uid,
+          latitude: latitude,
+          longitude: longitude,
+        );
+      }
 
       await _firestore
           .collection('problemsRecord')
@@ -130,7 +159,7 @@ class Problem_Submission_Database {
     try {
       //upload image to firebase storage
 
-      if (userTyped) { 
+      if (userTyped) {
         final storageRef = firebase_storage.FirebaseStorage.instance
             .ref()
             .child('unseen')
@@ -139,7 +168,6 @@ class Problem_Submission_Database {
         final String imageURL = await storageRef.getDownloadURL();
         return imageURL;
       } else {
-       
         final storageRef = firebase_storage.FirebaseStorage.instance
             .ref()
             .child('submitted')
